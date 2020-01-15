@@ -13,6 +13,7 @@ import ShowsDisplayer from './pages/shows';
 import ShowDisplayer from './pages/show';
 import SongsDisplayer from './pages/songs';
 import SongDisplayer from './pages/song';
+import TrackDisplayer from './pages/track'
 import Header from './components/header';
 
 const client = new ApolloClient({
@@ -36,6 +37,7 @@ function App() {
               <Route path="/songs">
                 <SongsDisplayer />
               </Route>
+              <Route path="/track/:id" component={TrackDisplayer} />
               <Route exact path="/*">
                 <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />
                 <h1>Ooops!</h1>

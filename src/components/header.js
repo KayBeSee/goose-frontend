@@ -52,6 +52,12 @@ const NavItem = styled(Link)`
   padding: 10px;
   display: flex;
   align-items: center;
+  text-decoration: none;
+  color: rgba(66,66,66,.95);
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 

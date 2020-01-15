@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
+import YouTube from 'react-youtube';
 
 const SHOW = gql`
   query getShow($id: ID!) {
@@ -27,6 +28,9 @@ const SHOW = gql`
             name
             notes
           }
+					videos {
+						videoId
+					}
         }
       }
 			archiveUrl
@@ -45,29 +49,38 @@ const ShowDisplayer = (props) => {
 	if (error) return <p>Error :(</p>;
 		
 	const setlistNotes = [];
+	let setlistVideos = [];
+
   const { id, date, venue, setlist, notes, archiveUrl,  nugsNetId, bandcampAlbumId } = data.show;
   return (
     <Wrapper key={id}>
       <Container>
-				<BandDateContainer>
-					<BandDateWrapper>
-						Goose, {date}
-					</BandDateWrapper>
-				</BandDateContainer>
+        <BandDateContainer>
+          <BandDateWrapper>
+            Goose, {date}
+          </BandDateWrapper>
+        </BandDateContainer>
         <Header>{venue.name}</Header>
 				<VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>
         <SetlistWrapper>
           {setlist.map(({ name, tracks }) => (
               <SetWrapper>
                 <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-                {tracks.map(({ notes, song }) => {
+                {tracks.map(({ id, notes, song, videos }) => {
 									// add note to the notes array for later rendering
 									if (notes) {
 										setlistNotes.push(notes);
 									}
+									if(videos.length) {
+										videos.forEach((video) => {
+											if(!setlistVideos.includes(video.videoId)) {
+												setlistVideos.push(video.videoId);
+											}
+										})
+									}
 									return (
 										<TrackWrapper>
-											<TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
+											<TrackLink to={`/track/${id}`}>{song.name}</TrackLink>
 											{notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
 											, 
 										</TrackWrapper>
@@ -78,10 +91,10 @@ const ShowDisplayer = (props) => {
             )
           )}
 
-					<NotesHeader>Coach's Notes</NotesHeader>
-					{setlistNotes.map((note, index) => {
-						return <TrackNote>[{index+1}] {note}</TrackNote>
-					})}
+          <NotesHeader>Coach's Notes</NotesHeader>
+          {setlistNotes.map((note, index) => {
+            return <TrackNote>[{index+1}] {note}</TrackNote>
+          })}
         </SetlistWrapper>
       </Container>
       <Container>
@@ -94,7 +107,10 @@ const ShowDisplayer = (props) => {
       </Container>
       <Container>
         <Header>Videos</Header>
-
+					{console.log('setlistVideos: ', setlistVideos)}
+					{setlistVideos.map((video, index) => {
+						return <YouTube key={index} videoId={video.videoId} />
+					})}
       </Container>
       <Container>
         <Header>Comments</Header>
@@ -154,12 +170,15 @@ const StreamContainer = styled.div`
 const StreamLink = styled.a`
 	display: flex;
 	flex: 1;
+	opacity: ${props => props.active ? 1 : 0.25};
+	pointer-events: ${props => props.active ? 'auto' : 'none'};
 	background: #bdc3c7;
 	margin: 0 0.1em;
 	padding: 0.5em 0;
 	text-decoration: none;
 	justify-content: center;
-	color: #ff6f55;
+	color: #b24d3b;
+	font-size: 24px;
 	font-weight: 700;
 `;
 
@@ -182,13 +201,15 @@ const NotesHeader = styled.h4``;
 const TrackWrapper = styled.span``;
 
 const TrackLink = styled(Link)`
-	text-decoration: none;
+  text-decoration: none;
+  color: rgba(66,66,66,.95);
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const TrackNoteAnnotation = styled.sup``;
 
 const TrackNote = styled.div``;
-
-
 
 export default ShowDisplayer;
