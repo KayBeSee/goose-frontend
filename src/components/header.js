@@ -1,24 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
+import { AUTHORIZATION } from '../constants';
 
-const Header = (props) => (
-    <Wrapper>
-        <HeaderWrapper>
-            <Link to="/">
-              <Logo src={require('../assets/logo.png')} />
-            </Link>
-            <Nav>
-                <NavItem to="/setlists">
-                    Setlists
-                </NavItem>
-                <NavItem to="/songs">
-                    Songs
-                </NavItem>
-            </Nav>
-        </HeaderWrapper>
-    </Wrapper>
-)
+const logout = () => {
+  localStorage.removeItem(AUTHORIZATION);
+}
+
+const Header = (props) => {
+  const token = localStorage.getItem(AUTHORIZATION);
+  return (
+      <Wrapper>
+          <HeaderWrapper>
+              <Link to="/">
+                <Logo src={require('../assets/logo.png')} />
+              </Link>
+              <Nav>
+                  <NavItem to="/setlists">Setlists</NavItem>
+                  <NavItem to="/songs">Songs</NavItem>
+                  {token && <LogoutButton onClick={logout}>Logout</LogoutButton>}
+                  {!token && <NavItem to="/login">Login</NavItem>}
+                  {!token && <NavItem to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
+              </Nav>
+          </HeaderWrapper>
+      </Wrapper>
+  )
+}
+
 
 const Wrapper = styled.div`
   background: #fff;
@@ -54,9 +62,23 @@ const NavItem = styled(Link)`
   align-items: center;
   text-decoration: none;
   color: rgba(66,66,66,.95);
+`;
 
+const LogoutButton = styled.div`
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: rgba(66,66,66,.95);
+  cursor: pointer;
+`;
+
+const SignupNavItem = styled(NavItem)`
+  border: 1px solid #ff6f55;
+  pointer-events: none;
+  
   &:hover {
-    text-decoration: underline;
+    text-decoration: none;
   }
 `;
 

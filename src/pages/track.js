@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import moment from 'moment';
 import { Link } from "react-router-dom";
 import YouTube from 'react-youtube';
 
@@ -17,10 +18,12 @@ const TRACK = gql`
         name
       }
       set {
+        id
         show {
           id
           date
           venue {
+            id
             name
             city
             state
@@ -28,6 +31,7 @@ const TRACK = gql`
         }
       }
       videos {
+        id
         videoId
       }
     }
@@ -39,6 +43,7 @@ const TrackDisplayer = (props) => {
   const { loading, error, data } = useQuery(TRACK, { variables: { id: props.match.params.id }})
 
   console.log('data: ', data);
+  console.log('error: ', error);
 
   if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :(</p>;
@@ -52,7 +57,7 @@ const TrackDisplayer = (props) => {
       <Container>
 				<BandDateContainer>
 					<BandDateWrapper>
-						Goose, <ShowLink to={`/shows/${showId}`}>{date}</ShowLink>
+						Goose, <ShowLink to={`/shows/${showId}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
 					</BandDateWrapper>
 				</BandDateContainer>
         <HeaderContainer>
@@ -84,6 +89,7 @@ const Wrapper = styled.div`
   text-align: left;
   font-family: 'Montserrat', sans-serif;
   color: rgba(66,66,66,.95);
+  margin-top: -1px;
 `;
 
 const VenueSubheader = styled.div`

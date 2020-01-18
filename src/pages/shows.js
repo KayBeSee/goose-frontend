@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import moment from 'moment';
 import { Link } from "react-router-dom";
 
 const SHOWS = gql`
@@ -10,6 +11,7 @@ const SHOWS = gql`
       id
       date
       venue {
+        id
         name
         city
         state
@@ -31,7 +33,7 @@ const SHOWS = gql`
   }
 `;
 
-const ShowDisplayer = (props) => {
+const Shows = (props) => {
   const { loading, error, data } = useQuery(SHOWS)
 
   console.log('data: ', data);
@@ -44,38 +46,40 @@ const ShowDisplayer = (props) => {
     <Wrapper key={id}>
         <BandDateContainer>
           <BandDateWrapper>
-            Goose, <ShowLink to={`/shows/${id}`}>{date}</ShowLink>
+            Goose, <ShowLink to={`/shows/${id}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
           </BandDateWrapper>
         </BandDateContainer>
-        <Header>{venue.name}</Header>
-				<VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>
-        <SetlistWrapper>
-          {setlist.map(({ name, tracks }) => (
-              <SetWrapper>
-                <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-                {tracks.map(({ id, notes, song, videos }) => {
-									// add note to the notes array for later rendering
-									if (notes) {
-										setlistNotes.push(notes);
-                  }
-									return (
-										<TrackWrapper>
-											<TrackLink to={`/track/${id}`}>{song.name}</TrackLink>
-											{notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
-											, 
-										</TrackWrapper>
-									)
-								})
-							}
-              </SetWrapper>
-            )
-          )}
+        <OtherDataContainer>
+          <Header>{venue.name}</Header>
+          <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>
+          <SetlistWrapper>
+            {setlist.map(({ name, tracks }) => (
+                <SetWrapper>
+                  <SetTitle>{name.replace('_', ' ')}: </SetTitle>
+                  {tracks.map(({ id, notes, song, videos }) => {
+                    // add note to the notes array for later rendering
+                    if (notes) {
+                      setlistNotes.push(notes);
+                    }
+                    return (
+                      <TrackWrapper>
+                        <TrackLink to={`/track/${id}`}>{song.name}</TrackLink>
+                        {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                        , 
+                      </TrackWrapper>
+                    )
+                  })
+                }
+                </SetWrapper>
+              )
+            )}
 
-          {/* <NotesHeader>Coach's Notes</NotesHeader>
-          {setlistNotes.map((note, index) => {
-            return <TrackNote>[{index+1}] {note}</TrackNote>
-          })} */}
-        </SetlistWrapper>
+            {/* <NotesHeader>Coach's Notes</NotesHeader>
+            {setlistNotes.map((note, index) => {
+              return <TrackNote>[{index+1}] {note}</TrackNote>
+            })} */}
+          </SetlistWrapper>
+        </OtherDataContainer>
       </Wrapper>
   ));
 }
@@ -86,7 +90,6 @@ const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 24px;
   text-align: left;
-  font-family: 'Montserrat', sans-serif;
   color: rgba(66,66,66,.95);
 `;
 
@@ -110,45 +113,21 @@ const ShowLink = styled(Link)`
   }
 `;
 
+const OtherDataContainer = styled.div`
+  padding: 0 12px;
+`;
+
 const BandDateWrapper = styled.span`
 	background: #ff6f55;
 	padding: 8px;
 	color: #ffffff;
-	font-weight: 700;
-`;
-
-const ShowHeader = styled.div`
-  padding: 8px;
-  background: #ff6f55;
-  color: #ffffff;
   font-weight: 700;
-  letter-spacing: 0.8px;
-  border-radius: 4px;
+  font-family: 'Montserrat', sans-serif;
 `;
 
 const SetlistWrapper = styled.div`
   padding: 12px 0;
 	border-radius: 4px;
-`;
-
-const StreamContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-`;
-
-const StreamLink = styled.a`
-	display: flex;
-	flex: 1;
-	opacity: ${props => props.active ? 1 : 0.25};
-	pointer-events: ${props => props.active ? 'auto' : 'none'};
-	background: #bdc3c7;
-	margin: 0 0.1em;
-	padding: 0.5em 0;
-	text-decoration: none;
-	justify-content: center;
-	color: #b24d3b;
-	font-size: 24px;
-	font-weight: 700;
 `;
 
 const SetWrapper = styled.div`
@@ -161,11 +140,10 @@ const SetTitle = styled.span`
 	color: #ff6f55;
 `;
 
-const Container = styled.div``;
-
-const Header = styled.h1``;
-
-const NotesHeader = styled.h4``;
+const Header = styled.h1`
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 8px;
+`;
 
 const TrackWrapper = styled.span``;
 
@@ -179,6 +157,4 @@ const TrackLink = styled(Link)`
 
 const TrackNoteAnnotation = styled.sup``;
 
-const TrackNote = styled.div``;
-
-export default ShowDisplayer;
+export default Shows;

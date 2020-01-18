@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import moment from 'moment';
 import { Link } from "react-router-dom";
 import YouTube from 'react-youtube';
 
@@ -13,6 +14,7 @@ const SHOW = gql`
       id
       date
       venue {
+        id
         name
         city
         state
@@ -29,6 +31,7 @@ const SHOW = gql`
             notes
           }
 					videos {
+            id
 						videoId
 					}
         }
@@ -40,7 +43,7 @@ const SHOW = gql`
   }
 `;
 
-const ShowDisplayer = (props) => {
+const Show = (props) => {
   const { loading, error, data } = useQuery(SHOW, { variables: { id: props.match.params.id }})
 
   console.log('data: ', data);
@@ -54,48 +57,50 @@ const ShowDisplayer = (props) => {
   const { id, date, venue, setlist, notes, archiveUrl,  nugsNetId, bandcampAlbumId } = data.show;
   return (
     <Wrapper key={id}>
-      <Container>
+      <Container style={{padding: 0}}>
         <BandDateContainer>
           <BandDateWrapper>
-            Goose, {date}
+            Goose, {moment(date).format('dddd M/D/YYYY')}
           </BandDateWrapper>
         </BandDateContainer>
-        <Header>{venue.name}</Header>
-				<VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>
-        <SetlistWrapper>
-          {setlist.map(({ name, tracks }) => (
-              <SetWrapper>
-                <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-                {tracks.map(({ id, notes, song, videos }) => {
-									// add note to the notes array for later rendering
-									if (notes) {
-										setlistNotes.push(notes);
-									}
-									if(videos.length) {
-										videos.forEach((video) => {
-											if(!setlistVideos.includes(video.videoId)) {
-												setlistVideos.push(video.videoId);
-											}
-										})
-									}
-									return (
-										<TrackWrapper>
-											<TrackLink to={`/track/${id}`}>{song.name}</TrackLink>
-											{notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
-											, 
-										</TrackWrapper>
-									)
-								})
-							}
-              </SetWrapper>
-            )
-          )}
+        <OtherDataContainer>
+          <Header>{venue.name}</Header>
+          <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>
+          <SetlistWrapper>
+            {setlist.map(({ name, tracks }) => (
+                <SetWrapper>
+                  <SetTitle>{name.replace('_', ' ')}: </SetTitle>
+                  {tracks.map(({ id, notes, song, videos }) => {
+                    // add note to the notes array for later rendering
+                    if (notes) {
+                      setlistNotes.push(notes);
+                    }
+                    if(videos.length) {
+                      videos.forEach((video) => {
+                        if(!setlistVideos.includes(video.videoId)) {
+                          setlistVideos.push(video.videoId);
+                        }
+                      })
+                    }
+                    return (
+                      <TrackWrapper>
+                        <TrackLink to={`/track/${id}`}>{song.name}</TrackLink>
+                        {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                        , 
+                      </TrackWrapper>
+                    )
+                  })
+                }
+                </SetWrapper>
+              )
+            )}
 
-          <NotesHeader>Coach's Notes</NotesHeader>
-          {setlistNotes.map((note, index) => {
-            return <TrackNote>[{index+1}] {note}</TrackNote>
-          })}
-        </SetlistWrapper>
+            <NotesHeader>Coach's Notes</NotesHeader>
+            {setlistNotes.map((note, index) => {
+              return <TrackNote>[{index+1}] {note}</TrackNote>
+            })}
+          </SetlistWrapper>
+        </OtherDataContainer>
       </Container>
       <Container>
         <Header>Stream / Download</Header>
@@ -126,8 +131,8 @@ const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 24px;
   text-align: left;
-  font-family: 'Montserrat', sans-serif;
   color: rgba(66,66,66,.95);
+  margin: 0 12px;
 `;
 
 const VenueSubheader = styled.div`
@@ -145,7 +150,12 @@ const BandDateWrapper = styled.span`
 	background: #ff6f55;
 	padding: 8px;
 	color: #ffffff;
-	font-weight: 700;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+`;
+
+const OtherDataContainer = styled.div`
+  padding: 0 12px;
 `;
 
 const ShowHeader = styled.div`
@@ -192,9 +202,14 @@ const SetTitle = styled.span`
 	color: #ff6f55;
 `;
 
-const Container = styled.div``;
+const Container = styled.div`
+  padding: 0 12px;
+`;
 
-const Header = styled.h1``;
+const Header = styled.h1`
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 8px;
+`;
 
 const NotesHeader = styled.h4``;
 
@@ -212,4 +227,4 @@ const TrackNoteAnnotation = styled.sup``;
 
 const TrackNote = styled.div``;
 
-export default ShowDisplayer;
+export default Show;
