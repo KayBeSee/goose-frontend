@@ -3,11 +3,8 @@ import styled from 'styled-components';
 
 
 export const YouTubeLogo = ({ active }) => {
-  console.log('active: ', active);
   return (
-      <YoutubeImage active={active} src={require('../../assets/youtube_logo.png')}>
-  
-      </YoutubeImage>
+      <YoutubeImage active={active} src={require('../../assets/youtube_logo.png')} />
   );
 }
 

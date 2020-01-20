@@ -48,7 +48,6 @@ const TrackDisplayer = (props) => {
   if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :(</p>;
 		
-	const setlistNotes = [];
 	let setlistVideos = [];
 
   const { id, notes, videos, song, set: { show: { id: showId, date, venue }  } } = data.track;
@@ -65,6 +64,7 @@ const TrackDisplayer = (props) => {
           <ViewSongButton to={`/songs/${song.id}`}>View Song</ViewSongButton>
         </HeaderContainer>
 				<VenueSubheader>{venue.name} - {venue.city}, {venue.state}</VenueSubheader>
+        <NotesContainer>{notes}</NotesContainer>
       </Container>
       <Container>
         <Header>Videos</Header>
@@ -93,9 +93,9 @@ const Wrapper = styled.div`
 `;
 
 const VenueSubheader = styled.div`
-	margin-bottom: 12px;
-	font-size: 24px;
-	font-weight: 400;
+  margin-bottom: 12px;
+  font-size: 24px;
+  font-weight: 400;
 `;
 
 const ShowLink = styled(Link)`
@@ -121,8 +121,12 @@ const BandDateWrapper = styled.span`
 
 const Container = styled.div``;
 
+const NotesContainer = styled.div``;
+
 const Header = styled.h1`
   display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  margin-bottom: 8px;
 `;
 
 const HeaderContainer = styled.div`

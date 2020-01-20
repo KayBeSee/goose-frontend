@@ -32,7 +32,6 @@ const Signup = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await signup({ variables: { email, password }});
-    console.log('data.createUser.token', data.createUser.token);
     localStorage.setItem(AUTHORIZATION, data.createUser.token);
     sessionStorage.setItem('email', data.createUser.user.email);
   };

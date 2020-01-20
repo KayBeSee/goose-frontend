@@ -81,7 +81,7 @@ const Song = (props) => {
           console.log('track: ', track);
           return (
             <TrackRow>
-              <TableDown><TrackLink to={`/track/${track.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink></TableDown>
+              <TableDown><TrackLink to={`/shows/${track.set.show.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink></TableDown>
               <TableDown>{track.set.show.venue.name} - {track.set.show.venue.city}, {track.set.show.venue.state}</TableDown>
               <TableDown style={{display: 'flex', justifyContent: 'space-around'}}>
                 <ArchiveLogo active={track.set.show.archiveUrl} />

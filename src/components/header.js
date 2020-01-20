@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { AUTHORIZATION } from '../constants';
@@ -7,8 +9,22 @@ const logout = () => {
   localStorage.removeItem(AUTHORIZATION);
 }
 
+const ME = gql`
+  query {
+    me {
+      id
+      email
+      shows {
+        id
+      }
+    }
+  }
+`;
+
 const Header = (props) => {
+  const { loading, error, data } = useQuery(ME)
   const token = localStorage.getItem(AUTHORIZATION);
+
   return (
       <Wrapper>
           <HeaderWrapper>
@@ -18,7 +34,7 @@ const Header = (props) => {
               <Nav>
                   <NavItem to="/setlists">Setlists</NavItem>
                   <NavItem to="/songs">Songs</NavItem>
-                  {token && <LogoutButton onClick={logout}>Logout</LogoutButton>}
+                  {token && data && data.me.id && <LogoutButton onClick={logout}>Logout</LogoutButton>}
                   {!token && <NavItem to="/login">Login</NavItem>}
                   {!token && <NavItem to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
               </Nav>
