@@ -6,6 +6,10 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
 
+import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
+
+// const PAGE_SIZE = 15;
+
 const SONGS = gql`
  query getSong($id: ID!) {
   song(where: {
@@ -13,6 +17,7 @@ const SONGS = gql`
     }) {
     id
     name
+    originalArtist
     notes
     tracks {
       id
@@ -46,7 +51,7 @@ const SONGS = gql`
 console.log('SONGS: ', SONGS);
 
 const Song = (props) => {
-  console.log('props.match.params.id: ', props.match.params.id);
+  // const [ page, setPage ] = useState(0);
   const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id }})
 
   console.log('data: ', data);
@@ -59,8 +64,8 @@ const Song = (props) => {
     <Wrapper key={data.song.id}>
       <SongLinkContainer>
         <BandDateWrapper>
-          <span style={{fontSize: 16}}>Song:</span> <br />
           {data.song.name}
+          <div style={{fontSize: 16}}>{data.song.originalArtist}</div>
         </BandDateWrapper>
         <SongLinkWrapper>
           <SongLink>Performances</SongLink>
@@ -71,35 +76,56 @@ const Song = (props) => {
       </SongLinkContainer>
       {/* <SongTitle></SongTitle> */}
       <SongDescription>{data.song.notes}</SongDescription>
-      <TrackTable>
-        <thead>
-          <TableHeader>Date</TableHeader>
-          <TableHeader>Venue</TableHeader>
-          <TableHeader>Media</TableHeader>
-        </thead>
-        {data.song.tracks.map((track) => {
-          console.log('track: ', track);
-          return (
-            <TrackRow>
-              <TableDown><TrackLink to={`/shows/${track.set.show.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink></TableDown>
-              <TableDown>{track.set.show.venue.name} - {track.set.show.venue.city}, {track.set.show.venue.state}</TableDown>
-              <TableDown style={{display: 'flex', justifyContent: 'space-around'}}>
-                <ArchiveLogo active={track.set.show.archiveUrl} />
-                <NugsNetLogo active={track.set.show.nugsNetId} />
-                <BandcampLogo active={track.set.show.bandcampAlbumId} />
-                <YouTubeLogo active={track.videos.length} />
-              </TableDown>
-            </TrackRow>
-          )}
-        )}
-        
-      </TrackTable>
+      <TableContainer>
+        <Table>
+          <THEAD>
+            <TableHeader>Date</TableHeader>
+            <TableHeader>Venue</TableHeader>
+            <TableHeader>Media</TableHeader>
+          </THEAD>
+          <tbody>
+            {data.song.tracks.map((track) => {
+              console.log('track: ', track);
+              return (
+                <TableRow>
+                  <TableDown>
+                    <TrackLink to={`/shows/${track.set.show.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
+                  </TableDown>
+                  <TableDown>{track.set.show.venue.name}
+                    {track.set.show.venue.city && (
+                      <SecondaryData>
+                        {track.set.show.venue.city}, {track.set.show.venue.state}    
+                      </SecondaryData>
+                    )}
+                  </TableDown>
+                  <TableDown style={{display: 'flex', justifyContent: 'space-around'}}>
+                    <ArchiveLogo active={track.set.show.archiveUrl} />
+                    <NugsNetLogo active={track.set.show.nugsNetId} />
+                    <BandcampLogo active={track.set.show.bandcampAlbumId} />
+                    <YouTubeLogo active={track.videos.length} />
+                  </TableDown>
+                </TableRow>
+              )}
+            )}
+          </tbody>
+        </Table>
+        {/* <PaginationContainer>
+          <PaginationControls 
+            onClick={() => setPage(page - 1)}>
+              {' < Previous Page '}
+          </PaginationControls>
+          <PaginationControls
+            onClick={() => setPage(page + 1)}>
+              {' Next Page > '}
+          </PaginationControls>
+        </PaginationContainer> */}
+      </TableContainer>
     </Wrapper>
    )
 }
 
 const Wrapper = styled.div`
-  background: #fff;
+  background: #F5F7FA;
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;
@@ -122,7 +148,7 @@ const BandDateWrapper = styled.span`
 	color: #ffffff;
   font-weight: 700;
   font-size: 36px;
-  padding-top: 0;
+  box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
 `;
 
 const SongLinkWrapper = styled.div`
@@ -138,22 +164,5 @@ const SongLink = styled(Link)`
 `;
 
 const SongDescription = styled.h5``;
-
-const TrackTable = styled.table``;
-
-const TableHeader = styled.th``;
-
-const TrackRow = styled.tr``;
-
-const TableDown = styled.td``;
-
-const TrackLink = styled(Link)`
-  color: rgba(66,66,66,.95);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
 
 export default Song;

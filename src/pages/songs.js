@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import moment from 'moment';
 
+import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
+
+const PAGE_SIZE = 15;
+
 const SONGS = gql`
-  {
-    songs {
+query getSongs($first: Int!, $skip: Int!) {
+    songs(
+      first: $first,
+      skip: $skip
+    ) {
       id
       name
       originalArtist
@@ -30,7 +37,8 @@ const SONGS = gql`
 `;
 
 const Songs = (props) => {
-  const { loading, error, data } = useQuery(SONGS)
+  const [ page, setPage ] = useState(0);
+  const { loading, error, data } = useQuery(SONGS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE }})
 
   console.log('data: ', data);
   console.log('error: ', error);
@@ -45,36 +53,55 @@ const Songs = (props) => {
           Songs
         </BandDateWrapper>
       </BandDateContainer>
-      <TrackTable>
-        <thead>
-        <TableHeader>Song Name</TableHeader>
-        <TableHeader>Original Artist</TableHeader>
-        <TableHeader>Debut</TableHeader>
-        <TableHeader>Times</TableHeader>
-        <TableHeader>Last</TableHeader>
-        </thead>
-        <tbody>
-          {data.songs.map(({ id, name, originalArtist, tracks }) => (
-            <TrackRow>
-              <TableDown>
-                <TrackLink to={`/songs/${id}`}>{name}</TrackLink>
-              </TableDown>
-              <TableDown>{originalArtist}</TableDown>
-              <TableDown>{moment(tracks[0].set.show.date).format('M/D/YYYY')}</TableDown>
-              <TableDown>{tracks.length}</TableDown>
-              <TableDown>{moment(tracks[tracks.length - 1].set.show.date).format('M/D/YYYY')}</TableDown>
-            </TrackRow>
-          ))}
+      <TableContainer>
+        <Table>
+          <THEAD>
+          <TableHeader>Song Name</TableHeader>
+          <TableHeader alignRight>Debut</TableHeader>
+          <TableHeader alignRight>Times</TableHeader>
+          <TableHeader alignRight>Last</TableHeader>
+          </THEAD>
+          <tbody>
+            {data.songs.map(({ id, name, originalArtist, tracks }) => (
+              <TableRow>
+                <TableDown>
+                  <TrackLink to={`/songs/${id}`}>{name}</TrackLink>
+                  <SecondaryData>{originalArtist}</SecondaryData>
+                </TableDown>
+                <TableDown alignRight>
+                  {moment(tracks[tracks.length - 1].set.show.date).format('M/D/YYYY')}
+                </TableDown>
+                <TableDown alignRight>
+                  {tracks.length}
+                </TableDown>
+                <TableDown alignRight>
+                  {moment(tracks[0].set.show.date).format('M/D/YYYY')}
+                </TableDown>
+              </TableRow>
+            ))}
 
-        </tbody>
-        {/* <tfooter></tfooter> */}
-      </TrackTable>
+          </tbody>
+        </Table>
+        <PaginationContainer>
+          <PaginationControls 
+            onClick={() => setPage(page - 1)}>
+              {' < Previous Page '}
+          </PaginationControls>
+          <DispplayingSubtext>
+            Displaying {PAGE_SIZE * page + 1} - {(PAGE_SIZE * page) + PAGE_SIZE} of 300
+          </DispplayingSubtext>
+          <PaginationControls
+            onClick={() => setPage(page + 1)}>
+              {' Next Page > '}
+          </PaginationControls>
+        </PaginationContainer>
+      </TableContainer>
     </Wrapper>
   );
 }
 
 const Wrapper = styled.div`
-  background: #fff;
+  background: #F5F7FA;
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;
@@ -89,29 +116,18 @@ const BandDateContainer = styled.div`
   margin-bottom: 24px;
 `;
 
+const DispplayingSubtext = styled.span`
+  font-size: 14px;
+  color: #576574;
+`;
+
 const BandDateWrapper = styled.span`
 	background: #ff6f55;
 	padding: 12px;
 	color: #ffffff;
   font-weight: 700;
   font-size: 36px;
-`;
-
-const TrackTable = styled.table``;
-
-const TableHeader = styled.th``;
-
-const TrackRow = styled.tr``;
-
-const TableDown = styled.td``;
-
-const TrackLink = styled(Link)`
-  color: rgba(66,66,66,.95);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
+  box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
 `;
 
 export default Songs;

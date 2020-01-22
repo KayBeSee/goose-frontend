@@ -106,6 +106,7 @@ const PageWrapper = styled.div`
   align-items: center;
   font-family: 'Raleway', sans-serif;
   flex: 1;
+  background: #F5F7FA;
 `;
 
 export default App;

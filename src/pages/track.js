@@ -82,7 +82,7 @@ const TrackDisplayer = (props) => {
 }
 
 const Wrapper = styled.div`
-  background: #fff;
+  background: #F5F7FA;
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;
