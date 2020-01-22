@@ -24,7 +24,7 @@ import SongDisplayer from './pages/song';
 import TrackDisplayer from './pages/track'
 import Login from './pages/login'
 import Signup from './pages/signup'
-import Header from './components/header';
+import Header from './components/Nav/Header';
 import Footer from './components/footer';
 
 const httpLink = new HttpLink({

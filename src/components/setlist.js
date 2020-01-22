@@ -124,7 +124,8 @@ const VenueInfoContainer = styled.div``;
 
 const SetlistWrapper = styled.div`
   padding: 12px 12px;
-	border-radius: 4px;
+  border-radius: 4px;
+  line-height: 1.5;
 `;
 
 const SetWrapper = styled.div`

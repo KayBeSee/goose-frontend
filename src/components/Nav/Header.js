@@ -1,14 +1,14 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
-import { AUTHORIZATION } from '../constants';
-import { orange, black } from '../utils/colors';
+import { AUTHORIZATION } from '../../constants';
+import { orange, black } from '../../utils/colors';
+import { mobile } from '../../utils/media';
+import NavLinks from './NavLinks'
 
-const logout = () => {
-  localStorage.removeItem(AUTHORIZATION);
-}
+import MobileNavbar from './MobileNavbar';
 
 const ME = gql`
   query {
@@ -22,26 +22,24 @@ const ME = gql`
   }
 `;
 
+const logout = () => {
+  localStorage.removeItem(AUTHORIZATION);
+}
+
 const Header = (props) => {
   const { loading, error, data } = useQuery(ME);
   const token = localStorage.getItem(AUTHORIZATION);
 
   return (
-      <Wrapper>
-          <HeaderWrapper>
-              <Link to="/">
-                <Logo src={require('../assets/logo.png')} />
-              </Link>
-              <Nav>
-                  <NavItem to="/setlists">Setlists</NavItem>
-                  <NavItem to="/songs">Songs</NavItem>
-                  {token && data && data.me.email && <NavItem style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
-                  {token && data && data.me.id && <LogoutButton onClick={logout}>Logout</LogoutButton>}
-                  {!token && <NavItem to="/login">Login</NavItem>}
-                  {!token && <NavItem to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
-              </Nav>
-          </HeaderWrapper>
-      </Wrapper>
+    <Wrapper>
+      <HeaderWrapper>
+        <Link to="/">
+          <Logo src={require('../../assets/logo.png')} />
+        </Link>
+        <NavLinks token={token} data={data} logout={logout} />
+      </HeaderWrapper>
+      <MobileNavbar />
+    </Wrapper>
   )
 }
 
@@ -62,6 +60,10 @@ const HeaderWrapper = styled.div`
   border-top: none;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
+
+  ${mobile(css`
+    display: none;
+  `)};
 `;
 
 const Logo = styled.img`

@@ -43,7 +43,6 @@ const Wrapper = styled.div`
   margin: 48px 0;
   box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
   border-radius: 4px;
-
 `;
 
 const BandDateContainer = styled.div`
