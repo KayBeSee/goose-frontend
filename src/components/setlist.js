@@ -1,9 +1,11 @@
 import React from 'react';
 import moment from 'moment';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { Link } from "react-router-dom";
 import AttendanceButton from './attendance-button';
 import LoadingSetlist from './setlist-loading';
+import { black } from '../utils/colors';
+import { mobile } from '../utils/media';
 
 let setlistNotes = [];
 
@@ -24,9 +26,9 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
             <Header>{venue.name}</Header>
             {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
           </VenueInfoContainer>
-          <AttendanceButtonContainer>
+          <DesktopAttendanceButton>
             <AttendanceButton showId={id} />
-          </AttendanceButtonContainer>
+          </DesktopAttendanceButton>
         </ShowDataBody>
         <NotesContainer>{notes}</NotesContainer>
         <SetlistWrapper>
@@ -61,6 +63,9 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
             </NotesWrapper>
           )}
         </SetlistWrapper>
+        <MobileAttendanceButton>
+          <AttendanceButton showId={id} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, width: '100%' }} />
+        </MobileAttendanceButton>
       </Wrapper>
     )
   }
@@ -97,6 +102,7 @@ const ShowLink = styled(Link)`
 const ShowDataBody = styled.div`
   padding: 0 12px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 `;
 
@@ -115,7 +121,6 @@ const BandDateWrapper = styled.span`
 `;
 
 const VenueInfoContainer = styled.div``;
-const AttendanceButtonContainer = styled.div``;
 
 const SetlistWrapper = styled.div`
   padding: 12px 12px;
@@ -141,7 +146,7 @@ const TrackWrapper = styled.span``;
 
 const TrackLink = styled(Link)`
   text-decoration: none;
-  color: rgba(66,66,66,.95);
+  color: ${black};
   &:hover {
     text-decoration: underline;
   }
@@ -163,22 +168,25 @@ const placeHolderShimmer = keyframes`
 `;
 
 const AnimatedBackground = styled.div`
-  // animation-duration: 1s;
-  // animation-fill-mode: forwards;
-  // animation-iteration-count: infinite;
-  // animation-name: placeHolderShimmer;
-  // animation-timing-function: linear;
   animation: ${placeHolderShimmer} 1s linear infinite forwards;
   background: #f6f7f8;
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
   background-size: 800px 104px;
-  // height: 96px;
   position: relative;
 `;
 
-const LoadingAnimation = styled(AnimatedBackground)`
-    font-size: 0;
-    height: 48px;
+const DesktopAttendanceButton = styled.div`
+  display: inline;
+  ${mobile(css`
+    display: none;
+  `)};
+`;
+
+const MobileAttendanceButton = styled.div`
+  display: none;
+  ${mobile(css`
+    display: inline;
+  `)};
 `;
 
 export default Setlist;

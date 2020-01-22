@@ -1,6 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import AttendanceButton from './attendance-button';
+import { mobile } from '../utils/media';
 
 import { GrayLoadingAnimation, OrangeLoadingAnimation } from './Loading';
 
@@ -17,9 +18,9 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
           <GrayLoadingAnimation style={{ width: 250, height: 48, marginBottom: 12, marginTop: 12 }} />
           <GrayLoadingAnimation style={{ width: 250, height: 24 }} />
         </VenueInfoContainer>
-        <AttendanceButtonContainer>
+        <DesktopAttendanceButton>
           <AttendanceButton showId={null} />
-        </AttendanceButtonContainer>
+        </DesktopAttendanceButton>
       </ShowDataBody>
       <SetlistWrapper>
         <SetWrapper>
@@ -30,6 +31,9 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
           </TrackWrapper>
         </SetWrapper>
       </SetlistWrapper>
+      <MobileAttendanceButton>
+        <AttendanceButton showId={null} style={{ borderTopLeftRadius: 0, borderTopRightRadius: 0, width: '100%' }} />
+      </MobileAttendanceButton>
     </Wrapper>
   )
 }
@@ -62,7 +66,6 @@ const BandDateWrapper = styled.span`
 `;
 
 const VenueInfoContainer = styled.div``;
-const AttendanceButtonContainer = styled.div``;
 
 const SetlistWrapper = styled.div`
   padding: 12px 12px;
@@ -74,5 +77,19 @@ const SetWrapper = styled.div`
 `;
 
 const TrackWrapper = styled.span``;
+
+const DesktopAttendanceButton = styled.div`
+  display: inline;
+  ${mobile(css`
+    display: none;
+  `)};
+`;
+
+const MobileAttendanceButton = styled.div`
+  display: none;
+  ${mobile(css`
+    display: inline;
+  `)};
+`;
 
 export default Setlist;

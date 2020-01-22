@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { AUTHORIZATION } from '../constants';
+import { gray } from '../utils/colors';
 
 const Footer = (props) => {
   return (
@@ -22,7 +23,7 @@ const Wrapper = styled.div`
   background: #fff;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  color: #bdc3c7;
+  color: ${gray};
 `;
 
 const FooterWrapper = styled.div`

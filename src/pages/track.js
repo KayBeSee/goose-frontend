@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { Link } from "react-router-dom";
 import YouTube from 'react-youtube';
+import { black } from '../utils/colors';
 
 const TRACK = gql`
   query getTrack($id: ID!) {
@@ -39,11 +40,7 @@ const TRACK = gql`
 `;
 
 const TrackDisplayer = (props) => {
-  console.log('props.match.params.id: ', props.match.params.id);
   const { loading, error, data } = useQuery(TRACK, { variables: { id: props.match.params.id }})
-
-  console.log('data: ', data);
-  console.log('error: ', error);
 
   if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error :(</p>;
@@ -68,7 +65,6 @@ const TrackDisplayer = (props) => {
       </Container>
       <Container>
         <Header>Videos</Header>
-					{console.log('setlistVideos: ', setlistVideos)}
 					{videos.map((video, index) => {
 						return <YouTube key={index} videoId={video.videoId} />
 					})}
@@ -88,7 +84,7 @@ const Wrapper = styled.div`
   margin-bottom: 24px;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  color: rgba(66,66,66,.95);
+  color: ${black};
   margin-top: -1px;
 `;
 

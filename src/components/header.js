@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import { AUTHORIZATION } from '../constants';
+import { orange, black } from '../utils/colors';
 
 const logout = () => {
   localStorage.removeItem(AUTHORIZATION);
@@ -23,7 +24,6 @@ const ME = gql`
 
 const Header = (props) => {
   const { loading, error, data } = useQuery(ME);
-  console.log('data: ', data);
   const token = localStorage.getItem(AUTHORIZATION);
 
   return (
@@ -50,7 +50,7 @@ const Wrapper = styled.div`
   background: #fff;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  color: rgba(66,66,66,.95);
+  color: ${black};
 `;
 
 const HeaderWrapper = styled.div`
@@ -79,7 +79,7 @@ const NavItem = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: rgba(66,66,66,.95);
+  color: ${black};
 `;
 
 const LogoutButton = styled.div`
@@ -87,12 +87,12 @@ const LogoutButton = styled.div`
   display: flex;
   align-items: center;
   text-decoration: none;
-  color: rgba(66,66,66,.95);
+  color: ${black};
   cursor: pointer;
 `;
 
 const SignupNavItem = styled(NavItem)`
-  border: 1px solid #ff6f55;
+  border: 1px solid ${orange};
   pointer-events: none;
   
   &:hover {

@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import Setlist from '../components/setlist';
+import { black, orange, gray, white } from '../utils/colors';
 
 const PAGE_SIZE = 5;
 
@@ -103,11 +104,11 @@ const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 24px;
   text-align: left;
-  color: rgba(66,66,66,.95);
+  color: ${black};
 `;
 
 const BandDateContainer = styled.div`
-	border-top: 4px solid #ff6f55;
+	border-top: 4px solid ${orange};
   display: flex;
   margin-bottom: 24px;
   justify-content: space-between;
@@ -125,16 +126,15 @@ const PaginationControl = styled.div`
   justify-content: center;
   border-radius: 50%;
   padding: 16px 0;
-  color: ${prop => prop.active ? '#ff6f55' : '#bdc3c7'};
+  color: ${prop => prop.active ? orange : gray };
   font-weight: 700;
   cursor: pointer;
-  // border: 1px solid #ff6f55;
 `;
 
 const BandDateWrapper = styled.span`
-	background: #ff6f55;
+	background: ${orange};
 	padding: 12px;
-	color: #ffffff;
+	color: ${white};
   font-weight: 700;
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);

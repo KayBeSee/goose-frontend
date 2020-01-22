@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import styled from 'styled-components';
 import moment from 'moment';
 import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
+import { black } from '../utils/colors';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
@@ -48,14 +49,9 @@ const SONGS = gql`
 }
 `;
 
-console.log('SONGS: ', SONGS);
-
 const Song = (props) => {
   // const [ page, setPage ] = useState(0);
   const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id }})
-
-  console.log('data: ', data);
-  console.log('error: ', error);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -85,7 +81,6 @@ const Song = (props) => {
           </THEAD>
           <tbody>
             {data.song.tracks.map((track) => {
-              console.log('track: ', track);
               return (
                 <TableRow>
                   <TableDown>
@@ -131,13 +126,14 @@ const Wrapper = styled.div`
   margin-bottom: 24px;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  color: rgba(66,66,66,.95);
+  color: ${black};
   margin-top: -1px;
 `;
 
 const SongLinkContainer = styled.div`
 	border-top: 4px solid #ff6f55;
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 24px;
   justify-content: space-between;
 `;

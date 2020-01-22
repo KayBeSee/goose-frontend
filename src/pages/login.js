@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { AUTHORIZATION } from '../constants';
+import { black } from '../utils/colors';
 
 const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
@@ -31,7 +32,6 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { data } = await signup({ variables: { email, password }});
-    console.log('handle data: ', data);
     localStorage.setItem(AUTHORIZATION, data.login.token);
     localStorage.setItem('email', data.login.user.email);
   };
@@ -71,7 +71,7 @@ const Wrapper = styled.div`
   margin-bottom: 24px;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  color: rgba(66,66,66,.95);
+  color: ${black};
   // margin-top: -1px;
   align-items: center;
   display: flex;

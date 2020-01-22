@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import moment from 'moment';
 import { GrayLoadingAnimation } from '../components/Loading';
+import { black } from '../utils/colors';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
@@ -58,9 +59,6 @@ query getSongs($first: Int!, $skip: Int!) {
 const Songs = (props) => {
   const [ page, setPage ] = useState(0);
   const { loading, error, data } = useQuery(SONGS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE }})
-
-  console.log('data: ', data);
-  console.log('error: ', error);
 
   if (loading) {
 
@@ -142,7 +140,7 @@ const Wrapper = styled.div`
   margin-bottom: 24px;
   text-align: left;
   font-family: 'Montserrat', sans-serif;
-  color: rgba(66,66,66,.95);
+  color: ${black};
 `;
 
 const BandDateContainer = styled.div`

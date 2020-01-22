@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation } from '@apollo/react-hooks';
+import { orange, darkOrange, gray, darkGray } from '../utils/colors';
 
 const GET_USER_SHOWS = gql`
   query {
@@ -48,7 +49,7 @@ const REMOVE_ATTENDANCE = gql`
 `;
 
 
-const AttendanceButtonComponent = ({ showId }) => {
+const AttendanceButtonComponent = ({ showId, style }) => {
   const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_SHOWS)
   const [addAttendance, { addShowLoading, addShowError, data: addData }] = useMutation(ADD_ATTENDANCE)
   const [removeAttendance, { removeShowLoading, removeShowError, data: removeData }] = useMutation(REMOVE_ATTENDANCE)
@@ -66,6 +67,7 @@ const AttendanceButtonComponent = ({ showId }) => {
 
   return (
     <AttendanceButton 
+      style={style}
       active={attended}
       onClick={() => toggleAttendance()}>
       {attended ? 'I Was There' : 'I Was There'}
@@ -75,7 +77,7 @@ const AttendanceButtonComponent = ({ showId }) => {
 
 const AttendanceButton = styled.button`
   padding: 16px;
-  background: ${props => props.active ? '#ff6f55' : '#bdc3c7'};
+  background: ${props => props.active ? orange : gray };
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -91,7 +93,7 @@ const AttendanceButton = styled.button`
 
   &:active {
     outline: 0;
-    background: ${props => props.active ? '#e5634c' : '#aaafb3'};
+    background: ${props => props.active ? darkOrange : darkGray};
   }
 
   &:focus {

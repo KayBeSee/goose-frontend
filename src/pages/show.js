@@ -4,6 +4,7 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import YouTube from 'react-youtube';
 import Setlist from '../components/setlist';
+import { black, offWhite, gray } from '../utils/colors';
 
 const SHOW = gql`
   query getShow($id: ID!) {
@@ -69,7 +70,6 @@ const Show = (props) => {
       <Container>
         <Header>Videos</Header>
           {/* TODO: make this work again */}
-					{console.log('setlistVideos: ', setlistVideos)}
 					{setlistVideos.map((video, index) => {
 						return <YouTube key={index} videoId={video.videoId} />
 					})}
@@ -83,12 +83,12 @@ const Show = (props) => {
 }
 
 const Wrapper = styled.div`
-  background: #F5F7FA;
+  background: ${offWhite};
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;
   text-align: left;
-  color: rgba(66,66,66,.95);
+  color: ${black};
   margin: 0 12px;
 `;
 
@@ -102,7 +102,7 @@ const StreamLink = styled.a`
 	flex: 1;
 	opacity: ${props => props.active ? 1 : 0.25};
 	pointer-events: ${props => props.active ? 'auto' : 'none'};
-	background: #bdc3c7;
+	background: ${gray};
 	margin: 0 0.1em;
 	padding: 0.5em 0;
 	text-decoration: none;
