@@ -2,67 +2,68 @@ import React from 'react';
 import moment from 'moment';
 import styled, { keyframes } from 'styled-components';
 import { Link } from "react-router-dom";
-import AttendanceButton from './attendance-button'
+import AttendanceButton from './attendance-button';
+import LoadingSetlist from './setlist-loading';
 
 let setlistNotes = [];
 
-const Setlist = ({ show, includeNotes = true }) => {
-  const { id, date, venue, setlist, notes } = show;
-
-  return (
-    <Wrapper>
-      <BandDateContainer>
-        <BandDateWrapper>
-          Goose, <ShowLink to={`/shows/${id}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
-        </BandDateWrapper>
-      </BandDateContainer>
-      <ShowDataBody>
-        <VenueInfoContainer>
-          <Header>{venue.name}</Header>
-          {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
-        </VenueInfoContainer>
-        <AttendanceButtonContainer>
-          <AttendanceButton showId={id} />
-        </AttendanceButtonContainer>
-      </ShowDataBody>
-      <NotesContainer>{notes}</NotesContainer>
-      <SetlistWrapper>
-
-        <AnimatedBackground />
-
-        {setlist.map(({ name, tracks }) => (
-            <SetWrapper>
-              <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-              {tracks.map(({ id, notes, song, segue }, index) => {
-                // add note to the notes array for later rendering
-                if (notes) {
-                  setlistNotes.push(notes);
-                }
-                return (
-                  <TrackWrapper key={id}>
-                    <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
-                    {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
-                    {segue ? ' > ' : (tracks.length -1 === index) ? ' ' : ', '}
-                    
-                  </TrackWrapper>
-                )
-              })
-            }
-            </SetWrapper>
-          )
-        )}
-
-        {includeNotes && !!setlistNotes.length && (
-          <NotesWrapper>
-            <NotesHeader>Coach's Notes</NotesHeader>
-                {setlistNotes.map((note, index) => (
-                    <TrackNote>[{index+1}] {note}</TrackNote>
-                ))}
-          </NotesWrapper>
-        )}
-      </SetlistWrapper>
-    </Wrapper>
-  )
+const Setlist = ({ loading, show, includeNotes = true }) => {
+  if(loading) {
+    return <LoadingSetlist />
+  } else {
+    const { id, date, venue, setlist, notes } = show;
+    return (
+      <Wrapper>
+        <BandDateContainer>
+          <BandDateWrapper>
+            Goose, <ShowLink to={`/shows/${id}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
+          </BandDateWrapper>
+        </BandDateContainer>
+        <ShowDataBody>
+          <VenueInfoContainer>
+            <Header>{venue.name}</Header>
+            {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
+          </VenueInfoContainer>
+          <AttendanceButtonContainer>
+            <AttendanceButton showId={id} />
+          </AttendanceButtonContainer>
+        </ShowDataBody>
+        <NotesContainer>{notes}</NotesContainer>
+        <SetlistWrapper>
+          {setlist.map(({ name, tracks }) => (
+              <SetWrapper>
+                <SetTitle>{name.replace('_', ' ')}: </SetTitle>
+                {tracks.map(({ id, notes, song, segue }, index) => {
+                  // add note to the notes array for later rendering
+                  if (notes) {
+                    setlistNotes.push(notes);
+                  }
+                  return (
+                    <TrackWrapper key={id}>
+                      <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
+                      {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                      {segue ? ' > ' : (tracks.length -1 === index) ? ' ' : ', '}
+                      
+                    </TrackWrapper>
+                  )
+                })
+              }
+              </SetWrapper>
+            )
+          )}
+  
+          {includeNotes && !!setlistNotes.length && (
+            <NotesWrapper>
+              <NotesHeader>Coach's Notes</NotesHeader>
+                  {setlistNotes.map((note, index) => (
+                      <TrackNote>[{index+1}] {note}</TrackNote>
+                  ))}
+            </NotesWrapper>
+          )}
+        </SetlistWrapper>
+      </Wrapper>
+    )
+  }
 }
 
 const Wrapper = styled.div`
@@ -171,9 +172,13 @@ const AnimatedBackground = styled.div`
   background: #f6f7f8;
   background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
   background-size: 800px 104px;
-  height: 96px;
+  // height: 96px;
   position: relative;
 `;
 
+const LoadingAnimation = styled(AnimatedBackground)`
+    font-size: 0;
+    height: 48px;
+`;
 
 export default Setlist;

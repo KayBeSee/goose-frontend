@@ -25,6 +25,7 @@ import TrackDisplayer from './pages/track'
 import Login from './pages/login'
 import Signup from './pages/signup'
 import Header from './components/header';
+import Footer from './components/footer';
 
 const httpLink = new HttpLink({
   uri: 'http://localhost:4000',
@@ -94,6 +95,7 @@ function App() {
               </Route>
             </Switch>
           </PageWrapper>
+          <Footer />
         {/* </WindowWrapper> */}
       </Router>
     </ApolloProvider>

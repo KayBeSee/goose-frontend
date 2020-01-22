@@ -22,7 +22,8 @@ const ME = gql`
 `;
 
 const Header = (props) => {
-  const { loading, error, data } = useQuery(ME)
+  const { loading, error, data } = useQuery(ME);
+  console.log('data: ', data);
   const token = localStorage.getItem(AUTHORIZATION);
 
   return (
@@ -34,6 +35,7 @@ const Header = (props) => {
               <Nav>
                   <NavItem to="/setlists">Setlists</NavItem>
                   <NavItem to="/songs">Songs</NavItem>
+                  {token && data && data.me.email && <NavItem style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
                   {token && data && data.me.id && <LogoutButton onClick={logout}>Logout</LogoutButton>}
                   {!token && <NavItem to="/login">Login</NavItem>}
                   {!token && <NavItem to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}

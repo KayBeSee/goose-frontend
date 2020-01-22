@@ -2,12 +2,31 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
-import { Link } from "react-router-dom";
 import moment from 'moment';
+import { GrayLoadingAnimation } from '../components/Loading';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 10;
+
+const LoadingRow = () => {
+  return (
+    <TableRow>
+      <TableDown>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown>
+        <GrayLoadingAnimation />
+      </TableDown>
+    </TableRow>
+  )
+}
 
 const SONGS = gql`
 query getSongs($first: Int!, $skip: Int!) {
@@ -43,7 +62,9 @@ const Songs = (props) => {
   console.log('data: ', data);
   console.log('error: ', error);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) {
+
+  }
   if (error) return <p>Error :(</p>;
 
   return (
@@ -61,31 +82,45 @@ const Songs = (props) => {
           <TableHeader alignRight>Times</TableHeader>
           <TableHeader alignRight>Last</TableHeader>
           </THEAD>
-          <tbody>
-            {data.songs.map(({ id, name, originalArtist, tracks }) => (
-              <TableRow>
-                <TableDown>
-                  <TrackLink to={`/songs/${id}`}>{name}</TrackLink>
-                  <SecondaryData>{originalArtist}</SecondaryData>
-                </TableDown>
-                <TableDown alignRight>
-                  {moment(tracks[tracks.length - 1].set.show.date).format('M/D/YYYY')}
-                </TableDown>
-                <TableDown alignRight>
-                  {tracks.length}
-                </TableDown>
-                <TableDown alignRight>
-                  {moment(tracks[0].set.show.date).format('M/D/YYYY')}
-                </TableDown>
-              </TableRow>
-            ))}
-
-          </tbody>
+            {loading ? (
+              <tbody>
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+                <LoadingRow />
+              </tbody>
+            ) : (
+              <tbody>
+                {data.songs.map(({ id, name, originalArtist, tracks }) => (
+                  <TableRow>
+                    <TableDown>
+                      <TrackLink to={`/songs/${id}`}>{name}</TrackLink>
+                      <SecondaryData>{originalArtist}</SecondaryData>
+                    </TableDown>
+                    <TableDown alignRight>
+                      {moment(tracks[tracks.length - 1].set.show.date).format('M/D/YYYY')}
+                    </TableDown>
+                    <TableDown alignRight>
+                      {tracks.length}
+                    </TableDown>
+                    <TableDown alignRight>
+                      {moment(tracks[0].set.show.date).format('M/D/YYYY')}
+                    </TableDown>
+                  </TableRow>
+                ))}
+              </tbody>
+            )}
         </Table>
         <PaginationContainer>
           <PaginationControls 
             onClick={() => setPage(page - 1)}>
-              {' < Previous Page '}
+              {' < Prev Page '}
           </PaginationControls>
           <DispplayingSubtext>
             Displaying {PAGE_SIZE * page + 1} - {(PAGE_SIZE * page) + PAGE_SIZE} of 300

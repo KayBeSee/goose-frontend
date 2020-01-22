@@ -42,7 +42,7 @@ const Shows = (props) => {
   const [ page, setPage ] = useState(0);
   const { loading, error, data } = useQuery(SHOWS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE }})
 
-  if (loading) return <p>Loading...</p>;
+  // if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
     return (
       <Wrapper>
@@ -65,9 +65,21 @@ const Shows = (props) => {
             </PaginationControl>
           </PaginationControls>
         </BandDateContainer>
-        {data.shows.map((show) => (
-            <Setlist key={show.id} show={show} includeNotes={false} />
-        ))}
+        {loading ? (
+          <div>
+            <Setlist loading={loading} />
+            <Setlist loading={loading} />
+            <Setlist loading={loading} />
+            <Setlist loading={loading} />
+            <Setlist loading={loading} />
+            <Setlist loading={loading} />
+          </div>
+        ) : (
+          data.shows.map((show) => (
+              <Setlist key={show.id} show={show} includeNotes={false} />
+          ))
+        )
+        }
 
         <PaginationControls>
           <PaginationControl
@@ -105,6 +117,7 @@ const BandDateContainer = styled.div`
 const PaginationControls = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 0 24px;
 `;
 
 const PaginationControl = styled.div`
