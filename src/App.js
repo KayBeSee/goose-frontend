@@ -95,7 +95,7 @@ function App() {
               </Route>
             </Switch>
           </PageWrapper>
-          <Footer />
+          {/* <Footer /> */}
         {/* </WindowWrapper> */}
       </Router>
     </ApolloProvider>
