@@ -28,7 +28,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 
 const httpLink = new HttpLink({
-  uri: process.env.backendUrl,
+  uri: 'https://dry-atoll-86403.herokuapp.com/',
   credentials: 'same-origin'
 })
 
