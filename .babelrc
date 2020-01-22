@@ -3,7 +3,7 @@
       "env"
     ],
     "plugins": [
-    "transform-object-rest-spread",
-    "react-app"
+        "transform-object-rest-spread",
+        "@babel/preset-react"
     ]
   }
