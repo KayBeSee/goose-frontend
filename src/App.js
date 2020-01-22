@@ -28,7 +28,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4000',
+  uri: process.env.backendUrl,
   credentials: 'same-origin'
 })
 
