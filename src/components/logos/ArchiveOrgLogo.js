@@ -8,5 +8,6 @@ export const ArchiveLogo = ({ active, src }) =>  (
 
 const ArchiveImage = styled.img`
   width: 20px;
+  height: 20px;
   opacity: ${props => !!props.active ? 0.95 : 0.25}
 `;

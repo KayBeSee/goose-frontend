@@ -12,3 +12,5 @@ export const white = '#ffffff';
 export const offWhite = '#F5F7FA';
 
 export const black = 'rgba(66,66,66,.95)';
+
+export const secondaryMenu = lighten(0.15, gray);

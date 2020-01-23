@@ -38,7 +38,9 @@ const Nav = styled.div`
     flex-direction: row;
 `;
 
-const NavItem = styled(Link)`
+const NavItem = styled(Link).attrs(props => ({
+  onClick: (e) => { props.setIsOpen(false); }
+}))`
   padding: 10px;
   display: flex;
   align-items: center;
@@ -64,15 +66,15 @@ const SignupNavItem = styled(NavItem)`
   }
 `;
 
-const NavLinks = ({ token, data, logout }) => (
+const NavLinks = ({ token, data, logout, setIsOpen }) => (
   <Wrapper>
     <Nav>
-      <NavItem to="/setlists">Setlists</NavItem>
-      <NavItem to="/songs">Songs</NavItem>
+      <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>
+      <NavItem setIsOpen={setIsOpen} to="/songs">Songs</NavItem>
       {token && data && data.me.email && <NavItem style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
       {token && data && data.me.id && <LogoutButton onClick={logout}>Logout</LogoutButton>}
-      {!token && <NavItem to="/login">Login</NavItem>}
-      {!token && <NavItem to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
+      {!token && <NavItem setIsOpen={setIsOpen} to="/login">Login</NavItem>}
+      {!token && <NavItem setIsOpen={setIsOpen} to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
         </Nav>
   </Wrapper>
 );

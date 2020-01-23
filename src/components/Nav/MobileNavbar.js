@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Search, KeyboardArrowDown } from '@styled-icons/material';
 import rem from '../../utils/rem';
-import { gray } from '../../utils/colors';
+import { offWhite, secondaryMenu } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 import { Link } from "react-router-dom";
 
@@ -42,7 +42,7 @@ const SecondaryMenu = styled.div`
   -webkit-overflow-scrolling: touch;
   overflow-x: scroll;
   overflow-y: hidden;
-  background: ${gray};
+  background: ${secondaryMenu};
   color: #868686;
 `;
 
@@ -102,7 +102,7 @@ const MobileNavbar = (props) => {
       </div>
 
       <SecondaryMenu isOpen={isOpen}>
-        <NavbarLinks />
+        <NavbarLinks setIsOpen={setIsOpen} />
       </SecondaryMenu>
     </Wrapper>
   );
