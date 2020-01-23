@@ -44,8 +44,14 @@ export const TableDown = styled.td`
   `)};
 `;
 
-export const PaginationContainer = styled.div`
+export const PaginationWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   background: hsl(200, 10%, 94%);
+  padding: 24px;
+`;
+
+export const PaginationContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -55,7 +61,6 @@ export const PaginationContainer = styled.div`
 
 export const PaginationControls = styled.span`
   cursor: pointer;
-  padding: 24px;
   color: #ff6f55;
 `;
 

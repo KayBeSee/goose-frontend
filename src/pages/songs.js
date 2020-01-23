@@ -8,7 +8,7 @@ import { GrayLoadingAnimation } from '../components/Loading';
 import { black } from '../utils/colors';
 import rem from '../utils/rem';
 
-import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
+import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
 const PAGE_SIZE = 10;
 
@@ -126,19 +126,21 @@ const Songs = (props) => {
               </tbody>
             )}
         </Table>
-        <PaginationContainer>
-          <PaginationControls 
-            onClick={() => setPage(page - 1)}>
-              {' < Prev Page '}
-          </PaginationControls>
-          <DispplayingSubtext>
+        <PaginationWrapper>
+          <PaginationContainer>
+            <PaginationControls 
+              onClick={() => setPage(page - 1)}>
+                {' < Prev Page '}
+            </PaginationControls>
+            <PaginationControls
+              onClick={() => setPage(page + 1)}>
+                {' Next Page > '}
+            </PaginationControls>
+          </PaginationContainer>
+          <DisplayingSubtext>
             Displaying {PAGE_SIZE * page + 1} - {(PAGE_SIZE * page) + PAGE_SIZE} of 300
-          </DispplayingSubtext>
-          <PaginationControls
-            onClick={() => setPage(page + 1)}>
-              {' Next Page > '}
-          </PaginationControls>
-        </PaginationContainer>
+          </DisplayingSubtext>
+        </PaginationWrapper>
       </TableContainer>
     </Wrapper>
   );
@@ -160,9 +162,11 @@ const BandDateContainer = styled.div`
   margin-bottom: 24px;
 `;
 
-const DispplayingSubtext = styled.span`
+const DisplayingSubtext = styled.span`
   font-size: 14px;
   color: #576574;
+  align-self: center;
+  padding: 12px;
 `;
 
 const BandDateWrapper = styled.span`

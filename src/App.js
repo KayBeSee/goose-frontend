@@ -22,8 +22,9 @@ import ShowDisplayer from './pages/show';
 import SongsDisplayer from './pages/songs';
 import SongDisplayer from './pages/song';
 import TrackDisplayer from './pages/track'
-import Login from './pages/login'
-import Signup from './pages/signup'
+import Login from './pages/login';
+import Signup from './pages/signup';
+import Homepage from './pages/homepage';
 import Header from './components/Nav/Header';
 import Footer from './components/footer';
 
@@ -86,9 +87,7 @@ function App() {
               <Route path="/track/:id" component={TrackDisplayer} />
               <Route path="/login" component={Login} />
               <Route path="/signup" component={Signup} />
-              <Route exact path="/">
-                foo
-              </Route>
+              <Route exact path="/" component={Homepage} />
               <Route exact path="/*">
                 <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />
                 <h1>Ooops!</h1>
