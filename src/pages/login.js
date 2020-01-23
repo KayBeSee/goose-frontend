@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import { Link, Redirect } from "react-router-dom";
 import { AUTHORIZATION } from '../constants';
-import { black } from '../utils/colors';
+import { black, white } from '../utils/colors';
+import { getToken } from '../utils/token';
 
 const LOGIN_MUTATION = gql`
   mutation login($email: String!, $password: String!) {
@@ -26,7 +28,7 @@ const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signup, { loading, error, data }] = useMutation(LOGIN_MUTATION)
-
+  const token = getToken();
 
 
   const handleSubmit = async (e) => {
@@ -34,35 +36,42 @@ const Login = (props) => {
     const { data } = await signup({ variables: { email, password }});
     localStorage.setItem(AUTHORIZATION, data.login.token);
     localStorage.setItem('email', data.login.user.email);
+    window.location.reload();
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
+  if(token) {
+    return <Redirect to={'/setlists'} />
+  } else {
    return(
     <Wrapper key={'abc'}>
-      <LoginContainer>
-        <LoginHeader>Login to El Göose</LoginHeader>
+      <FormContainer>
+        <LoginContainer>
+          <LoginHeader>Login to El Göose</LoginHeader>
 
-        <LoginForm onSubmit={handleSubmit}>
-          <UsernameInput
-            autofocus="true"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder={"Username"} />
-          <PasswordInput 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            type="password" 
-            placeholder={"Password"} />
-          <SignupButton 
-            type="submit"
-            onClick={handleSubmit}>Login</SignupButton>
-        </LoginForm>
-
-      </LoginContainer>
+          <LoginForm onSubmit={handleSubmit}>
+            <UsernameInput
+              autofocus="true"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder={"Username"} />
+            <PasswordInput 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password" 
+              placeholder={"Password"} />
+            <SignupButton 
+              type="submit"
+              onClick={handleSubmit}>Login</SignupButton>
+          </LoginForm>
+        </LoginContainer>
+      </FormContainer>
+      <SignupText to={'/signup'}>Don't Have an Account?</SignupText>
     </Wrapper>
    )
+  }
 }
 
 const Wrapper = styled.div`
@@ -75,6 +84,13 @@ const Wrapper = styled.div`
   align-items: center;
   display: flex;
   flex: 1;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const FormContainer = styled.div`
+  display: flex;
+  width: 100%;
   justify-content: center;
 `;
 
@@ -141,6 +157,12 @@ const SignupButton = styled.button`
     outline: 0;
     background: #e5634c;
   }
+`;
+
+const SignupText = styled(Link)`
+  color: ${white};
+  text-decoration: none;
+  cursor: pointer;
 `;
 
 export default Login;

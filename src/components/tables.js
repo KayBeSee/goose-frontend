@@ -23,6 +23,7 @@ export const TableHeader = styled.th`
   border: none;
   padding: 24px;
   text-align: ${props => props.alignRight ? 'right' : 'left'};
+  display: ${props => props.hideDesktop ? 'none' : 'table-cell' };
   ${mobile(css`
     display: ${props => props.hideMobile ? 'none' : 'table-cell'};
   `)};

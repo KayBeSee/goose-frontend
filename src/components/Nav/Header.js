@@ -3,8 +3,8 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
-import { AUTHORIZATION } from '../../constants';
 import { orange, black } from '../../utils/colors';
+import { getToken, removeToken } from '../../utils/token';
 import { mobile } from '../../utils/media';
 import NavLinks from './NavLinks'
 
@@ -23,12 +23,13 @@ const ME = gql`
 `;
 
 const logout = () => {
-  localStorage.removeItem(AUTHORIZATION);
+  removeToken();
+  window.location.reload();
 }
 
 const Header = (props) => {
   const { loading, error, data } = useQuery(ME);
-  const token = localStorage.getItem(AUTHORIZATION);
+  const token = getToken();
 
   return (
     <Wrapper>

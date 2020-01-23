@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { gql } from 'apollo-boost';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { orange, darkOrange, gray, darkGray } from '../utils/colors';
+import { AUTHORIZATION } from '../constants';
+import { withRouter } from 'react-router-dom'
 
 const GET_USER_SHOWS = gql`
   query {
@@ -49,12 +51,14 @@ const REMOVE_ATTENDANCE = gql`
 `;
 
 
-const AttendanceButtonComponent = ({ showId, style }) => {
+const AttendanceButtonComponent = ({ showId, style, history }) => {
   const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_SHOWS)
   const [addAttendance, { addShowLoading, addShowError, data: addData }] = useMutation(ADD_ATTENDANCE)
   const [removeAttendance, { removeShowLoading, removeShowError, data: removeData }] = useMutation(REMOVE_ATTENDANCE)
 
   const attended = userData && !!userData.me.shows.filter((show) => show['id'] === showId).length;
+
+  const token = localStorage.getItem(AUTHORIZATION);
 
   const toggleAttendance = () => {
     if(attended) {
@@ -69,8 +73,16 @@ const AttendanceButtonComponent = ({ showId, style }) => {
     <AttendanceButton 
       style={style}
       active={attended}
-      onClick={() => toggleAttendance()}>
-      {attended ? 'I Was There' : 'I Was There'}
+      onClick={() => {
+        if(token) {
+          toggleAttendance()
+        } 
+        else {
+          history.push('/login')
+        }
+      }}>
+        {/* TODO: add loading */}
+      I Was There
     </AttendanceButton>
   )
 }
@@ -101,4 +113,4 @@ const AttendanceButton = styled.button`
   }
 `;
 
-export default AttendanceButtonComponent
+export default withRouter(AttendanceButtonComponent)

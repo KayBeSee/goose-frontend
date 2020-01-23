@@ -188,7 +188,7 @@ const MobileTableDown = styled(TableDown)`
 
 const MediaTableDown = styled(TableDown)`
   display: flex;
-  justifyContent: space-around;
+  justify-content: space-around;
 `;
 
 const SongDescription = styled.h5``;

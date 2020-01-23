@@ -53,6 +53,9 @@ const Show = (props) => {
   const { id, setlist, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
   
   let setlistVideos = [];
+
+  // get all videos from tracks
+
   
   return (
     <Wrapper key={id}>
@@ -67,17 +70,15 @@ const Show = (props) => {
 					<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>Bandcamp</StreamLink>
 				</StreamContainer>
       </Container>
-      <Container>
+      {/* <Container>
         <Header>Videos</Header>
-          {/* TODO: make this work again */}
 					{setlistVideos.map((video, index) => {
 						return <YouTube key={index} videoId={video.videoId} />
 					})}
       </Container>
       <Container>
         <Header>Comments</Header>
-
-      </Container>
+      </Container> */}
     </Wrapper>
   );
 }
