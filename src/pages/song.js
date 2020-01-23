@@ -2,10 +2,13 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Link } from "react-router-dom";
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
+import { mobile } from '../utils/media';
 import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
 import { black } from '../utils/colors';
+import rem from '../utils/rem';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
@@ -75,30 +78,46 @@ const Song = (props) => {
       <TableContainer>
         <Table>
           <THEAD>
-            <TableHeader>Date</TableHeader>
-            <TableHeader>Venue</TableHeader>
-            <TableHeader>Media</TableHeader>
+            <TableHeader hideDesktop>Shows</TableHeader>
+            <TableHeader hideMobile>Date</TableHeader>
+            <TableHeader hideMobile>Venue</TableHeader>
+            <TableHeader hideMobile>Media</TableHeader>
+            <TableHeader hideDesktop></TableHeader>
           </THEAD>
           <tbody>
             {data.song.tracks.map((track) => {
               return (
                 <TableRow>
-                  <TableDown>
+                  <TableDown hideMobile>
                     <TrackLink to={`/shows/${track.set.show.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
                   </TableDown>
-                  <TableDown>{track.set.show.venue.name}
+                  <TableDown hideMobile>{track.set.show.venue.name}
                     {track.set.show.venue.city && (
                       <SecondaryData>
                         {track.set.show.venue.city}, {track.set.show.venue.state}    
                       </SecondaryData>
                     )}
                   </TableDown>
-                  <TableDown style={{display: 'flex', justifyContent: 'space-around'}}>
+                  <MobileTableDown hideDesktop>
+                    <TrackLink to={`/shows/${track.set.show.id}`}>
+                      <span style={{ fontSize: 12 }}>{moment(track.set.show.date).format('M/D/YYYY')}</span>
+                      <div>{track.set.show.venue.name}</div>
+                      {track.set.show.venue.city && (
+                        <SecondaryData>
+                          {track.set.show.venue.city}, {track.set.show.venue.state}    
+                        </SecondaryData>
+                      )}
+                    </TrackLink>
+                  </MobileTableDown>
+                  <MediaTableDown hideMobile={true}>
                     <ArchiveLogo active={track.set.show.archiveUrl} />
                     <NugsNetLogo active={track.set.show.nugsNetId} />
                     <BandcampLogo active={track.set.show.bandcampAlbumId} />
                     <YouTubeLogo active={track.videos.length} />
-                  </TableDown>
+                  </MediaTableDown>
+                  <TableDown hideDesktop>
+                      <StyledIcon as={KeyboardArrowRight} size={36} />
+                    </TableDown>
                 </TableRow>
               )}
             )}
@@ -149,6 +168,10 @@ const BandDateWrapper = styled.span`
 
 const SongLinkWrapper = styled.div`
   display: flex;
+
+  ${mobile(css`
+    margin-top: 24px;
+  `)};
 `;
 
 const SongLink = styled(Link)`
@@ -159,6 +182,22 @@ const SongLink = styled(Link)`
   align-self: flex-end;
 `;
 
+const MobileTableDown = styled(TableDown)`
+  line-height: 1.5;
+`;
+
+const MediaTableDown = styled(TableDown)`
+  display: flex;
+  justifyContent: space-around;
+`;
+
 const SongDescription = styled.h5``;
+
+const StyledIcon = styled.div`
+  && {
+    width: ${p => rem(p.size || 20)};
+    height: ${p => rem(p.size || 20)};
+  }
+`;
 
 export default Song;

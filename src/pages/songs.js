@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
 import { GrayLoadingAnimation } from '../components/Loading';
 import { black } from '../utils/colors';
+import rem from '../utils/rem';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
@@ -16,14 +18,17 @@ const LoadingRow = () => {
       <TableDown>
         <GrayLoadingAnimation />
       </TableDown>
-      <TableDown>
+      <TableDown hideMobile alignRight>
         <GrayLoadingAnimation />
       </TableDown>
-      <TableDown>
+      <TableDown hideMobile alignRight>
         <GrayLoadingAnimation />
       </TableDown>
-      <TableDown>
+      <TableDown hideMobile alignRight>
         <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown hideDesktop alignRight>
+        <StyledIcon as={KeyboardArrowRight} size={36} />
       </TableDown>
     </TableRow>
   )
@@ -75,10 +80,11 @@ const Songs = (props) => {
       <TableContainer>
         <Table>
           <THEAD>
-          <TableHeader>Song Name</TableHeader>
-          <TableHeader alignRight>Debut</TableHeader>
-          <TableHeader alignRight>Times</TableHeader>
-          <TableHeader alignRight>Last</TableHeader>
+          <TableHeader>Name</TableHeader>
+          <TableHeader alignRight hideMobile>Debut</TableHeader>
+          <TableHeader alignRight hideMobile>Times</TableHeader>
+          <TableHeader alignRight hideMobile>Last</TableHeader>
+          <TableHeader alignRight hideDesktop></TableHeader>
           </THEAD>
             {loading ? (
               <tbody>
@@ -97,18 +103,23 @@ const Songs = (props) => {
               <tbody>
                 {data.songs.map(({ id, name, originalArtist, tracks }) => (
                   <TableRow>
-                    <TableDown>
-                      <TrackLink to={`/songs/${id}`}>{name}</TrackLink>
-                      <SecondaryData>{originalArtist}</SecondaryData>
+                    <TableDown style={{ padding: 0 }}>
+                      <TrackLink to={`/songs/${id}`} style={{ padding: 24, display: 'block' }}>
+                        <div>{name}</div>
+                        <SecondaryData>{originalArtist}</SecondaryData>
+                      </TrackLink>
                     </TableDown>
-                    <TableDown alignRight>
+                    <TableDown alignRight hideMobile>
                       {moment(tracks[tracks.length - 1].set.show.date).format('M/D/YYYY')}
                     </TableDown>
-                    <TableDown alignRight>
+                    <TableDown alignRight hideMobile>
                       {tracks.length}
                     </TableDown>
-                    <TableDown alignRight>
+                    <TableDown alignRight hideMobile>
                       {moment(tracks[0].set.show.date).format('M/D/YYYY')}
+                    </TableDown>
+                    <TableDown hideDesktop>
+                      <StyledIcon as={KeyboardArrowRight} size={36} />
                     </TableDown>
                   </TableRow>
                 ))}
@@ -161,6 +172,13 @@ const BandDateWrapper = styled.span`
   font-weight: 700;
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
+`;
+
+const StyledIcon = styled.div`
+  && {
+    width: ${p => rem(p.size || 20)};
+    height: ${p => rem(p.size || 20)};
+  }
 `;
 
 export default Songs;

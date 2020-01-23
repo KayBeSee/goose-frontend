@@ -39,7 +39,7 @@ const Nav = styled.div`
 `;
 
 const NavItem = styled(Link).attrs(props => ({
-  onClick: (e) => { props.setIsOpen(false); }
+  onClick: (e) => { props.setIsOpen && props.setIsOpen(false); }
 }))`
   padding: 10px;
   display: flex;
@@ -71,8 +71,8 @@ const NavLinks = ({ token, data, logout, setIsOpen }) => (
     <Nav>
       <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/songs">Songs</NavItem>
-      {token && data && data.me.email && <NavItem style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
-      {token && data && data.me.id && <LogoutButton onClick={logout}>Logout</LogoutButton>}
+      {token && data && data.me.email && <NavItem setIsOpen={setIsOpen} style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
+      {token && data && data.me.id && <LogoutButton setIsOpen={setIsOpen} onClick={logout}>Logout</LogoutButton>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/login">Login</NavItem>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
         </Nav>
