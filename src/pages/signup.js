@@ -24,6 +24,7 @@ const SIGNUP_MUTATION = gql`
 
 
 const Signup = (props) => {
+  document.title = 'Signup - El Göose';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION);

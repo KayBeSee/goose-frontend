@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Setlist from '../components/setlist';
 import { black, orange, gray, white } from '../utils/colors';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 25;
 
 const SHOWS = gql`
  query getShows($first: Int!, $skip: Int!) {
@@ -15,6 +15,7 @@ const SHOWS = gql`
     ) {
       id
       date
+      eventName
       venue {
         id
         name
@@ -35,11 +36,15 @@ const SHOWS = gql`
           }
         }
       }
+      archiveUrl
+      nugsNetId
+      bandcampAlbumId
     }
   }
 `;
 
 const Shows = (props) => {
+  document.title = "Setlists - El Göose";
   const [ page, setPage ] = useState(0);
   const { loading, error, data } = useQuery(SHOWS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE }})
 

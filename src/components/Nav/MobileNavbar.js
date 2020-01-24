@@ -76,7 +76,7 @@ const Logo = styled.img`
 
 const MobileNavbar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { isSideFolded, isMobileNavFolded, onSideToggle, onMobileNavToggle, showSideNav, onSearchButtonClick } = props;
+  const { token, data, logout } = props;
 
   return (
     <Wrapper>
@@ -102,7 +102,7 @@ const MobileNavbar = (props) => {
       </div>
 
       <SecondaryMenu isOpen={isOpen}>
-        <NavbarLinks setIsOpen={setIsOpen} />
+        <NavbarLinks setIsOpen={setIsOpen} token={token} data={data} logout={logout} />
       </SecondaryMenu>
     </Wrapper>
   );

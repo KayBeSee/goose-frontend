@@ -14,25 +14,6 @@ const Wrapper = styled.nav`
   margin-right: ${rem(30)};
 `;
 
-const NavLink = styled(Link)`
-  flex: 0 0 auto;
-  display: inline-block;
-  line-height: ${rem(NAVBAR_HEIGHT)};
-  transition: opacity 0.2s, transform 0.2s;
-  cursor: pointer;
-  letter-spacing: ${rem(0.4)};
-  color: currentColor;
-
-  &:hover,
-  &:focus {
-      opacity: 0.8;
-  }
-  &:active {
-      transform: scale(0.95);
-      opacity: 0.6;
-  }
-`;
-
 const Nav = styled.div`
     display: flex;
     flex-direction: row;

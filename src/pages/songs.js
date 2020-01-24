@@ -10,7 +10,7 @@ import rem from '../utils/rem';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 500;
 
 const LoadingRow = () => {
   return (
@@ -38,7 +38,8 @@ const SONGS = gql`
 query getSongs($first: Int!, $skip: Int!) {
     songs(
       first: $first,
-      skip: $skip
+      skip: $skip,
+      orderBy: name_ASC
     ) {
       id
       name
@@ -69,7 +70,8 @@ const Songs = (props) => {
 
   }
   if (error) return <p>Error :(</p>;
-
+  
+  document.title = `Goose Songs - El Göose`;
   return (
     <Wrapper>
       <BandDateContainer>
@@ -102,7 +104,7 @@ const Songs = (props) => {
             ) : (
               <tbody>
                 {data.songs.map(({ id, name, originalArtist, tracks }) => (
-                  <TableRow>
+                  <TableRow key={id}>
                     <TableDown style={{ padding: 0 }}>
                       <TrackLink to={`/songs/${id}`} style={{ padding: 24, display: 'block' }}>
                         <div>{name}</div>

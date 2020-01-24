@@ -6,6 +6,7 @@ import AttendanceButton from './attendance-button';
 import LoadingSetlist from './setlist-loading';
 import { black } from '../utils/colors';
 import { mobile } from '../utils/media';
+import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
 
 let setlistNotes = [];
 
@@ -13,7 +14,7 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
   if(loading) {
     return <LoadingSetlist />
   } else {
-    const { id, date, venue, setlist, notes } = show;
+    const { id, date, eventName, venue, setlist, notes } = show;
     return (
       <Wrapper>
         <BandDateContainer>
@@ -23,7 +24,7 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
         </BandDateContainer>
         <ShowDataBody>
           <VenueInfoContainer>
-            <Header>{venue.name}</Header>
+            <Header>{eventName ? eventName : venue.name}</Header>
             {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
           </VenueInfoContainer>
           <DesktopAttendanceButton>

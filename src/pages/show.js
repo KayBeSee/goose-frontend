@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import moment from 'moment';
 import YouTube from 'react-youtube';
 import Setlist from '../components/setlist';
 import { black, offWhite, gray } from '../utils/colors';
@@ -49,8 +50,9 @@ const Show = (props) => {
   
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
-		
-  const { id, setlist, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
+  const { id, date, setlist, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
+  
+  document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
   
   let setlistVideos = [];
 

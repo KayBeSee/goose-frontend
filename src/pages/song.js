@@ -7,7 +7,7 @@ import { KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
 import { mobile } from '../utils/media';
 import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
-import { black } from '../utils/colors';
+import { black, orange, gray } from '../utils/colors';
 import rem from '../utils/rem';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
@@ -59,6 +59,8 @@ const Song = (props) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
+  document.title = `${data.song.name} - ${data.song.originalArtist} - El Göose`;
+
    return(
     <Wrapper key={data.song.id}>
       <SongLinkContainer>
@@ -67,7 +69,7 @@ const Song = (props) => {
           <div style={{fontSize: 16}}>{data.song.originalArtist}</div>
         </BandDateWrapper>
         <SongLinkWrapper>
-          <SongLink>Performances</SongLink>
+          <SongLink active>Performances</SongLink>
           <SongLink>History</SongLink>
           <SongLink>Lyrics</SongLink>
           <SongLink>Stats</SongLink>
@@ -158,7 +160,7 @@ const SongLinkContainer = styled.div`
 `;
 
 const BandDateWrapper = styled.span`
-	background: #ff6f55;
+	background: ${orange};
 	padding: 12px;
 	color: #ffffff;
   font-weight: 700;
@@ -175,7 +177,7 @@ const SongLinkWrapper = styled.div`
 `;
 
 const SongLink = styled(Link)`
-  color: #ff6f55;
+  color: ${props => props.active ? orange : gray};
   font-weight: 700;
   text-decoration: none;
   padding: 12px;

@@ -39,7 +39,7 @@ const Header = (props) => {
         </Link>
         <NavLinks token={token} data={data} logout={logout} />
       </HeaderWrapper>
-      <MobileNavbar />
+      <MobileNavbar token={token} data={data} logout={logout} />
     </Wrapper>
   )
 }
