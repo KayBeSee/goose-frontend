@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { Link } from "react-router-dom";
 import styled, { css } from 'styled-components';
+import lighten from 'polished/lib/color/lighten';
 import { KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
 import { mobile } from '../utils/media';
@@ -71,7 +72,7 @@ const Song = (props) => {
         <SongLinkWrapper>
           <SongLink active>Performances</SongLink>
           <SongLink>History</SongLink>
-          <SongLink>Lyrics</SongLink>
+          <SongLink>Videos</SongLink>
           <SongLink>Stats</SongLink>
         </SongLinkWrapper>
       </SongLinkContainer>
@@ -112,9 +113,9 @@ const Song = (props) => {
                     </TrackLink>
                   </MobileTableDown>
                   <MediaTableDown hideMobile={true}>
-                    <ArchiveLogo active={track.set.show.archiveUrl} />
-                    <NugsNetLogo active={track.set.show.nugsNetId} />
-                    <BandcampLogo active={track.set.show.bandcampAlbumId} />
+                    <ArchiveLogo archiveUrl={track.set.show.archiveUrl}  />
+                    <NugsNetLogo nugsNetId={track.set.show.nugsNetId} />
+                    <BandcampLogo bandcampAlbumId={track.set.show.bandcampAlbumId} />
                     <YouTubeLogo active={track.videos.length} />
                   </MediaTableDown>
                   <TableDown hideDesktop>
@@ -177,7 +178,7 @@ const SongLinkWrapper = styled.div`
 `;
 
 const SongLink = styled(Link)`
-  color: ${props => props.active ? orange : gray};
+  color: ${props => props.active ? orange : lighten(0.10, gray)};
   font-weight: 700;
   text-decoration: none;
   padding: 12px;

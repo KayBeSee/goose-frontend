@@ -148,6 +148,7 @@ const TrackWrapper = styled.span``;
 
 const TrackLink = styled(Link)`
   text-decoration: none;
+  letter-spacing: -.01em;
   color: ${black};
   &:hover {
     text-decoration: underline;

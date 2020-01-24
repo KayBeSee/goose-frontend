@@ -1,7 +1,8 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+import { mobile } from '../utils/media';
 import moment from 'moment';
 import YouTube from 'react-youtube';
 import Setlist from '../components/setlist';
@@ -67,9 +68,30 @@ const Show = (props) => {
       <Container>
         <Header>Stream / Download</Header>
 				<StreamContainer>
-					<StreamLink active={archiveUrl} target="_blank" href={`https://archive.org/details/${archiveUrl}`}>Archive.org</StreamLink>
-					<StreamLink active={nugsNetId} target="_blank" href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>Nugs.net</StreamLink>
-					<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>Bandcamp</StreamLink>
+          <StreamLink 
+            active={archiveUrl} 
+            target="_blank" 
+            href={`https://archive.org/details/${archiveUrl}`}>
+              <img 
+                src={require("../assets/internet_archive_large.png")} 
+                style={{ width: "100%" }}
+              />
+          </StreamLink>
+          <StreamLink 
+          active={nugsNetId}
+          target="_blank" 
+          href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
+          <img 
+                src={"https://api.nugs.net/assets/nugsnet/images/shared/logo.png"} 
+                style={{ width: "100%" }}
+              />
+          </StreamLink>
+					<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
+            <img 
+              src={require("../assets/bandcamp_logo_large.png")} 
+              style={{ width: "100%" }}
+            />
+            </StreamLink>
 				</StreamContainer>
       </Container>
       {/* <Container>
@@ -97,7 +119,11 @@ const Wrapper = styled.div`
 
 const StreamContainer = styled.div`
 	display: flex;
-	flex-direction: row;
+  flex-direction: row;
+  
+  ${mobile(css`
+    flex-direction: column;
+  `)};
 `;
 
 const StreamLink = styled.a`
@@ -105,7 +131,7 @@ const StreamLink = styled.a`
 	flex: 1;
 	opacity: ${props => props.active ? 1 : 0.25};
 	pointer-events: ${props => props.active ? 'auto' : 'none'};
-	background: ${gray};
+	// background: ${gray};
 	margin: 0 0.1em;
 	padding: 0.5em 0;
 	text-decoration: none;

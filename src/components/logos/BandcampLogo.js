@@ -2,11 +2,18 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-export const BandcampLogo = ({ active }) => (
-    <BandcampImage active={active} src={require('../../assets/bandcamp_logo.png')}>
-
-    </BandcampImage>
+export const BandcampLogo = ({ bandcampAlbumId }) => (
+  <BandcampLink
+    target="_blank" 
+    href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}
+    active={bandcampAlbumId}>
+      <BandcampImage active={bandcampAlbumId} src={require('../../assets/bandcamp_logo.png')} />
+    </BandcampLink>
 );
+
+const BandcampLink = styled.a`
+  pointer-events: ${props => props.active ? 'auto' : 'none'}
+`;
 
 const BandcampImage = styled.img`
   width: 24px;
