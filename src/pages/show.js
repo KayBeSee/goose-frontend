@@ -59,6 +59,7 @@ const Show = (props) => {
 
   // get all videos from tracks
 
+  const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
   
   return (
     <Wrapper key={id}>
@@ -66,33 +67,35 @@ const Show = (props) => {
       <Setlist show={showData.show} />
 
       <Container>
-        <Header>Stream / Download</Header>
-				<StreamContainer>
-          <StreamLink 
-            active={archiveUrl} 
-            target="_blank" 
-            href={`https://archive.org/details/${archiveUrl}`}>
+          {hasStream && <Header>Stream / Download</Header>}
+          {hasStream && (
+            <StreamContainer>
+              {archiveUrl && (<StreamLink 
+                active={archiveUrl} 
+                target="_blank" 
+                href={`https://archive.org/details/${archiveUrl}`}>
+                  <img 
+                    src={require("../assets/internet_archive_large.png")} 
+                    style={{ width: "100%", maxHeight: 100 }}
+                  />
+              </StreamLink>)}
+              {nugsNetId && (<StreamLink 
+              active={nugsNetId}
+              target="_blank" 
+              href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
               <img 
-                src={require("../assets/internet_archive_large.png")} 
-                style={{ width: "100%" }}
-              />
-          </StreamLink>
-          <StreamLink 
-          active={nugsNetId}
-          target="_blank" 
-          href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
-          <img 
-                src={"https://api.nugs.net/assets/nugsnet/images/shared/logo.png"} 
-                style={{ width: "100%" }}
-              />
-          </StreamLink>
-					<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
-            <img 
-              src={require("../assets/bandcamp_logo_large.png")} 
-              style={{ width: "100%" }}
-            />
-            </StreamLink>
-				</StreamContainer>
+                    src={"https://api.nugs.net/assets/nugsnet/images/shared/logo.png"} 
+                    style={{ width: "100%", maxHeight: 100 }}
+                  />
+              </StreamLink>)}
+              {bandcampAlbumId && (<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
+                <img 
+                  src={require("../assets/bandcamp_logo_large.png")} 
+                  style={{ width: "100%", maxHeight: 100 }}
+                />
+                </StreamLink>)}
+            </StreamContainer>
+          )}
       </Container>
       {/* <Container>
         <Header>Videos</Header>
