@@ -2,11 +2,13 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled, { css } from 'styled-components';
+import { Link } from "react-router-dom";
 import { mobile } from '../utils/media';
 import moment from 'moment';
+import lighten from 'polished/lib/color/lighten';
 import YouTube from 'react-youtube';
 import Setlist from '../components/setlist';
-import { black, offWhite, gray } from '../utils/colors';
+import { black, orange, offWhite, gray } from '../utils/colors';
 
 const SHOW = gql`
   query getShow($id: ID!) {
@@ -51,11 +53,12 @@ const Show = (props) => {
   
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
-  const { id, date, setlist, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
+  const { id, date, eventName, setlist, venue, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
   
   document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
   
   let setlistVideos = [];
+  let setlistNotes = [];
 
   // get all videos from tracks
 
@@ -63,8 +66,57 @@ const Show = (props) => {
   
   return (
     <Wrapper key={id}>
+      <ShowHeaderWrapper>
+        <BandDateWrapper>
+          <ShowDateWrapper>{moment(date).format('dddd M/D/YYYY')}</ShowDateWrapper>
+          <BandNameWrapper>Goose</BandNameWrapper>
+        </BandDateWrapper>
 
-      <Setlist show={showData.show} />
+        <ShowLinkWrapper>
+          <ShowLink active>Setlist</ShowLink>
+          {/* <ShowLink>Stream</ShowLink> */}
+          <ShowLink>Videos</ShowLink>
+          <ShowLink>Stats</ShowLink>
+        </ShowLinkWrapper>
+      </ShowHeaderWrapper>
+
+      <VenueInfoContainer>
+        <Header>{eventName ? eventName : venue.name}</Header>
+        {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
+      </VenueInfoContainer>
+      
+      <SetlistWrapper>
+          {setlist.map(({ name, tracks }) => (
+              <SetWrapper>
+                <SetTitle>{name.replace('_', ' ')}: </SetTitle>
+                {tracks.map(({ id, notes, song, segue }, index) => {
+                  // add note to the notes array for later rendering
+                  if (notes) {
+                    setlistNotes.push(notes);
+                  }
+                  return (
+                    <TrackWrapper key={id}>
+                      <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
+                      {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                      {segue ? ' > ' : (tracks.length -1 === index) ? ' ' : ', '}
+                      
+                    </TrackWrapper>
+                  )
+                })
+              }
+              </SetWrapper>
+            )
+          )}
+  
+          {!!setlistNotes.length && (
+            <NotesWrapper>
+              <NotesHeader>Coach's Notes</NotesHeader>
+                  {setlistNotes.map((note, index) => (
+                      <TrackNote>[{index+1}] {note}</TrackNote>
+                  ))}
+            </NotesWrapper>
+          )}
+        </SetlistWrapper>
 
       <Container>
           {hasStream && <Header>Stream / Download</Header>}
@@ -119,6 +171,96 @@ const Wrapper = styled.div`
   color: ${black};
   margin: 0 12px;
 `;
+
+const ShowHeaderWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+`;
+
+const BandDateWrapper = styled.div`
+  display: inline-block;
+	background: #ff6f55;
+	padding: 8px;
+	color: #ffffff;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+`;
+
+const ShowDateWrapper = styled.div`
+  font-weight: 700;
+  font-size: 36px;
+`;
+
+const BandNameWrapper = styled.div`
+  font-size: 16px;
+`;
+
+const ShowLinkWrapper = styled.div`
+  display: inline-flex;
+
+  ${mobile(css`
+    margin-top: 24px;
+  `)};
+`;
+
+export const ShowLink = styled(Link)`
+  color: ${props => props.active ? orange : lighten(0.10, gray)};
+  font-weight: 700;
+  text-decoration: none;
+  padding: 12px;
+  align-self: flex-end;
+`;
+
+
+const VenueInfoContainer = styled.div`
+  padding: 0 12px;
+`;
+
+const VenueSubheader = styled.div`
+	margin-bottom: 12px;
+	font-size: 24px;
+	font-weight: 400;
+`;
+
+const SetlistWrapper = styled.div`
+  padding: 12px 12px;
+  border-radius: 4px;
+  line-height: 1.5;
+  background: #fff;
+  margin: 24px 0;
+  box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
+  border-radius: 4px;
+`;
+
+const SetWrapper = styled.div`
+	padding: 16px 0;
+`;
+
+const SetTitle = styled.span`
+	font-size: 16px;
+	font-weight: 700;
+	color: #ff6f55;
+`;
+
+const TrackWrapper = styled.span``;
+
+const TrackLink = styled(Link)`
+  text-decoration: none;
+  letter-spacing: -.01em;
+  color: ${black};
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const TrackNoteAnnotation = styled.sup``;
+
+const TrackNote = styled.span;
+
+const NotesWrapper = styled.div``;
+
+const NotesHeader = styled.h4``;
 
 const StreamContainer = styled.div`
 	display: flex;
