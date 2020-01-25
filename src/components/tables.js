@@ -1,6 +1,10 @@
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
 import { mobile } from '../utils/media';
+import { GrayLoadingAnimation } from './Loading';
+import { Search, KeyboardArrowRight } from '@styled-icons/material';
+import { StyledIcon } from './logos';
 
 export const TableContainer = styled.div`
   box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
@@ -74,3 +78,25 @@ export const SecondaryData = styled.div`
   font-size: 12px;
   color: #576574;
 `;
+
+export const LoadingTableRow = () => {
+  return (
+    <TableRow>
+      <TableDown>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown hideMobile alignRight>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown hideMobile alignRight>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown hideMobile alignRight>
+        <GrayLoadingAnimation />
+      </TableDown>
+      <TableDown hideDesktop alignRight>
+        <StyledIcon as={KeyboardArrowRight} size={36} />
+      </TableDown>
+    </TableRow>
+  )
+}

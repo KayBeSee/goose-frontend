@@ -4,35 +4,12 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
-import { GrayLoadingAnimation } from '../components/Loading';
 import { black } from '../utils/colors';
-import rem from '../utils/rem';
+import { StyledIcon } from '../components/logos';
 
-import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
+import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
 const PAGE_SIZE = 500;
-
-const LoadingRow = () => {
-  return (
-    <TableRow>
-      <TableDown>
-        <GrayLoadingAnimation />
-      </TableDown>
-      <TableDown hideMobile alignRight>
-        <GrayLoadingAnimation />
-      </TableDown>
-      <TableDown hideMobile alignRight>
-        <GrayLoadingAnimation />
-      </TableDown>
-      <TableDown hideMobile alignRight>
-        <GrayLoadingAnimation />
-      </TableDown>
-      <TableDown hideDesktop alignRight>
-        <StyledIcon as={KeyboardArrowRight} size={36} />
-      </TableDown>
-    </TableRow>
-  )
-}
 
 const SONGS = gql`
 query getSongs($first: Int!, $skip: Int!) {
@@ -90,16 +67,16 @@ const Songs = (props) => {
           </THEAD>
             {loading ? (
               <tbody>
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
-                <LoadingRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
+                <LoadingTableRow />
               </tbody>
             ) : (
               <tbody>
@@ -178,13 +155,6 @@ const BandDateWrapper = styled.span`
   font-weight: 700;
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
-`;
-
-const StyledIcon = styled.div`
-  && {
-    width: ${p => rem(p.size || 20)};
-    height: ${p => rem(p.size || 20)};
-  }
 `;
 
 export default Songs;
