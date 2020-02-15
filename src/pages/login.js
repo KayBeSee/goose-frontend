@@ -164,6 +164,7 @@ const SignupText = styled(Link)`
   color: ${white};
   text-decoration: none;
   cursor: pointer;
+  letter-spacing: -0.03em;
 `;
 
 export default Login;

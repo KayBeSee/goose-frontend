@@ -60,9 +60,19 @@ const Show = (props) => {
   let setlistVideos = [];
   let setlistNotes = [];
 
+  for(let i=0; i<setlist.length; i++) {
+    for(let j=0; j<setlist[i].tracks.length; j++) {
+      if(setlist[i].tracks[j].videos) {
+        setlistVideos.push(...setlist[i].tracks[j].videos);
+      }
+    }
+  }
+
   // get all videos from tracks
 
   const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
+
+  console.log('setlistVideos.length: ', setlistVideos.length);
   
   return (
     <Wrapper key={id}>
@@ -75,7 +85,7 @@ const Show = (props) => {
         <ShowLinkWrapper>
           <ShowLink active>Setlist</ShowLink>
           {/* <ShowLink>Stream</ShowLink> */}
-          <ShowLink>Videos</ShowLink>
+          <ShowLink enabled={setlistVideos.length}>Videos</ShowLink>
           <ShowLink>Stats</ShowLink>
         </ShowLinkWrapper>
       </ShowHeaderWrapper>
@@ -89,11 +99,7 @@ const Show = (props) => {
           {setlist.map(({ name, tracks }) => (
               <SetWrapper>
                 <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-                {tracks.map(({ id, notes, song, segue }, index) => {
-                  // add note to the notes array for later rendering
-                  if (notes) {
-                    setlistNotes.push(notes);
-                  }
+                {tracks.map(({ id, notes, song, segue, videos }, index) => {
                   return (
                     <TrackWrapper key={id}>
                       <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
@@ -205,7 +211,7 @@ const ShowLinkWrapper = styled.div`
 `;
 
 export const ShowLink = styled(Link)`
-  color: ${props => props.active ? orange : lighten(0.10, gray)};
+  color: ${props => props.active ? orange : props.enabled ? lighten(0.2, orange) : lighten(0.10, gray)};
   font-weight: 700;
   text-decoration: none;
   padding: 12px;

@@ -15,6 +15,7 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
     return <LoadingSetlist />
   } else {
     const { id, date, eventName, venue, setlist, notes } = show;
+    console.log('date: ', date);
     return (
       <Wrapper>
         <BandDateContainer>

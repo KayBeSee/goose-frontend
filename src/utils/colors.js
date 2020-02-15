@@ -10,6 +10,7 @@ export const darkGray = darken(0.2, gray);
 
 export const white = '#ffffff';
 export const offWhite = '#F5F7FA';
+export const darkOffWhite = darken(0.05, offWhite);
 
 export const black = 'rgba(66,66,66,.95)';
 

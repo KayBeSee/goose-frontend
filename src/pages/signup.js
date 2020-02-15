@@ -68,7 +68,7 @@ const Signup = (props) => {
   
         </SignupContainer>
       </FormContainer>
-      <LoginText to={'/login'}>Already Have an Account? Log In</LoginText>
+      <SignupText to={'/login'}>Already Have an Account? Log In</SignupText>
     </Wrapper>
     )
   }
@@ -159,10 +159,11 @@ const SignupButton = styled.button`
   }
 `;
 
-const LoginText = styled(Link)`
+const SignupText = styled(Link)`
   color: ${white};
   text-decoration: none;
   cursor: pointer;
+  letter-spacing: -0.03em;
 `;
 
 export default Signup;
