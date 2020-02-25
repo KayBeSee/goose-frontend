@@ -7,9 +7,6 @@ import TrackForm from './TrackForm';
 const SetForm = ({ set, setSet }) => {
 
   const setTrack = (track, index) => {
-    console.log('setTrack');
-    console.log('track: ', track);
-    console.log('index: ', index);
     const updatedSet = set;
     updatedSet.tracks[index] = track;
 

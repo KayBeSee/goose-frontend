@@ -71,8 +71,6 @@ const Show = (props) => {
   // get all videos from tracks
 
   const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
-
-  console.log('setlistVideos.length: ', setlistVideos.length);
   
   return (
     <Wrapper key={id}>

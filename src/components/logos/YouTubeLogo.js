@@ -7,19 +7,21 @@ export const YouTubeLogo = ({ videoId }) => {
     <YoutubeLink
       target="_blank"
       href={`https://www.youtube.com/watch?v=${videoId}`}
-      active={videoId}
+      active={!!videoId}
     >
-      <YoutubeImage src={require('../../assets/youtube_logo.png')} />
+      <YoutubeImage
+        active={!!videoId}
+        src={require('../../assets/youtube_logo.png')} />
     </YoutubeLink>
   );
 }
 
 const YoutubeLink = styled.a`
   pointer-events: ${props => props.active ? 'auto' : 'none'}
-  opacity: ${props => !!props.active ? 0.95 : 0.25}
-`;
-
-const YoutubeImage = styled.img`
+  `;
+  
+  const YoutubeImage = styled.img`
   width: 24px;
   height: 24px;
+  opacity: ${props => props.active ? 0.95 : 0.25}
 `;
