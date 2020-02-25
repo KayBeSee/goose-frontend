@@ -93,6 +93,7 @@ const Song = (props) => {
           </THEAD>
           <tbody>
             {data.song.tracks.map((track) => {
+              console.log('videos: ', track.videos);
               return (
                 <TableRow>
                   <TableDown hideMobile>
@@ -120,7 +121,7 @@ const Song = (props) => {
                     <ArchiveLogo archiveUrl={track.set.show.archiveUrl}  />
                     <NugsNetLogo nugsNetId={track.set.show.nugsNetId} />
                     <BandcampLogo bandcampAlbumId={track.set.show.bandcampAlbumId} />
-                    <YouTubeLogo active={track.videos.length} />
+                    <YouTubeLogo videoId={track.videos[0].videoId} active={track.videos.length} />
                   </MediaTableDown>
                   <TableDown hideDesktop>
                       <StyledIcon as={KeyboardArrowRight} size={36} />
