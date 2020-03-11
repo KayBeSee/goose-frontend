@@ -93,7 +93,6 @@ const Song = (props) => {
           </THEAD>
           <tbody>
             {data.song.tracks.map((track) => {
-              console.log('videos: ', track.videos);
               return (
                 <TableRow>
                   <TableDown hideMobile>

@@ -54,7 +54,7 @@ const Login = (props) => {
 
           <LoginForm onSubmit={handleSubmit}>
             <UsernameInput
-              autofocus="true"
+              autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={"Username"} />

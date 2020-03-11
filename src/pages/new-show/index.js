@@ -84,7 +84,7 @@ const undefinedShow = {
     city: undefined, 
     state: undefined
   },
-  setlist: [],
+  setlist: [{ name: `SET_${1}`, tracks: [''] }],
   notes: undefined
 }
 
@@ -128,7 +128,7 @@ const NewShow = (props) => {
     const { data } = await createNewShow({ variables: { date, venue, setlist, notes } });
   }
   
-  console.log('index setlist: ', setlist);
+  console.log('index.js render: ', setlist);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
@@ -145,18 +145,13 @@ const NewShow = (props) => {
 
             <VenueForm venue={venue} handleChange={(e) => handleChange(e, setVenue, venue)}  />
 
-            <SetlistForm setlist={setlist}setSetlist={setSetlist} />
+            <SetlistForm setlist={setlist} setSetlist={(newSetlist) => {
+              console.log('setSetlist index.js data: ', JSON.stringify(newSetlist), JSON.stringify(setlist));
+              setSetlist(newSetlist)
+              }} />
+
 
             <NotesForm notes={notes} handleChange={(e) => handleChange(e, setNotes)} />
-
-          <button type="button" onClick={(e) => { 
-              e.preventDefault();
-              console.log('foo')
-              const newSetlist = [...setlist, { name: 'SET_3', tracks: [] }]; 
-              setSetlist(newSetlist)
-            }}>Add Set</button>
-
-
 
             <SignupButton>Review</SignupButton>
           </NewShowForm>

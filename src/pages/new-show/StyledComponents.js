@@ -10,10 +10,12 @@ export const FormSection = styled.div`
   border-top: 2px solid ${darkOffWhite};
 `;
 export const FormExplainer = styled.div`
-  flex: 1 250px;
+  flex: 1;
 `;
 
-export const FormSectionHeader = styled.h2``;
+export const FormSectionHeader = styled.h2`
+  min-width: 156px;
+`;
 export const FormSectionSubtext = styled.h5``;
 
 export const ActualForm = styled.div`

@@ -14,7 +14,7 @@ const DateForm = ({ date, handleChange}) => (
       </FormExplainer>
       <ActualForm>
         <Input
-          autofocus="true"
+          autoFocus
           value={date}
           name="date"
           onChange={handleChange}
