@@ -49,6 +49,7 @@ const SetlistForm = ({ setlist, setSetlist }) => {
 
 const ModifiedFormSection = styled(FormSection)`
   flex-direction: column;
+  display: block;
 `;
 
 const ControlButton = styled.button`
