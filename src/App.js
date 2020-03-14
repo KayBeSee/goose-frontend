@@ -33,8 +33,8 @@ import Header from './components/Nav/Header';
 import Footer from './components/footer';
 
 const httpLink = new HttpLink({
-  // uri: 'https://dry-atoll-86403.herokuapp.com/',
-  uri: 'http://localhost:4000/',
+  uri: 'https://dry-atoll-86403.herokuapp.com/',
+  // uri: 'http://localhost:4000/',
   credentials: 'same-origin'
 })
 
