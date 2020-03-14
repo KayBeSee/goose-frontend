@@ -4,14 +4,14 @@ import styled, { keyframes, css } from 'styled-components';
 import { Link } from "react-router-dom";
 import AttendanceButton from './attendance-button';
 import LoadingSetlist from './setlist-loading';
-import { black } from '../utils/colors';
+import { black, orange } from '../utils/colors';
 import { mobile } from '../utils/media';
 import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
 
 let setlistNotes = [];
 
 const Setlist = ({ loading, show, includeNotes = true }) => {
-  if(loading) {
+  if (loading) {
     return <LoadingSetlist />
   } else {
     const { id, date, eventName, venue, setlist, notes } = show;
@@ -34,33 +34,33 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
         <NotesContainer>{notes}</NotesContainer>
         <SetlistWrapper>
           {setlist.map(({ name, tracks }) => (
-              <SetWrapper>
-                <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-                {tracks.map(({ id, notes, song, segue }, index) => {
-                  // add note to the notes array for later rendering
-                  if (notes) {
-                    setlistNotes.push(notes);
-                  }
-                  return (
-                    <TrackWrapper key={id}>
-                      <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
-                      {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
-                      {segue ? ' > ' : (tracks.length -1 === index) ? ' ' : ', '}
-                      
-                    </TrackWrapper>
-                  )
-                })
+            <SetWrapper>
+              <SetTitle>{name.replace('_', ' ')}: </SetTitle>
+              {tracks.map(({ id, notes, song, segue }, index) => {
+                // add note to the notes array for later rendering
+                if (notes) {
+                  setlistNotes.push(notes);
+                }
+                return (
+                  <TrackWrapper key={id}>
+                    <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
+                    {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                    {segue ? ' > ' : (tracks.length - 1 === index) ? ' ' : ', '}
+
+                  </TrackWrapper>
+                )
+              })
               }
-              </SetWrapper>
-            )
+            </SetWrapper>
+          )
           )}
-  
+
           {includeNotes && !!setlistNotes.length && (
             <NotesWrapper>
               <NotesHeader>Coach's Notes</NotesHeader>
-                  {setlistNotes.map((note, index) => (
-                      <TrackNote>[{index+1}] {note}</TrackNote>
-                  ))}
+              {setlistNotes.map((note, index) => (
+                <TrackNote>[{index + 1}] {note}</TrackNote>
+              ))}
             </NotesWrapper>
           )}
         </SetlistWrapper>
@@ -77,17 +77,16 @@ const Wrapper = styled.div`
   margin: 48px 0;
   box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
   border-radius: 4px;
-
 `;
 
 const VenueSubheader = styled.div`
 	margin-bottom: 12px;
-	font-size: 24px;
+	font-size: 1.5em;
 	font-weight: 400;
 `;
 
 const BandDateContainer = styled.div`
-	border-top: 4px solid #ff6f55;
+	border-top: 4px solid ${orange};
 	display: flex;
 `;
 
@@ -114,7 +113,7 @@ const NotesWrapper = styled.div``;
 const NotesHeader = styled.h4``;
 
 const BandDateWrapper = styled.span`
-	background: #ff6f55;
+	background: ${orange};
 	padding: 8px;
 	color: #ffffff;
   font-weight: 700;
@@ -136,12 +135,13 @@ const SetWrapper = styled.div`
 const SetTitle = styled.span`
 	font-size: 16px;
 	font-weight: 700;
-	color: #ff6f55;
+	color: ${orange};
 `;
 
 const Header = styled.h1`
   font-family: 'Montserrat', sans-serif;
   margin-bottom: 8px;
+  font-size: 2em;
 `;
 
 const TrackWrapper = styled.span``;

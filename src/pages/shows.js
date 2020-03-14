@@ -45,63 +45,62 @@ const SHOWS = gql`
 
 const Shows = (props) => {
   document.title = "Setlists - El Göose";
-  const [ page, setPage ] = useState(0);
-  const { loading, error, data } = useQuery(SHOWS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE }})
+  const [page, setPage] = useState(0);
+  const { loading, error, data } = useQuery(SHOWS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE } })
 
-  // if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
-    return (
-      <Wrapper>
-        <BandDateContainer>
-          <BandDateWrapper>
-            Setlists
+  return (
+    <Wrapper>
+      <BandDateContainer>
+        <BandDateWrapper>
+          Setlists
           </BandDateWrapper>
-          <PaginationControls>
-            <PaginationControl
-              onClick={() => {if(page > 0) { setPage(page - 1) }}}
-              active={page > 0}
-              style={{padding: 16}}
-              >{'<'}
-            </PaginationControl>
-            <PaginationControl
-              onClick={() => setPage(page + 1)}
-              active={true}
-              style={{padding: 16}}
-              >{'>'}
-            </PaginationControl>
-          </PaginationControls>
-        </BandDateContainer>
-        {loading ? (
-          <div>
-            <Setlist loading={loading} />
-            <Setlist loading={loading} />
-            <Setlist loading={loading} />
-            <Setlist loading={loading} />
-            <Setlist loading={loading} />
-            <Setlist loading={loading} />
-          </div>
-        ) : (
-          data.shows.map((show) => (
-              <Setlist key={show.id} show={show} includeNotes={false} />
-          ))
-        )
-        }
-
         <PaginationControls>
           <PaginationControl
-            onClick={() => setPage(page - 1)}
+            onClick={() => { if (page > 0) { setPage(page - 1) } }}
             active={page > 0}
-            >{'< Previous Page'}
+            style={{ padding: 16 }}
+          >{'<'}
           </PaginationControl>
           <PaginationControl
             onClick={() => setPage(page + 1)}
             active={true}
-            >{'Next Page >'}
+            style={{ padding: 16 }}
+          >{'>'}
           </PaginationControl>
         </PaginationControls>
-      </Wrapper>
+      </BandDateContainer>
+      {loading ? (
+        <div>
+          <Setlist loading={loading} />
+          <Setlist loading={loading} />
+          <Setlist loading={loading} />
+          <Setlist loading={loading} />
+          <Setlist loading={loading} />
+          <Setlist loading={loading} />
+        </div>
+      ) : (
+          data.shows.map((show) => (
+            <Setlist key={show.id} show={show} includeNotes={false} />
+          ))
+        )
+      }
 
-    )
+      <PaginationControls>
+        <PaginationControl
+          onClick={() => setPage(page - 1)}
+          active={page > 0}
+        >{'< Previous Page'}
+        </PaginationControl>
+        <PaginationControl
+          onClick={() => setPage(page + 1)}
+          active={true}
+        >{'Next Page >'}
+        </PaginationControl>
+      </PaginationControls>
+    </Wrapper>
+
+  )
 }
 
 const Wrapper = styled.div`
@@ -131,7 +130,7 @@ const PaginationControl = styled.div`
   justify-content: center;
   border-radius: 50%;
   padding: 16px 0;
-  color: ${prop => prop.active ? orange : gray };
+  color: ${prop => prop.active ? orange : gray};
   font-weight: 700;
   cursor: pointer;
 `;

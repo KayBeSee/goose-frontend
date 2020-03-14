@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from './StyledComponents';
+import { Input } from './StyledComponents';
 
 const TrackForm = ({ track, setTrack }) => {
   return (

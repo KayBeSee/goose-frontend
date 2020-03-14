@@ -17,26 +17,30 @@ import {
 
 import { AUTHORIZATION } from './constants';
 
-import ShowsDisplayer from './pages/shows';
-import ShowDisplayer from './pages/show';
-import SongsDisplayer from './pages/songs';
-import SongDisplayer from './pages/song';
-import TrackDisplayer from './pages/track'
+// Pages
+import Shows from './pages/shows';
+import Show from './pages/show';
+import Songs from './pages/songs';
+import Song from './pages/song';
+import Track from './pages/track'
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Homepage from './pages/homepage';
 import NewShow from './pages/new-show';
+
+// Other display components
 import Header from './components/Nav/Header';
 import Footer from './components/footer';
 
 const httpLink = new HttpLink({
-  uri: 'https://dry-atoll-86403.herokuapp.com/',
+  // uri: 'https://dry-atoll-86403.herokuapp.com/',
+  uri: 'http://localhost:4000/',
   credentials: 'same-origin'
 })
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const authorization = localStorage.getItem(AUTHORIZATION);
-  if(authorization) {
+  if (authorization) {
     operation.setContext(({ headers = {} }) => ({
       headers: {
         ...headers,
@@ -65,7 +69,7 @@ const client = new ApolloClient({
         );
       if (networkError) console.log(`[Network error]: ${networkError}`);
     }),
-    authMiddleware, 
+    authMiddleware,
     httpLink
   ]),
   cache: new InMemoryCache()
@@ -77,25 +81,25 @@ function App() {
     <ApolloProvider client={client}>
       <Router>
         {/* <WindowWrapper> */}
-          <Header />
-          <PageWrapper>
-            <Switch>
-              <Route path="/shows/:id" component={ShowDisplayer} />
-              <Route path="/setlists" component={ShowsDisplayer} />
-              <Route path="/songs/:id" component={SongDisplayer} />
-              <Route path="/songs" component={SongsDisplayer} />
-              <Route path="/track/:id" component={TrackDisplayer} />
-              <Route path="/login" component={Login} />
-              <Route path="/signup" component={Signup} />
-              <Route path="/new-show" component={NewShow} />
-              <Route exact path="/" component={Homepage} />
-              <Route exact path="/*">
-                <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />
-                <h1>Ooops!</h1>
-              </Route>
-            </Switch>
-          </PageWrapper>
-          {/* <Footer /> */}
+        <Header />
+        <PageWrapper>
+          <Switch>
+            <Route path="/shows/:id" component={Show} />
+            <Route path="/setlists" component={Shows} />
+            <Route path="/songs/:id" component={Song} />
+            <Route path="/songs" component={Songs} />
+            <Route path="/track/:id" component={Track} />
+            <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
+            <Route path="/new-show" component={NewShow} />
+            <Route exact path="/" component={Homepage} />
+            <Route exact path="/*">
+              <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />
+              <h1>Ooops!</h1>
+            </Route>
+          </Switch>
+        </PageWrapper>
+        {/* <Footer /> */}
         {/* </WindowWrapper> */}
       </Router>
     </ApolloProvider>

@@ -49,20 +49,20 @@ const SHOW = gql`
 `;
 
 const Show = (props) => {
-  const { loading: showLoading, error: showError, data: showData } = useQuery(SHOW, { variables: { id: props.match.params.id }})
-  
+  const { loading: showLoading, error: showError, data: showData } = useQuery(SHOW, { variables: { id: props.match.params.id } })
+
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
   const { id, date, eventName, setlist, venue, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
-  
+
   document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
-  
+
   let setlistVideos = [];
   let setlistNotes = [];
 
-  for(let i=0; i<setlist.length; i++) {
-    for(let j=0; j<setlist[i].tracks.length; j++) {
-      if(setlist[i].tracks[j].videos) {
+  for (let i = 0; i < setlist.length; i++) {
+    for (let j = 0; j < setlist[i].tracks.length; j++) {
+      if (setlist[i].tracks[j].videos) {
         setlistVideos.push(...setlist[i].tracks[j].videos);
       }
     }
@@ -71,7 +71,7 @@ const Show = (props) => {
   // get all videos from tracks
 
   const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
-  
+
   return (
     <Wrapper key={id}>
       <ShowHeaderWrapper>
@@ -92,66 +92,66 @@ const Show = (props) => {
         <Header>{eventName ? eventName : venue.name}</Header>
         {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
       </VenueInfoContainer>
-      
+
       <SetlistWrapper>
-          {setlist.map(({ name, tracks }) => (
-              <SetWrapper>
-                <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-                {tracks.map(({ id, notes, song, segue, videos }, index) => {
-                  return (
-                    <TrackWrapper key={id}>
-                      <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
-                      {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
-                      {segue ? ' > ' : (tracks.length -1 === index) ? ' ' : ', '}
-                      
-                    </TrackWrapper>
-                  )
-                })
-              }
-              </SetWrapper>
-            )
-          )}
-  
-          {!!setlistNotes.length && (
-            <NotesWrapper>
-              <NotesHeader>Coach's Notes</NotesHeader>
-                  {setlistNotes.map((note, index) => (
-                      <TrackNote>[{index+1}] {note}</TrackNote>
-                  ))}
-            </NotesWrapper>
-          )}
-        </SetlistWrapper>
+        {setlist.map(({ name, tracks }) => (
+          <SetWrapper>
+            <SetTitle>{name.replace('_', ' ')}: </SetTitle>
+            {tracks.map(({ id, notes, song, segue, videos }, index) => {
+              return (
+                <TrackWrapper key={id}>
+                  <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
+                  {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                  {segue ? ' > ' : (tracks.length - 1 === index) ? ' ' : ', '}
+
+                </TrackWrapper>
+              )
+            })
+            }
+          </SetWrapper>
+        )
+        )}
+
+        {!!setlistNotes.length && (
+          <NotesWrapper>
+            <NotesHeader>Coach's Notes</NotesHeader>
+            {setlistNotes.map((note, index) => (
+              <TrackNote>[{index + 1}] {note}</TrackNote>
+            ))}
+          </NotesWrapper>
+        )}
+      </SetlistWrapper>
 
       <Container>
-          {hasStream && <Header>Stream / Download</Header>}
-          {hasStream && (
-            <StreamContainer>
-              {archiveUrl && (<StreamLink 
-                active={archiveUrl} 
-                target="_blank" 
-                href={`https://archive.org/details/${archiveUrl}`}>
-                  <img 
-                    src={require("../assets/internet_archive_large.png")} 
-                    style={{ width: "100%", maxHeight: 100 }}
-                  />
-              </StreamLink>)}
-              {nugsNetId && (<StreamLink 
+        {hasStream && <Header>Stream / Download</Header>}
+        {hasStream && (
+          <StreamContainer>
+            {archiveUrl && (<StreamLink
+              active={archiveUrl}
+              target="_blank"
+              href={`https://archive.org/details/${archiveUrl}`}>
+              <img
+                src={require("../assets/internet_archive_large.png")}
+                style={{ width: "100%", maxHeight: 100 }}
+              />
+            </StreamLink>)}
+            {nugsNetId && (<StreamLink
               active={nugsNetId}
-              target="_blank" 
+              target="_blank"
               href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
-              <img 
-                    src={"https://api.nugs.net/assets/nugsnet/images/shared/logo.png"} 
-                    style={{ width: "100%", maxHeight: 100 }}
-                  />
-              </StreamLink>)}
-              {bandcampAlbumId && (<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
-                <img 
-                  src={require("../assets/bandcamp_logo_large.png")} 
-                  style={{ width: "100%", maxHeight: 100 }}
-                />
-                </StreamLink>)}
-            </StreamContainer>
-          )}
+              <img
+                src={"https://api.nugs.net/assets/nugsnet/images/shared/logo.png"}
+                style={{ width: "100%", maxHeight: 100 }}
+              />
+            </StreamLink>)}
+            {bandcampAlbumId && (<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
+              <img
+                src={require("../assets/bandcamp_logo_large.png")}
+                style={{ width: "100%", maxHeight: 100 }}
+              />
+            </StreamLink>)}
+          </StreamContainer>
+        )}
       </Container>
       {/* <Container>
         <Header>Videos</Header>
@@ -184,7 +184,7 @@ const ShowHeaderWrapper = styled.div`
 
 const BandDateWrapper = styled.div`
   display: inline-block;
-	background: #ff6f55;
+	background: ${orange};
 	padding: 8px;
 	color: #ffffff;
   font-weight: 700;
@@ -244,7 +244,7 @@ const SetWrapper = styled.div`
 const SetTitle = styled.span`
 	font-size: 16px;
 	font-weight: 700;
-	color: #ff6f55;
+	color: ${orange};
 `;
 
 const TrackWrapper = styled.span``;

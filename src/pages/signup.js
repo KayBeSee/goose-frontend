@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import { Link, Redirect } from "react-router-dom";
 import styled from 'styled-components';
 import { AUTHORIZATION } from '../constants';
-import { black, white } from '../utils/colors';
+import { black, white, orange } from '../utils/colors';
 import { getToken } from '../utils/token';
 
 const SIGNUP_MUTATION = gql`
@@ -32,7 +32,7 @@ const Signup = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await signup({ variables: { email, password }});
+    const { data } = await signup({ variables: { email, password } });
     localStorage.setItem(AUTHORIZATION, data.createUser.token);
     sessionStorage.setItem('email', data.createUser.user.email);
     window.location.reload();
@@ -41,35 +41,35 @@ const Signup = (props) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  if(token) {
+  if (token) {
     return <Redirect to={'/setlists'} />
   } else {
-    return(
-    <Wrapper key={'ab123c'}>
-      <FormContainer>
-        <SignupContainer>
-          <SignupHeader>Sign up for El Göose</SignupHeader>
-  
-          <SignupForm onSubmit={handleSubmit}>
-            <UsernameInput
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder={"Username"} />
-            <PasswordInput 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              type="password" 
-              placeholder={"Password"} />
-            <SignupButton 
-              type="submit"
-              onClick={handleSubmit}>Create Account</SignupButton>
-          </SignupForm>
-  
-        </SignupContainer>
-      </FormContainer>
-      <SignupText to={'/login'}>Already Have an Account? Log In</SignupText>
-    </Wrapper>
+    return (
+      <Wrapper key={'ab123c'}>
+        <FormContainer>
+          <SignupContainer>
+            <SignupHeader>Sign up for El Göose</SignupHeader>
+
+            <SignupForm onSubmit={handleSubmit}>
+              <UsernameInput
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder={"Username"} />
+              <PasswordInput
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                placeholder={"Password"} />
+              <SignupButton
+                type="submit"
+                onClick={handleSubmit}>Create Account</SignupButton>
+            </SignupForm>
+
+          </SignupContainer>
+        </FormContainer>
+        <SignupText to={'/login'}>Already Have an Account? Log In</SignupText>
+      </Wrapper>
     )
   }
 }
@@ -114,7 +114,7 @@ const SignupForm = styled.form`
 
 const SignupHeader = styled.h1`
   text-align: center;
-  color: #ff6f55;
+  color: ${orange};
 `;
 
 const Input = styled.input`
@@ -127,7 +127,7 @@ const Input = styled.input`
   font-family: 'Raleway', sans-serif;
 
   &:active, &:focus {
-    border: 1px solid #ff6f55;
+    border: 1px solid ${orange};
     outline: 0;
   }
 `;
@@ -140,7 +140,7 @@ const PasswordInput = styled(Input)`
 
 const SignupButton = styled.button`
   padding: 16px;
-  background: #ff6f55;
+  background: ${orange};
   color: #fff;
   border: none;
   border-radius: 4px;

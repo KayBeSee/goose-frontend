@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
-import { black } from '../utils/colors';
+import { black, orange } from '../utils/colors';
 import { StyledIcon } from '../components/logos';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
@@ -40,14 +40,14 @@ query getSongs($first: Int!, $skip: Int!) {
 `;
 
 const Songs = (props) => {
-  const [ page, setPage ] = useState(0);
-  const { loading, error, data } = useQuery(SONGS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE }})
+  const [page, setPage] = useState(0);
+  const { loading, error, data } = useQuery(SONGS, { variables: { first: PAGE_SIZE, skip: page * PAGE_SIZE } })
 
   if (loading) {
 
   }
   if (error) return <p>Error :(</p>;
-  
+
   document.title = `Goose Songs - El Göose`;
   return (
     <Wrapper>
@@ -59,26 +59,26 @@ const Songs = (props) => {
       <TableContainer>
         <Table>
           <THEAD>
-          <TableHeader>Name</TableHeader>
-          <TableHeader alignRight hideMobile>Debut</TableHeader>
-          <TableHeader alignRight hideMobile>Times</TableHeader>
-          <TableHeader alignRight hideMobile>Last</TableHeader>
-          <TableHeader alignRight hideDesktop></TableHeader>
+            <TableHeader>Name</TableHeader>
+            <TableHeader alignRight hideMobile>Debut</TableHeader>
+            <TableHeader alignRight hideMobile>Times</TableHeader>
+            <TableHeader alignRight hideMobile>Last</TableHeader>
+            <TableHeader alignRight hideDesktop></TableHeader>
           </THEAD>
-            {loading ? (
-              <tbody>
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-                <LoadingTableRow />
-              </tbody>
-            ) : (
+          {loading ? (
+            <tbody>
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+              <LoadingTableRow />
+            </tbody>
+          ) : (
               <tbody>
                 {data.songs.map(({ id, name, originalArtist, tracks }) => (
                   <TableRow key={id}>
@@ -107,13 +107,13 @@ const Songs = (props) => {
         </Table>
         <PaginationWrapper>
           <PaginationContainer>
-            <PaginationControls 
+            <PaginationControls
               onClick={() => setPage(page - 1)}>
-                {' < Prev Page '}
+              {' < Prev Page '}
             </PaginationControls>
             <PaginationControls
               onClick={() => setPage(page + 1)}>
-                {' Next Page > '}
+              {' Next Page > '}
             </PaginationControls>
           </PaginationContainer>
           <DisplayingSubtext>
@@ -136,7 +136,7 @@ const Wrapper = styled.div`
 `;
 
 const BandDateContainer = styled.div`
-	border-top: 4px solid #ff6f55;
+	border-top: 4px solid ${orange};
   display: flex;
   margin-bottom: 24px;
 `;
@@ -149,7 +149,7 @@ const DisplayingSubtext = styled.span`
 `;
 
 const BandDateWrapper = styled.span`
-	background: #ff6f55;
+	background: ${orange};
 	padding: 12px;
 	color: #ffffff;
   font-weight: 700;

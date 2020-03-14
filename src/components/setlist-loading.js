@@ -2,10 +2,11 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 import AttendanceButton from './attendance-button';
 import { mobile } from '../utils/media';
+import { orange } from '../utils/colors';
 
 import { GrayLoadingAnimation, OrangeLoadingAnimation } from './Loading';
 
-const Setlist = ({ loading, show, includeNotes = true }) => {  
+const Setlist = ({ loading, show, includeNotes = true }) => {
   return (
     <Wrapper>
       <BandDateContainer>
@@ -26,8 +27,8 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
         <SetWrapper>
           <TrackWrapper>
             <GrayLoadingAnimation />
-            <GrayLoadingAnimation style={{ marginTop: 24 }}/>
-            <GrayLoadingAnimation style={{ marginTop: 24 }}/>
+            <GrayLoadingAnimation style={{ marginTop: 24 }} />
+            <GrayLoadingAnimation style={{ marginTop: 24 }} />
           </TrackWrapper>
         </SetWrapper>
       </SetlistWrapper>
@@ -46,7 +47,7 @@ const Wrapper = styled.div`
 `;
 
 const BandDateContainer = styled.div`
-	border-top: 4px solid #ff6f55;
+	border-top: 4px solid ${orange};
 	display: flex;
 `;
 
@@ -57,7 +58,7 @@ const ShowDataBody = styled.div`
 `;
 
 const BandDateWrapper = styled.span`
-	background: #ff6f55;
+	background: ${orange};
 	padding: 8px;
 	color: #ffffff;
   font-weight: 700;

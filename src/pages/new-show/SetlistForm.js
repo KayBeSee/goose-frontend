@@ -3,7 +3,8 @@ import styled from 'styled-components';
 
 import SetForm from './SetForm';
 import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from './StyledComponents';
-import { orange, offWhite } from '../../utils/colors';
+import { orange, offWhite, white } from '../../utils/colors';
+import { mobile } from '../../utils/media';
 
 const SetlistForm = ({ setlist, setSetlist }) => {
 
@@ -15,46 +16,50 @@ const SetlistForm = ({ setlist, setSetlist }) => {
     updatedSetlist[index] = set;
     setSetlist(updatedSetlist);
   }
-  
+
   return (
-    <FormSection style={{ flexDirection: 'column' }}>
+    <ModifiedFormSection>
       <FormExplainer style={{ display: 'flex', flexDirection: 'row' }}>
-          <div>
+        <div>
           <FormSectionHeader>
-              Setlist
+            Setlist
           </FormSectionHeader>
           <FormSectionSubtext>
-              Here is some explainer text about the section. Yada, yada, yada...
+            Here is some explainer text about the section. Yada, yada, yada...
           </FormSectionSubtext>
-          </div>
+        </div>
       </FormExplainer>
       <ActualForm>
         {setlist.map((set, index) => (
-          <SetForm 
+          <SetForm
             key={index}
             set={set}
             setSet={(updatedSet) => setSet(updatedSet, index)}
-            />
+          />
         ))}
 
         <ButtonGroup>
-          <ControlButton type="button" onClick={() => setSetlist([...setlist, { name: `SET_${setlist.length+1}`, tracks: [''] } ])}>Add Set</ControlButton>
-          <ControlButton type="button" secondary onClick={() => setSetlist([...setlist, { name: `ENCORE_${setlist.length+1}`, tracks: [''] } ])}>Add Encore</ControlButton>
+          <ControlButton type="button" onClick={() => setSetlist([...setlist, { name: `SET_${setlist.length + 1}`, tracks: [''] }])}>Add Set</ControlButton>
+          <ControlButton type="button" secondary onClick={() => setSetlist([...setlist, { name: `ENCORE_${setlist.length + 1}`, tracks: [''] }])}>Add Encore</ControlButton>
         </ButtonGroup>
       </ActualForm>
-    </FormSection>
+    </ModifiedFormSection>
   )
 };
 
+const ModifiedFormSection = styled(FormSection)`
+  flex-direction: column;
+`;
+
 const ControlButton = styled.button`
   padding: 16px;
-  background: ${p => p.secondary ? 'none' : '#ff6f55' };
-  color: ${p => p.secondary ? orange :  '#fff' };
-  border: none;
+  background: ${p => p.secondary ? 'none' : white};
+  color: ${orange};
+  border: ${p => p.secondary ? 'none' : `1px solid ${orange}`};
   border-radius: 4px;
   font-size: 16px;
   margin-top: 12px;
-  font-family: Montserrat, sans-serif;
+  font-family: Montserrat, sans - serif;
   font-weight: 700;
 
   &:hover {
@@ -63,13 +68,13 @@ const ControlButton = styled.button`
 
   &:active, &:focus {
     outline: 0;
-    background: ${p => p.secondary ? offWhite :  '#e5634c' };
   }
 `;
 
 const ButtonGroup = styled.div`
-  background: ${offWhite};
-  padding: 24px;
+background: ${ offWhite};
+padding: 24px;
+margin: 24px -24px;
 `;
 
 export default SetlistForm;

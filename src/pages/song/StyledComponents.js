@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SongLinkContainer = styled.div`
-	border-top: 4px solid #ff6f55;
+	border-top: 4px solid ${orange};
   display: flex;
   flex-wrap: wrap;
   margin-bottom: 24px;

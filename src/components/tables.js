@@ -5,6 +5,7 @@ import { mobile } from '../utils/media';
 import { GrayLoadingAnimation } from './Loading';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import { StyledIcon } from './logos';
+import { orange } from '../utils/colors';
 
 export const TableContainer = styled.div`
   box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
@@ -27,7 +28,7 @@ export const TableHeader = styled.th`
   border: none;
   padding: 24px;
   text-align: ${props => props.alignRight ? 'right' : 'left'};
-  display: ${props => props.hideDesktop ? 'none' : 'table-cell' };
+  display: ${props => props.hideDesktop ? 'none' : 'table-cell'};
   ${mobile(css`
     display: ${props => props.hideMobile ? 'none' : 'table-cell'};
   `)};
@@ -42,7 +43,7 @@ export const TableDown = styled.td`
   border: none;
   padding: 24px;
   text-align: ${props => props.alignRight ? 'right' : 'left'};
-  display: ${props => props.hideDesktop ? 'none' : 'table-cell' };
+  display: ${props => props.hideDesktop ? 'none' : 'table-cell'};
   ${mobile(css`
     display: ${props => props.hideMobile ? 'none' : 'table-cell'};
   `)};
@@ -65,7 +66,7 @@ export const PaginationContainer = styled.div`
 
 export const PaginationControls = styled.span`
   cursor: pointer;
-  color: #ff6f55;
+  color: ${orange};
 `;
 
 export const TrackLink = styled(Link)`

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { Link } from "react-router-dom";
 import YouTube from 'react-youtube';
-import { black } from '../utils/colors';
+import { black, orange } from '../utils/colors';
 
 const TRACK = gql`
   query getTrack($id: ID!) {
@@ -40,34 +40,34 @@ const TRACK = gql`
 `;
 
 const TrackDisplayer = (props) => {
-  const { loading, error, data } = useQuery(TRACK, { variables: { id: props.match.params.id }})
+  const { loading, error, data } = useQuery(TRACK, { variables: { id: props.match.params.id } })
 
   if (loading) return <p>Loading...</p>;
-	if (error) return <p>Error :(</p>;
-		
-	let setlistVideos = [];
+  if (error) return <p>Error :(</p>;
 
-  const { id, notes, videos, song, set: { show: { id: showId, date, venue }  } } = data.track;
+  let setlistVideos = [];
+
+  const { id, notes, videos, song, set: { show: { id: showId, date, venue } } } = data.track;
   return (
     <Wrapper key={id}>
       <Container>
-				<BandDateContainer>
-					<BandDateWrapper>
-						Goose, <ShowLink to={`/shows/${showId}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
-					</BandDateWrapper>
-				</BandDateContainer>
+        <BandDateContainer>
+          <BandDateWrapper>
+            Goose, <ShowLink to={`/shows/${showId}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
+          </BandDateWrapper>
+        </BandDateContainer>
         <HeaderContainer>
           <Header>{song.name}</Header>
           <ViewSongButton to={`/songs/${song.id}`}>View Song</ViewSongButton>
         </HeaderContainer>
-				<VenueSubheader>{venue.name} - {venue.city}, {venue.state}</VenueSubheader>
+        <VenueSubheader>{venue.name} - {venue.city}, {venue.state}</VenueSubheader>
         <NotesContainer>{notes}</NotesContainer>
       </Container>
       <Container>
         <Header>Videos</Header>
-					{videos.map((video, index) => {
-						return <YouTube key={index} videoId={video.videoId} />
-					})}
+        {videos.map((video, index) => {
+          return <YouTube key={index} videoId={video.videoId} />
+        })}
       </Container>
       <Container>
         <Header>Comments</Header>
@@ -104,12 +104,12 @@ const ShowLink = styled(Link)`
 `;
 
 const BandDateContainer = styled.div`
-	border-top: 4px solid #ff6f55;
+	border-top: 4px solid ${orange};
 	display: flex;
 `;
 
 const BandDateWrapper = styled.span`
-	background: #ff6f55;
+	background: ${orange};
 	padding: 8px;
 	color: #ffffff;
 	font-weight: 700;
