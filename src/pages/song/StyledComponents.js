@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
 import lighten from 'polished/lib/color/lighten';
-import { black, orange, gray } from '../../utils/colors';
+import { black, orange, gray, offWhite } from '../../utils/colors';
 import rem from '../../utils/rem';
 import { mobile } from '../../utils/media';
 import { TableDown } from '../../components/tables';
 
 export const Wrapper = styled.div`
-  background: #F5F7FA;
+  background: ${offWhite};
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;

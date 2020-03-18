@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { Link } from "react-router-dom";
 import YouTube from 'react-youtube';
-import { black, orange } from '../utils/colors';
+import { black, orange, offWhite } from '../utils/colors';
 
 const TRACK = gql`
   query getTrack($id: ID!) {
@@ -78,7 +78,7 @@ const TrackDisplayer = (props) => {
 }
 
 const Wrapper = styled.div`
-  background: #F5F7FA;
+  background: ${offWhite};
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;

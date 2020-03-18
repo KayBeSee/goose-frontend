@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components';
 import { FormSection, FormSectionHeader, ActualForm } from './StyledComponents';
 import TrackForm from './TrackForm';
 import { mobile } from '../../utils/media';
-import { darkOffWhite, orange } from '../../utils/colors';
+import { darkOffWhite, orange, offWhite } from '../../utils/colors';
 
 const SetForm = ({ set, setSet }) => {
   const setTrack = (track, index) => {
@@ -21,11 +21,12 @@ const SetForm = ({ set, setSet }) => {
 
   return (
     <FormSectionModified>
-      <FormSectionHeader>{set.name.replace('_', ' ')}</FormSectionHeader>
+      <FormSectionHeaderModified>{set.name.replace('_', ' ')}</FormSectionHeaderModified>
       <ActualFormPadding>
         {set.tracks.map((track, index) => (
           <TrackForm
             key={index}
+            index={index}
             track={track}
             setTrack={(track) => setTrack(track, index)}
           />
@@ -37,15 +38,22 @@ const SetForm = ({ set, setSet }) => {
 };
 
 const FormSectionModified = styled(FormSection)`
-  background: #F5F7FA;
+  background: ${offWhite};
   border: 1px solid ${darkOffWhite};
   margin: 24px -24px;
+  position: relative;
+  flex: 1;
+`;
+
+const FormSectionHeaderModified = styled(FormSectionHeader)`
+  flex: 1;
 `;
 
 const ActualFormPadding = styled(ActualForm)`
   margin: 0 48px;
+  flex: 2;
   ${mobile(css`
-  margin: 0;
+    margin: 0;
   `)};
 `;
 

@@ -11,7 +11,8 @@ const SHOWS = gql`
  query getShows($first: Int!, $skip: Int!) {
     shows(
       first: $first,
-      skip: $skip
+      skip: $skip,
+      orderBy: date_DESC
     ) {
       id
       date
@@ -119,6 +120,15 @@ const BandDateContainer = styled.div`
   align-items: center;
 `;
 
+const BandDateWrapper = styled.span`
+	background: ${orange};
+	padding: 12px;
+	color: ${white};
+  font-weight: 700;
+  font-size: 36px;
+  box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
+`;
+
 const PaginationControls = styled.div`
   display: flex;
   justify-content: space-between;
@@ -133,15 +143,6 @@ const PaginationControl = styled.div`
   color: ${prop => prop.active ? orange : gray};
   font-weight: 700;
   cursor: pointer;
-`;
-
-const BandDateWrapper = styled.span`
-	background: ${orange};
-	padding: 12px;
-	color: ${white};
-  font-weight: 700;
-  font-size: 36px;
-  box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
 `;
 
 export default Shows;

@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 import { ApolloProvider } from '@apollo/react-hooks';
 
 import { ApolloClient } from 'apollo-client';
@@ -16,6 +18,7 @@ import {
 } from "react-router-dom";
 
 import { AUTHORIZATION } from './constants';
+import { offWhite } from './utils/colors';
 
 // Pages
 import Shows from './pages/shows';
@@ -112,7 +115,7 @@ const PageWrapper = styled.div`
   align-items: center;
   font-family: 'Raleway', sans-serif;
   flex: 1;
-  background: #F5F7FA;
+  background: ${offWhite};
 `;
 
 export default App;

@@ -9,12 +9,12 @@ export const FormSection = styled.div`
   padding: 24px;
 `;
 export const FormExplainer = styled.div`
-  flex: 1;
+  flex: 1 0 100px;
 `;
 
 export const FormSectionHeader = styled.h2`
   margin-top: 0px;
-  min-width: 156px;
+  flex: 1 0 350px;
 `;
 export const FormSectionSubtext = styled.h5`
   font-weight: 100;
@@ -23,8 +23,9 @@ export const FormSectionSubtext = styled.h5`
 export const ActualForm = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1 0;
+  flex: 1 0 100px;
   position: relative;
+  justify-content: center;
 `;
 
 export const Input = styled.input`
@@ -33,7 +34,7 @@ export const Input = styled.input`
   border: 1px solid rgb(241, 243, 245);
   box-shadow: 0px;
   outline: 0;
-  text-align: center;
+  text-align: left;
   font-family: 'Raleway', sans-serif;
 
   &:active, &:focus {

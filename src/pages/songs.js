@@ -4,7 +4,7 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
-import { black, orange } from '../utils/colors';
+import { black, orange, offWhite } from '../utils/colors';
 import { StyledIcon } from '../components/logos';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
@@ -126,7 +126,7 @@ const Songs = (props) => {
 }
 
 const Wrapper = styled.div`
-  background: #F5F7FA;
+  background: ${offWhite};
   max-width: 750px;
   width: 100%;
   margin-bottom: 24px;

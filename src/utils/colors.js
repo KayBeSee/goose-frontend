@@ -4,6 +4,7 @@ import shade from 'polished/lib/color/shade';
 
 export const orange = '#ff6f55';
 export const darkOrange = darken(0.2, orange);
+export const lightOrange = lighten(0.2, orange);
 
 export const gray = '#bdc3c7';
 export const darkGray = darken(0.2, gray);

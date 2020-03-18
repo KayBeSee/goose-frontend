@@ -6,6 +6,19 @@ import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, Actu
 import { orange, offWhite, white } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 
+
+export const SetlistFormExplainer = () => (
+  <FormExplainer style={{ display: 'flex', flexDirection: 'row' }}>
+    <div>
+      <FormSectionHeader>
+        Setlist
+          </FormSectionHeader>
+      <FormSectionSubtext>
+        Here is some explainer text about the section. Yada, yada, yada...
+          </FormSectionSubtext>
+    </div>
+  </FormExplainer>
+)
 const SetlistForm = ({ setlist, setSetlist }) => {
 
   console.log('SetlistForm render: ', setlist);
@@ -19,16 +32,7 @@ const SetlistForm = ({ setlist, setSetlist }) => {
 
   return (
     <ModifiedFormSection>
-      <FormExplainer style={{ display: 'flex', flexDirection: 'row' }}>
-        <div>
-          <FormSectionHeader>
-            Setlist
-          </FormSectionHeader>
-          <FormSectionSubtext>
-            Here is some explainer text about the section. Yada, yada, yada...
-          </FormSectionSubtext>
-        </div>
-      </FormExplainer>
+      <SetlistFormExplainer />
       <ActualForm>
         {setlist.map((set, index) => (
           <SetForm
@@ -50,6 +54,7 @@ const SetlistForm = ({ setlist, setSetlist }) => {
 const ModifiedFormSection = styled(FormSection)`
   flex-direction: column;
   display: block;
+  padding: 24px 24px 0;
 `;
 
 const ControlButton = styled.button`
@@ -75,7 +80,7 @@ const ControlButton = styled.button`
 const ButtonGroup = styled.div`
 background: ${ offWhite};
 padding: 24px;
-margin: 24px -24px;
+margin: 24px -24px 0;
 `;
 
 export default SetlistForm;

@@ -8,8 +8,8 @@ import { offWhite } from '../../utils/colors'
 import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from './StyledComponents';
 
 const VENUES = gql`
-  query getVenues($first: Int) {
-    venues(first: $first) {
+  query {
+    venues {
       id
       name
       city
@@ -18,19 +18,29 @@ const VENUES = gql`
   }
 `;
 
+export const VenueFormExplainer = () => (
+  <FormExplainer>
+    <FormSectionHeader>
+      Venue
+      </FormSectionHeader>
+    <FormSectionSubtext>
+      Here is some explainer text about the section. Yada, yada, yada...
+      </FormSectionSubtext>
+  </FormExplainer>
+)
+
 const VenueForm = ({ venue, setVenue }) => {
-  const { loading, error, data: possibleVenues } = useQuery(VENUES, { variables: { first: 0 } });
+  const { loading, error, data: possibleVenues } = useQuery(VENUES);
   const [filteredOptions, setFilteredOptions] = useState(possibleVenues);
   const [showOptions, setShowOptions] = useState(false);
-  const [activeOption, setActiveOption] = useState(0);
   const [userInput, setUserInput] = useState('');
 
   const onChange = (e) => {
     const userInput = e.currentTarget.value;
     setUserInput(userInput);
-    const filteredOptions = possibleVenues.venues.filter((venue, index) => venue.name.toLowerCase().includes(userInput.toLowerCase()) && index < 5);
+    console.log('possibleVenues: ', possibleVenues);
+    const filteredOptions = possibleVenues.venues.filter((venue, index) => venue.name.toLowerCase().includes(userInput.toLowerCase()));
     setFilteredOptions(filteredOptions);
-    setActiveOption(0);
     if (filteredOptions.length > 0 && userInput !== '') {
       setShowOptions(true);
     } else if (userInput === '') {
@@ -48,14 +58,7 @@ const VenueForm = ({ venue, setVenue }) => {
 
   return (
     <ModifiedFormSection>
-      <FormExplainer>
-        <FormSectionHeader>
-          Venue
-      </FormSectionHeader>
-        <FormSectionSubtext>
-          Here is some explainer text about the section. Yada, yada, yada...
-      </FormSectionSubtext>
-      </FormExplainer>
+      <VenueFormExplainer />
       <ActualForm>
         <Input
           name={"name"}
