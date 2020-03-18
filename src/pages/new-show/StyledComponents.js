@@ -9,7 +9,7 @@ export const FormSection = styled.div`
   padding: 24px;
 `;
 export const FormExplainer = styled.div`
-  flex: 1 0 100px;
+  flex: 1 0 200px;
 `;
 
 export const FormSectionHeader = styled.h2`
@@ -23,7 +23,7 @@ export const FormSectionSubtext = styled.h5`
 export const ActualForm = styled.div`
   display: flex;
   flex-direction: column;
-  flex: 1 0 100px;
+  flex: 1 0 200px;
   position: relative;
   justify-content: center;
 `;

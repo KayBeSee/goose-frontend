@@ -42,11 +42,11 @@ const FormSectionModified = styled(FormSection)`
   border: 1px solid ${darkOffWhite};
   margin: 24px -24px;
   position: relative;
-  flex: 1;
+  flex: 1 0 200px;
 `;
 
 const FormSectionHeaderModified = styled(FormSectionHeader)`
-  flex: 1;
+  flex: 1 0 200px;
 `;
 
 const ActualFormPadding = styled(ActualForm)`

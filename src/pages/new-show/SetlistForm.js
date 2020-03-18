@@ -81,6 +81,8 @@ const ButtonGroup = styled.div`
 background: ${ offWhite};
 padding: 24px;
 margin: 24px -24px 0;
+justify-content: space-between;
+display: flex;
 `;
 
 export default SetlistForm;
