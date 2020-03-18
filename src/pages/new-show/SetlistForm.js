@@ -9,14 +9,14 @@ import { mobile } from '../../utils/media';
 
 export const SetlistFormExplainer = () => (
   <FormExplainer style={{ display: 'flex', flexDirection: 'row' }}>
-    <div>
-      <FormSectionHeader>
-        Setlist
+    {/* <div> */}
+    <FormSectionHeader>
+      Setlist
           </FormSectionHeader>
-      <FormSectionSubtext>
-        Here is some explainer text about the section. Yada, yada, yada...
+    <FormSectionSubtext>
+      Here is some explainer text about the section. Yada, yada, yada...
           </FormSectionSubtext>
-    </div>
+    {/* </div> */}
   </FormExplainer>
 )
 const SetlistForm = ({ setlist, setSetlist }) => {
@@ -82,7 +82,7 @@ background: ${ offWhite};
 padding: 24px;
 margin: 24px -24px 0;
 justify-content: space-between;
-display: flex;
+display: flex;f
 `;
 
 export default SetlistForm;

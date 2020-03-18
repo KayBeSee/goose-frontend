@@ -23,7 +23,6 @@ const TrackForm = ({ track, setTrack, index }) => {
   const [userInput, setUserInput] = useState('');
   const [segue, setSegue] = useState(false);
 
-  if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
   console.log('possibleSongs: ', possibleSongs);
@@ -63,16 +62,21 @@ const TrackForm = ({ track, setTrack, index }) => {
     <TrackContainer>
       <Number>{index + 1}) </Number>
       <SongContainer>
+        {/* if (loading) return <p>Loading...</p>; */}
         {track.song ? (
           <SongOption onClick={() => selectSong()} >
             <SongName>{track.song.name}</SongName>
           </SongOption>
+        ) : (loading) ? (
+          <SongOption>
+            <SongName>Loading...</SongName>
+          </SongOption>
         ) : (
-            <InputModified
-              value={userInput}
-              onChange={onChange}
-              placeholder={"Song Title"} />
-          )}
+              <InputModified
+                value={userInput}
+                onChange={onChange}
+                placeholder={"Song Title"} />
+            )}
         <SongSuggestions>
           {showOptions && filteredOptions.map((option) => (
             <SongOption key={option.id} onClick={() => selectSong(option, segue)} >
