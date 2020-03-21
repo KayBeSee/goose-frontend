@@ -1,7 +1,8 @@
 
 import React from 'react';
 import styled, { css } from 'styled-components';
-import { FormSection, FormSectionHeader, ActualForm } from './StyledComponents';
+
+import { FormSection, FormSectionHeader, ActualForm } from '../../components/FormComponents';
 import TrackForm from './TrackForm';
 import { mobile } from '../../utils/media';
 import { darkOffWhite, orange, offWhite } from '../../utils/colors';
@@ -51,7 +52,7 @@ const FormSectionHeaderModified = styled(FormSectionHeader)`
 
 const ActualFormPadding = styled(ActualForm)`
   margin: 0 48px;
-  flex: 2;
+  flex: 2 0 200px;
   ${mobile(css`
     margin: 0;
   `)};

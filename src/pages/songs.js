@@ -80,8 +80,8 @@ const Songs = (props) => {
             </tbody>
           ) : (
               <tbody>
-                {data.songs.map(({ id, name, originalArtist, tracks }) => (
-                  <TableRow key={id}>
+                {data.songs.map(({ id, name, originalArtist, tracks }, songIndex) => (
+                  <TableRow key={id} odd={songIndex % 2}>
                     <TableDown style={{ padding: 0 }}>
                       <TrackLink to={`/songs/${id}`} style={{ padding: 24, display: 'block' }}>
                         <div>{name}</div>

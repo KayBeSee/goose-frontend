@@ -30,6 +30,7 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import Homepage from './pages/homepage';
 import NewShow from './pages/new-show';
+import NewVideo from './pages/new-video';
 
 // Other display components
 import Header from './components/Nav/Header';
@@ -95,6 +96,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route path="/new-show" component={NewShow} />
+            <Route path="/new-video" component={NewVideo} />
             <Route exact path="/" component={Homepage} />
             <Route exact path="/*">
               <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />

@@ -5,7 +5,7 @@ import { mobile } from '../utils/media';
 import { GrayLoadingAnimation } from './Loading';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import { StyledIcon } from './logos';
-import { orange } from '../utils/colors';
+import { orange, white, offWhite } from '../utils/colors';
 
 export const TableContainer = styled.div`
   box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
@@ -37,6 +37,7 @@ export const TableHeader = styled.th`
 export const TableRow = styled.tr`
   border: none;
   padding: 24px 0;
+  background: ${p => p.odd ? offWhite : white}
 `;
 
 export const TableDown = styled.td`

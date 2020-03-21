@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import { offWhite } from '../../utils/colors'
 
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from './StyledComponents';
+import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
 
 const VENUES = gql`
   query {
@@ -57,17 +57,16 @@ const VenueForm = ({ venue, setVenue }) => {
   }
 
   return (
-    <ModifiedFormSection>
+    <FormSection>
       <VenueFormExplainer />
       <ActualForm>
         <Input
+          readOnly={loading}
           name={"name"}
           value={userInput}
           onChange={onChange}
-          placeholder={"Venue Name"} />
-        {loading && <p>Loading...</p>}
+          placeholder={loading ? 'Loading Venues...' : "Venue Name"} />
         {error && <p>Error :(</p>}
-
         <VenueSuggestions>
           {showOptions && filteredOptions.map((option) => (
             <VenueOption onClick={() => selectVenue(option)} >
@@ -88,13 +87,9 @@ const VenueForm = ({ venue, setVenue }) => {
             placeholder={"Venue State"} />}
         </div>
       </ActualForm>
-    </ModifiedFormSection>
+    </FormSection>
   )
 }
-
-const ModifiedFormSection = styled(FormSection)`
-  // min-height: 300px;
-`;
 
 const VenueSuggestions = styled.div`
   background: ${offWhite};

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { orange } from '../../utils/colors';
+import { orange } from '../utils/colors';
 
 export const FormSection = styled.div`
   display: flex;

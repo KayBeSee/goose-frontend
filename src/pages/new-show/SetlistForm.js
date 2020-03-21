@@ -1,8 +1,8 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import SetForm from './SetForm';
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from './StyledComponents';
+import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
 import { orange, offWhite, white } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 
@@ -82,7 +82,11 @@ background: ${ offWhite};
 padding: 24px;
 margin: 24px -24px 0;
 justify-content: space-between;
-display: flex;f
+display: flex;
+
+${mobile(css`
+  justify-content: flex-end;
+`)};
 `;
 
 export default SetlistForm;

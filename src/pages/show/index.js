@@ -3,12 +3,16 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
-import { mobile } from '../utils/media';
 import moment from 'moment';
 import lighten from 'polished/lib/color/lighten';
 import YouTube from 'react-youtube';
-import Setlist from '../components/setlist';
-import { black, orange, offWhite, gray } from '../utils/colors';
+import { Route, useHistory } from "react-router-dom";
+
+import Setlist from './ShowSetlist';
+import Videos from './ShowVideos';
+
+import { black, orange, offWhite, gray } from '../../utils/colors';
+import { mobile } from '../../utils/media';
 
 const SHOW = gql`
   query getShow($id: ID!) {
@@ -48,8 +52,24 @@ const SHOW = gql`
   }
 `;
 
+// some fire use of reduce right here
+const getAllVideos = (setlist) => {
+  const videoIds = setlist.reduce((videoIdArray, set) => {
+    return videoIdArray.concat(set.tracks.reduce((trackAccume, track) => {
+      return trackAccume.concat(track.videos.reduce((videoAccume, video) => {
+        if (!trackAccume.includes(video.videoId) && !videoIdArray.includes(video.videoId)) {
+          return videoAccume.concat(video.videoId);
+        }
+        return videoAccume;
+      }, []));
+    }, []));
+  }, []);
+  return videoIds;
+}
+
 const Show = (props) => {
   const { loading: showLoading, error: showError, data: showData } = useQuery(SHOW, { variables: { id: props.match.params.id } })
+  let history = useHistory();
 
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
@@ -57,18 +77,11 @@ const Show = (props) => {
 
   document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
 
-  let setlistVideos = [];
-  let setlistNotes = [];
-
-  for (let i = 0; i < setlist.length; i++) {
-    for (let j = 0; j < setlist[i].tracks.length; j++) {
-      if (setlist[i].tracks[j].videos) {
-        setlistVideos.push(...setlist[i].tracks[j].videos);
-      }
-    }
-  }
-
   // get all videos from tracks
+  let setlistVideos = getAllVideos(setlist);
+
+  console.log('setlistVideos: ', setlistVideos);
+
 
   const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
 
@@ -81,46 +94,16 @@ const Show = (props) => {
         </BandDateWrapper>
 
         <ShowLinkWrapper>
-          <ShowLink active>Setlist</ShowLink>
+          <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
           {/* <ShowLink>Stream</ShowLink> */}
-          <ShowLink enabled={setlistVideos.length}>Videos</ShowLink>
+          <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideos.length}>Videos</ShowLink>
           <ShowLink>Stats</ShowLink>
         </ShowLinkWrapper>
       </ShowHeaderWrapper>
 
-      <VenueInfoContainer>
-        <Header>{eventName ? eventName : venue.name}</Header>
-        {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
-      </VenueInfoContainer>
-
-      <SetlistWrapper>
-        {setlist.map(({ name, tracks }) => (
-          <SetWrapper>
-            <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-            {tracks.map(({ id, notes, song, segue, videos }, index) => {
-              return (
-                <TrackWrapper key={id}>
-                  <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
-                  {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
-                  {segue ? ' > ' : (tracks.length - 1 === index) ? ' ' : ', '}
-
-                </TrackWrapper>
-              )
-            })
-            }
-          </SetWrapper>
-        )
-        )}
-
-        {!!setlistNotes.length && (
-          <NotesWrapper>
-            <NotesHeader>Coach's Notes</NotesHeader>
-            {setlistNotes.map((note, index) => (
-              <TrackNote>[{index + 1}] {note}</TrackNote>
-            ))}
-          </NotesWrapper>
-        )}
-      </SetlistWrapper>
+      <Route path="/shows/:id/videos" component={() => <Videos videos={setlistVideos} />} />
+      <Route path="/" component={() => <Setlist show={showData.show} />} />
+      {/* <Setlist show={showData.show} /> */}
 
       <Container>
         {hasStream && <Header>Stream / Download</Header>}
@@ -131,7 +114,7 @@ const Show = (props) => {
               target="_blank"
               href={`https://archive.org/details/${archiveUrl}`}>
               <img
-                src={require("../assets/internet_archive_large.png")}
+                src={require("../../assets/internet_archive_large.png")}
                 style={{ width: "100%", maxHeight: 100 }}
               />
             </StreamLink>)}
@@ -146,7 +129,7 @@ const Show = (props) => {
             </StreamLink>)}
             {bandcampAlbumId && (<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
               <img
-                src={require("../assets/bandcamp_logo_large.png")}
+                src={require("../../assets/bandcamp_logo_large.png")}
                 style={{ width: "100%", maxHeight: 100 }}
               />
             </StreamLink>)}
@@ -215,56 +198,6 @@ export const ShowLink = styled(Link)`
   padding: 12px;
   align-self: flex-end;
 `;
-
-
-const VenueInfoContainer = styled.div`
-  padding: 0 12px;
-`;
-
-const VenueSubheader = styled.div`
-	margin-bottom: 12px;
-	font-size: 24px;
-	font-weight: 400;
-`;
-
-const SetlistWrapper = styled.div`
-  padding: 12px 12px;
-  border-radius: 4px;
-  line-height: 1.5;
-  background: #fff;
-  margin: 24px 0;
-  box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
-  border-radius: 4px;
-`;
-
-const SetWrapper = styled.div`
-	padding: 16px 0;
-`;
-
-const SetTitle = styled.span`
-	font-size: 16px;
-	font-weight: 700;
-	color: ${orange};
-`;
-
-const TrackWrapper = styled.span``;
-
-const TrackLink = styled(Link)`
-  text-decoration: none;
-  letter-spacing: -.01em;
-  color: ${black};
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const TrackNoteAnnotation = styled.sup``;
-
-const TrackNote = styled.span;
-
-const NotesWrapper = styled.div``;
-
-const NotesHeader = styled.h4``;
 
 const StreamContainer = styled.div`
 	display: flex;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DayPickerSingleDateController } from 'react-dates';
 import moment from 'moment';
 
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from './StyledComponents';
+import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
 
 export const DateFormExplainer = () => (
   <FormExplainer>
@@ -18,20 +18,10 @@ export const DateFormExplainer = () => (
 const DateForm = ({ date, setDate }) => {
   const [isFocused, setIsFocused] = useState(true);
 
-  const onChange = (e) => {
-    const date = e.currentTarget.value;
-    setDate(date);
-  }
-
   return (
     <FormSection>
       <DateFormExplainer />
       <ActualForm>
-        {/* <Input
-          value={date}
-          name="date"
-          onChange={onChange}
-          placeholder={"Date"} /> */}
         <DayPickerSingleDateController
           date={moment(date)} // momentPropTypes.momentObj or null
           numberOfMonths={1}

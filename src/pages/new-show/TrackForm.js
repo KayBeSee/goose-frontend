@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import darken from 'polished/lib/color/darken';
 import { offWhite } from '../../utils/colors'
-import { Input } from './StyledComponents';
+import { Input } from '../../components/FormComponents';
 
 const SONGS = gql`
   query {

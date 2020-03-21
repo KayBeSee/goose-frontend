@@ -50,6 +50,7 @@ const SignupNavItem = styled(NavItem)`
 const NavLinks = ({ token, data, logout, setIsOpen }) => (
   <Wrapper>
     <Nav>
+      <NavItem setIsOpen={setIsOpen} to="/new-video">New Video</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/new-show">New Show</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/songs">Songs</NavItem>
@@ -57,7 +58,7 @@ const NavLinks = ({ token, data, logout, setIsOpen }) => (
       {token && data && data.me.id && <LogoutButton setIsOpen={setIsOpen} onClick={logout}>Logout</LogoutButton>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/login">Login</NavItem>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
-        </Nav>
+    </Nav>
   </Wrapper>
 );
 

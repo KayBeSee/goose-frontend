@@ -5,7 +5,8 @@ import { KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
 
 import LoadingSong from './LoadingSong';
-import { Wrapper,
+import {
+  Wrapper,
   SongLinkContainer,
   BandDateWrapper,
   SongLinkWrapper,
@@ -13,7 +14,8 @@ import { Wrapper,
   MobileTableDown,
   MediaTableDown,
   SongDescription,
-  StyledIcon } from './StyledComponents';
+  StyledIcon
+} from './StyledComponents';
 import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../../components/logos';
 import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../../components/tables';
 
@@ -59,19 +61,19 @@ const SONGS = gql`
 
 const Song = (props) => {
   // const [ page, setPage ] = useState(0);
-  const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id }})
+  const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id } })
 
   if (loading) return <LoadingSong />;
   if (error) return <p>Error :(</p>;
 
   document.title = `${data.song.name} - ${data.song.originalArtist} - El Göose`;
 
-   return(
+  return (
     <Wrapper key={data.song.id}>
       <SongLinkContainer>
         <BandDateWrapper>
           {data.song.name}
-          <div style={{fontSize: 16}}>{data.song.originalArtist}</div>
+          <div style={{ fontSize: 16 }}>{data.song.originalArtist}</div>
         </BandDateWrapper>
         <SongLinkWrapper>
           <SongLink active>Performances</SongLink>
@@ -92,16 +94,16 @@ const Song = (props) => {
             <TableHeader hideDesktop></TableHeader>
           </THEAD>
           <tbody>
-            {data.song.tracks.map((track) => {
+            {data.song.tracks.map((track, trackIndex) => {
               return (
-                <TableRow>
+                <TableRow odd={trackIndex % 2}>
                   <TableDown hideMobile>
                     <TrackLink to={`/shows/${track.set.show.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
                   </TableDown>
                   <TableDown hideMobile>{track.set.show.venue.name}
                     {track.set.show.venue.city && (
                       <SecondaryData>
-                        {track.set.show.venue.city}, {track.set.show.venue.state}    
+                        {track.set.show.venue.city}, {track.set.show.venue.state}
                       </SecondaryData>
                     )}
                   </TableDown>
@@ -111,22 +113,23 @@ const Song = (props) => {
                       <div>{track.set.show.venue.name}</div>
                       {track.set.show.venue.city && (
                         <SecondaryData>
-                          {track.set.show.venue.city}, {track.set.show.venue.state}    
+                          {track.set.show.venue.city}, {track.set.show.venue.state}
                         </SecondaryData>
                       )}
                     </TrackLink>
                   </MobileTableDown>
                   <MediaTableDown hideMobile={true}>
-                    <ArchiveLogo archiveUrl={track.set.show.archiveUrl}  />
+                    <ArchiveLogo archiveUrl={track.set.show.archiveUrl} />
                     <NugsNetLogo nugsNetId={track.set.show.nugsNetId} />
                     <BandcampLogo bandcampAlbumId={track.set.show.bandcampAlbumId} />
                     <YouTubeLogo videoId={track?.videos[0]?.videoId} />
                   </MediaTableDown>
                   <TableDown hideDesktop>
-                      <StyledIcon as={KeyboardArrowRight} size={36} />
-                    </TableDown>
+                    <StyledIcon as={KeyboardArrowRight} size={36} />
+                  </TableDown>
                 </TableRow>
-              )}
+              )
+            }
             )}
           </tbody>
         </Table>
@@ -142,7 +145,7 @@ const Song = (props) => {
         </PaginationContainer> */}
       </TableContainer>
     </Wrapper>
-   )
+  )
 }
 
 export default Song;

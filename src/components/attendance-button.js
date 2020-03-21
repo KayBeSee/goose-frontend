@@ -61,7 +61,7 @@ const AttendanceButtonComponent = ({ showId, style, history }) => {
   const token = localStorage.getItem(AUTHORIZATION);
 
   const toggleAttendance = () => {
-    if(attended) {
+    if (attended) {
       removeAttendance({ variables: { id: { id: showId } } });
     } else {
       addAttendance({ variables: { id: { id: showId } } });
@@ -70,18 +70,18 @@ const AttendanceButtonComponent = ({ showId, style, history }) => {
 
 
   return (
-    <AttendanceButton 
+    <AttendanceButton
       style={style}
       active={attended}
       onClick={() => {
-        if(token) {
+        if (token) {
           toggleAttendance()
-        } 
+        }
         else {
           history.push('/login')
         }
       }}>
-        {/* TODO: add loading */}
+      {/* TODO: add loading */}
       I Was There
     </AttendanceButton>
   )
@@ -89,7 +89,7 @@ const AttendanceButtonComponent = ({ showId, style, history }) => {
 
 const AttendanceButton = styled.button`
   padding: 16px;
-  background: ${props => props.active ? orange : gray };
+  background: ${props => props.active ? orange : gray};
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -109,7 +109,7 @@ const AttendanceButton = styled.button`
   }
 
   &:focus {
-    outliine: 0;
+    outline: 0;
   }
 `;
 
