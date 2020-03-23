@@ -41,7 +41,10 @@ const SHOW = gql`
           }
 					videos {
             id
-						videoId
+            videoId
+            tracks {
+              id
+            }
 					}
         }
       }
@@ -80,9 +83,6 @@ const Show = (props) => {
   // get all videos from tracks
   let setlistVideoIds = getAllVideos(setlist);
 
-  console.log('setlistVideoIds: ', setlistVideoIds);
-
-
   const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
 
   return (
@@ -94,8 +94,8 @@ const Show = (props) => {
         </BandDateWrapper>
 
         <ShowLinkWrapperDesktop>
-          <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
-          <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
+          <ShowLink onClick={() => history.push(`${props.match.params.id}`)} active>Setlist</ShowLink>
+          <ShowLink onClick={() => history.push(`${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
           <ShowLink>Stats</ShowLink>
         </ShowLinkWrapperDesktop>
       </ShowHeaderWrapper>
@@ -106,14 +106,13 @@ const Show = (props) => {
       </VenueInfoContainer>
 
       <ShowLinkWrapperMobile>
-        <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
-        <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
+        <ShowLink onClick={() => history.push(`${props.match.params.id}`)} active>Setlist</ShowLink>
+        <ShowLink onClick={() => history.push(`${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
         <ShowLink>Stats</ShowLink>
       </ShowLinkWrapperMobile>
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
-      <Route path="/shows/:id" exact component={() => <npm install moment-duration-format show={showData.show} />} />
-      {/* <npm install moment-duration-format show={showData.show} /> */}
+      <Route path="/shows/:id" exact component={() => <Setlist show={showData.show} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}

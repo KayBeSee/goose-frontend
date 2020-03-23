@@ -21,10 +21,7 @@ export const SetlistFormExplainer = () => (
 )
 const SetlistForm = ({ setlist, setSetlist }) => {
 
-  console.log('SetlistForm render: ', setlist);
-
   const setSet = (set, index) => {
-    console.log('hits setSet setlistform', setlist);
     const updatedSetlist = [...setlist];
     updatedSetlist[index] = set;
     setSetlist(updatedSetlist);

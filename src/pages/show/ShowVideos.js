@@ -11,24 +11,24 @@ import ShowSetlist from './ShowSetlist';
 
 momentDurationFormatSetup(moment);
 
-const VideoPlaylistItem = ({ videoId, setSelectedVideo }) => {
+const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle }) => {
   const [videoTitle, setVideoTitle] = useState(null);
   const [videoDuration, setVideoDuration] = useState(null);
 
   const _onYTReadyPlaylist = (event) => {
-    console.log('event.target.getVideoData()xxx ', event.target);
     const videoData = event.target.getVideoData();
-    console.log('videoData: ', videoData);
     setVideoTitle(videoData.title);
-
     const duration = event.target.getDuration();
     setVideoDuration(duration);
-
-    console.log('xxx: ', event.target.hideVideoInfo());
   }
 
   return (
-    <VideoContainer onClick={() => { setSelectedVideo(videoId); }} className="foo">
+    <VideoContainer
+      onClick={() => {
+        setSelectedVideo(videoId);
+        setSelectedVideoTitle(videoTitle);
+      }}
+      className="foo">
       <PlaylistYouTubeVideo
         // className="yt-playlist-video"
         videoId={`${videoId}?mode=opaque`}
@@ -52,6 +52,40 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo }) => {
   )
 }
 
+const getVideosFromSetlist = (setlist) => {
+  const videos = [];
+  const videoIds = setlist.reduce((videoIdArray, set) => {
+    return videoIdArray.concat(set.tracks.reduce((trackAccume, track) => {
+      return trackAccume.concat(track.videos.reduce((videoAccume, video) => {
+        if (!trackAccume.includes(video.videoId) && !videoIdArray.includes(video.videoId)) {
+          videos.push(video);
+          return videoAccume.concat(video.videoId);
+        }
+        return videoAccume;
+      }, []));
+    }, []));
+  }, []);
+  return videos;
+}
+
+const getTrackIdsFromVideo = (video) => {
+  const trackIds = [];
+  video && video.tracks.forEach((track) => {
+    trackIds.push(track.id);
+  });
+  return trackIds;
+}
+
+const getVideoByVideoId = (videoId, videos) => {
+  let selectedVideo = null;
+  videos.forEach((video) => {
+    if (video.videoId === videoId) {
+      selectedVideo = video;
+    }
+  })
+  return selectedVideo;
+}
+
 const ShowVideos = ({ videosIds, show }) => {
   const [selectedVideo, setSelectedVideo] = useState(videosIds[0]);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
@@ -62,6 +96,9 @@ const ShowVideos = ({ videosIds, show }) => {
     const videoData = event.target.getVideoData();
     setSelectedVideoTitle(videoData.title);
   }
+
+  const videos = getVideosFromSetlist(show.setlist);
+  const selectedTrackIds = getTrackIdsFromVideo(getVideoByVideoId(selectedVideo, videos));
 
   return (
     <VideosContainer>
@@ -81,7 +118,7 @@ const ShowVideos = ({ videosIds, show }) => {
           onReady={_onYTReady}
         />
         <h2 style={{ margin: '0 12px' }}>{selectedVideoTitle}</h2>
-        <ShowSetlist show={show} boxShadow='none' margin='0' />
+        <ShowSetlist show={show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
       </SetlistWrapper>
 
 
@@ -91,7 +128,7 @@ const ShowVideos = ({ videosIds, show }) => {
         <OtherVideosInner>
           {videosIds.map((videoId) => {
             if (videoId !== selectedVideo) {
-              return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} />
+              return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} setSelectedVideoTitle={setSelectedVideoTitle} />
             }
           })}
         </OtherVideosInner>
@@ -102,7 +139,6 @@ const ShowVideos = ({ videosIds, show }) => {
 
 const MainYouTubeVideo = styled(YouTube)`
       width: 100%;
-      box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
       margin-bottom: 24px;
     `;
 

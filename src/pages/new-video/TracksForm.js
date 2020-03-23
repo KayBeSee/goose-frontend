@@ -34,8 +34,6 @@ const TracksForm = ({ shows, tracks, setTracks }) => {
     setTracks(allTrackIds);
   }
 
-  console.log('TracksForm tracks: ', tracks);
-
   return (
     <ShowContainer>
       <FormSectionModified>

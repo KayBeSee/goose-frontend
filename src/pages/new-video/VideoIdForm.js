@@ -10,7 +10,6 @@ import { darkOffWhite, orange, offWhite } from '../../utils/colors';
 const _onYTReady = (event) => {
   // access to player in all event handlers via event.target
   // event.target.pauseVideo();
-  console.log('event.target: ', event.target);
 }
 
 const VideoIdForm = ({ shows, videoId, setVideoId }) => {

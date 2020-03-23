@@ -245,33 +245,15 @@ const NewShow = (props) => {
   const [archiveUrl, setArchiveUrl] = useState(undefinedShow.archiveUrl);
   const [bandcampAlbumId, setBandcampAlbumId] = useState(undefinedShow.bandcampAlbumId);
 
-  // console.log('date: ', date);
-  // console.log('venue: ', venue);
-  // console.log('setlist: ', setlist);
-  // console.log('notes: ', notes);
-
-  // console.log('buildSetlistQueryObject: ', buildSetlistQueryObject(setlist));
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // KBC-TODO: figure out this submit
-
-    console.log('buildSetlistQueryObject: ', buildSetlistQueryObject(setlist));
+    // parse and build query for prisma
     const setlistQueryString = buildSetlistQueryObject(setlist);
-    console.log('setlistQueryString:', setlistQueryString);
     const setlistQueryObject = JSON.parse(setlistQueryString)
     const venueQueryString = buildVenueQueryObject(venue);
-    console.log('venueQueryString: ', venueQueryString)
     const venueQueryObject = JSON.parse(venueQueryString);
-    console.log('typeof venuequery: ', typeof venueQueryObject);
-    console.log('date: ', date);
-    console.log('venueQuery: ', venueQueryObject);
-    console.log('setlist: ', setlistQueryObject);
-    console.log('notes: ', notes);
-
     const momentDate = moment(date).utc();
-    console.log('momentDate: ', momentDate);
+
     const { data, error } = await createNewShow({ variables: { date: momentDate, venue: venueQueryObject, setlist: setlistQueryObject, notes, bandcampAlbumId, nugsNetId, archiveUrl } });
     if (!error && data) {
       history.push(`shows/${data.createShow.id}`);
@@ -328,7 +310,6 @@ const NewShow = (props) => {
               type="button"
               onClick={(e) => {
                 if (currentStep === 4) {
-                  console.log('hits handleSubmit')
                   handleSubmit(e)
                 }
                 setStep(currentStep + 1)

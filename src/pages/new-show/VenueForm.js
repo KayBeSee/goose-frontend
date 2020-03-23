@@ -38,7 +38,6 @@ const VenueForm = ({ venue, setVenue }) => {
   const onChange = (e) => {
     const userInput = e.currentTarget.value;
     setUserInput(userInput);
-    console.log('possibleVenues: ', possibleVenues);
     const filteredOptions = possibleVenues.venues.filter((venue, index) => venue.name.toLowerCase().includes(userInput.toLowerCase()));
     setFilteredOptions(filteredOptions);
     if (filteredOptions.length > 0 && userInput !== '') {

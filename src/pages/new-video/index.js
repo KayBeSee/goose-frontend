@@ -97,11 +97,11 @@ const NewVideo = (props) => {
     e.preventDefault();
 
     const tracksQueryString = buildTracksQueryString(tracks);
-    console.log('tracksQueryString: ', tracksQueryString);
     const tracksQueryObject = JSON.parse(tracksQueryString);
 
     const { data, error } = await createNewVideo({ variables: { videoId, tracks: tracksQueryObject } });
     if (!error && data) {
+      // KBC-TODO: this should redirect to the video page or refresh to add another video
       console.log('data: ', data);
       // history.push(`shows/${data.createShow.id}`);
     }

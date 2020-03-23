@@ -25,14 +25,11 @@ const TrackForm = ({ track, setTrack, index }) => {
 
   if (error) return <p>Error :(</p>;
 
-  console.log('possibleSongs: ', possibleSongs);
   const onChange = (e) => {
     const userInput = e.currentTarget.value;
-    console.log('userInput: ', userInput);
     setUserInput(userInput);
     setTrack({ name: userInput, new: true });
     const filteredOptions = possibleSongs.songs.filter((song, index) => song.name.toLowerCase().includes(userInput.toLowerCase()));
-    console.log('filteredOptions: ', filteredOptions);
     setFilteredOptions(filteredOptions);
     if (filteredOptions.length > 0 && userInput !== '') {
       setShowOptions(true);
@@ -56,8 +53,6 @@ const TrackForm = ({ track, setTrack, index }) => {
     setSegue(!segue);
   }
 
-  console.log('possibleSongs: ', possibleSongs);
-  console.log('track: ', track);
   return (
     <TrackContainer>
       <Number>{index + 1}) </Number>
