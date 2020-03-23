@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import YouTube from 'react-youtube';
 import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 
+import { mobile } from '../../utils/media';
 import { darkOffWhite, orange, offWhite } from '../../utils/colors';
 
 import ShowSetlist from './ShowSetlist';
@@ -27,9 +28,9 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo }) => {
   }
 
   return (
-    <VideoContainer onClick={() => { setSelectedVideo(videoId); }}>
+    <VideoContainer onClick={() => { setSelectedVideo(videoId); }} className="foo">
       <PlaylistYouTubeVideo
-        className="yt-playlist-video"
+        // className="yt-playlist-video"
         videoId={`${videoId}?mode=opaque`}
         opts={{
           playerVars: {
@@ -43,7 +44,7 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo }) => {
         onReady={_onYTReadyPlaylist}
       />
       <VideoInfo>
-        <div>{videoTitle}</div>
+        <PlaylistVideoTitle>{videoTitle}</PlaylistVideoTitle>
 
         <div>{videoDuration && moment.duration(videoDuration, 'seconds').format("hh:mm:ss")}</div>
       </VideoInfo>
@@ -86,7 +87,7 @@ const ShowVideos = ({ videosIds, show }) => {
 
 
       <OtherVideosOuter>
-        <h2>More videos from this show</h2>
+        <h2 style={{ margin: '0 12px' }}>More videos from this show</h2>
         <OtherVideosInner>
           {videosIds.map((videoId) => {
             if (videoId !== selectedVideo) {
@@ -121,18 +122,22 @@ const OtherVideosOuter = styled.div`
     `;
 
 const SetlistWrapper = styled.div`
-      // padding: 12px 12px;
-      border-radius: 4px;
-      line-height: 1.5;
-      background: #fff;
-      margin: 24px 0;
-      box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
-      border-radius: 4px;
-    `;
+    // padding: 12px 12px;
+    border-radius: 4px;
+    line-height: 1.5;
+    background: #fff;
+    margin: 24px 0;
+    box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
+    border-radius: 4px;
+`;
+
+const PlaylistVideoTitle = styled.div`
+  font-size: 18px;
+`;
 
 const OtherVideosInner = styled.div`
       max-height: 400px;
-      overflow: scroll;
+      // overflow: scroll;
       display: flex;
       flex-direction: column;
   border-top: 1px solid ${darkOffWhite};
@@ -144,11 +149,17 @@ const VideoContainer = styled.div`
       display: flex;
       padding: 24px 12px;
       flex-wrap: wrap;
+      width: 100%;
     `;
 
 const VideoInfo = styled.div`
       flex: 1 0 250px;
       padding: 24px;
+
+      ${mobile(css`
+        margin-bottom: 24px;
+        padding: 24px 0;
+      `)};
     `;
 
 export default ShowVideos;

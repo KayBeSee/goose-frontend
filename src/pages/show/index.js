@@ -95,7 +95,6 @@ const Show = (props) => {
 
         <ShowLinkWrapperDesktop>
           <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
-          <ShowLink>Stream</ShowLink>
           <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
           <ShowLink>Stats</ShowLink>
         </ShowLinkWrapperDesktop>
@@ -108,14 +107,13 @@ const Show = (props) => {
 
       <ShowLinkWrapperMobile>
         <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
-        <ShowLink>Stream</ShowLink>
         <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
         <ShowLink>Stats</ShowLink>
       </ShowLinkWrapperMobile>
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
-      <Route path="/shows/:id" exact component={() => <Setlist show={showData.show} />} />
-      {/* <Setlist show={showData.show} /> */}
+      <Route path="/shows/:id" exact component={() => <npm install moment-duration-format show={showData.show} />} />
+      {/* <npm install moment-duration-format show={showData.show} /> */}
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}
