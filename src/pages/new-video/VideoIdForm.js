@@ -33,7 +33,7 @@ const VideoIdForm = ({ shows, videoId, setVideoId }) => {
         </ActualForm>
       </FormSection>
       <FormSectionGray>
-        <YouTube
+        <YouTubePreview
           videoId={videoId}
           opts={{}}
           onReady={_onYTReady}
@@ -42,6 +42,10 @@ const VideoIdForm = ({ shows, videoId, setVideoId }) => {
     </Fragment>
   )
 };
+
+const YouTubePreview = styled(YouTube)`
+  width: 100%;
+`;
 
 const FormSectionGray = styled(FormSection)`
   background: ${offWhite};

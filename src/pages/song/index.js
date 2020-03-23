@@ -122,7 +122,7 @@ const Song = (props) => {
                     <ArchiveLogo archiveUrl={track.set.show.archiveUrl} />
                     <NugsNetLogo nugsNetId={track.set.show.nugsNetId} />
                     <BandcampLogo bandcampAlbumId={track.set.show.bandcampAlbumId} />
-                    <YouTubeLogo videoId={track?.videos[0]?.videoId} />
+                    <YouTubeLogo show={track.set.show} videoId={track?.videos[0]?.videoId} />
                   </MediaTableDown>
                   <TableDown hideDesktop>
                     <StyledIcon as={KeyboardArrowRight} size={36} />

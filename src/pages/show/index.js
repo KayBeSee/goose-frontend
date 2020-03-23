@@ -78,9 +78,9 @@ const Show = (props) => {
   document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
 
   // get all videos from tracks
-  let setlistVideos = getAllVideos(setlist);
+  let setlistVideoIds = getAllVideos(setlist);
 
-  console.log('setlistVideos: ', setlistVideos);
+  console.log('setlistVideoIds: ', setlistVideoIds);
 
 
   const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
@@ -93,17 +93,32 @@ const Show = (props) => {
           <BandNameWrapper>Goose</BandNameWrapper>
         </BandDateWrapper>
 
-        <ShowLinkWrapper>
+        <ShowLinkWrapperDesktop>
           <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
-          {/* <ShowLink>Stream</ShowLink> */}
-          <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideos.length}>Videos</ShowLink>
+          <ShowLink>Stream</ShowLink>
+          <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
           <ShowLink>Stats</ShowLink>
-        </ShowLinkWrapper>
+        </ShowLinkWrapperDesktop>
       </ShowHeaderWrapper>
 
-      <Route path="/shows/:id/videos" component={() => <Videos videos={setlistVideos} />} />
-      <Route path="/" component={() => <Setlist show={showData.show} />} />
+      <VenueInfoContainer>
+        <Header>{eventName ? eventName : venue.name}</Header>
+        {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
+      </VenueInfoContainer>
+
+      <ShowLinkWrapperMobile>
+        <ShowLink onClick={() => history.push(`./${props.match.params.id}/`)} active>Setlist</ShowLink>
+        <ShowLink>Stream</ShowLink>
+        <ShowLink onClick={() => history.push(`./${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
+        <ShowLink>Stats</ShowLink>
+      </ShowLinkWrapperMobile>
+
+      <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
+      <Route path="/shows/:id" exact component={() => <Setlist show={showData.show} />} />
       {/* <Setlist show={showData.show} /> */}
+
+      {/* <Setlist show={showData.show} /> */}
+      {/* <Videos videos={setlistVideos} show={showData.show} /> */}
 
       <Container>
         {hasStream && <Header>Stream / Download</Header>}
@@ -172,23 +187,51 @@ const BandDateWrapper = styled.div`
 	color: #ffffff;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
+
+  ${mobile(css`
+    font-size: 24px;
+  `)};  
 `;
 
 const ShowDateWrapper = styled.div`
   font-weight: 700;
   font-size: 36px;
+
+  ${mobile(css`
+    font-size: 24px;
+  `)};  
 `;
 
 const BandNameWrapper = styled.div`
   font-size: 16px;
 `;
 
-const ShowLinkWrapper = styled.div`
+const ShowLinkWrapperMobile = styled.div`
   display: inline-flex;
+  display: none;
 
   ${mobile(css`
     margin-top: 24px;
+    display: block;
   `)};
+`;
+
+const ShowLinkWrapperDesktop = styled.div`
+  display: inline-flex;
+
+  ${mobile(css`
+    display: none;
+  `)};
+`;
+
+const VenueInfoContainer = styled.div`
+  padding: 0 12px;
+`;
+
+const VenueSubheader = styled.div`
+	margin-bottom: 12px;
+	font-size: 24px;
+	font-weight: 400;
 `;
 
 export const ShowLink = styled(Link)`

@@ -1,12 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
 
-
-export const YouTubeLogo = ({ videoId }) => {
+export const YouTubeLogo = ({ show, videoId }) => {
   return (
     <YoutubeLink
-      target="_blank"
-      href={`https://www.youtube.com/watch?v=${videoId}`}
+      to={{
+        pathname: `/shows/${show.id}/videos`,
+        state: { selectedVideo: 'ZuC8KqmJlCk' }
+      }}
+
       active={!!videoId}
     >
       <YoutubeImage
@@ -16,11 +19,11 @@ export const YouTubeLogo = ({ videoId }) => {
   );
 }
 
-const YoutubeLink = styled.a`
+const YoutubeLink = styled(Link)`
   pointer-events: ${props => props.active ? 'auto' : 'none'}
   `;
-  
-  const YoutubeImage = styled.img`
+
+const YoutubeImage = styled.img`
   width: 24px;
   height: 24px;
   opacity: ${props => props.active ? 0.95 : 0.25}
