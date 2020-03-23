@@ -27,8 +27,7 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle })
       onClick={() => {
         setSelectedVideo(videoId);
         setSelectedVideoTitle(videoTitle);
-      }}
-      className="foo">
+      }}>
       <PlaylistYouTubeVideo
         // className="yt-playlist-video"
         videoId={`${videoId}?mode=opaque`}
@@ -124,7 +123,7 @@ const ShowVideos = ({ videosIds, show }) => {
 
 
       <OtherVideosOuter>
-        <h2 style={{ margin: '0 12px' }}>More videos from this show</h2>
+        <h2 style={{ margin: '24px 12px 12px' }}>More videos from this show</h2>
         <OtherVideosInner>
           {videosIds.map((videoId) => {
             if (videoId !== selectedVideo) {
@@ -146,6 +145,7 @@ const PlaylistYouTubeVideo = styled(YouTube)`
       flex: 1 0 100px;
       width: 100%;
       height: 100%;
+      pointer-events: none;
     `;
 
 const VideosContainer = styled.div`
@@ -153,18 +153,17 @@ const VideosContainer = styled.div`
     `;
 
 const OtherVideosOuter = styled.div`
-  // background: ${darkOffWhite};
-      padding: 12px 0;
-    `;
+  padding: 12px 0;
+`;
 
 const SetlistWrapper = styled.div`
-    // padding: 12px 12px;
-    border-radius: 4px;
-    line-height: 1.5;
-    background: #fff;
-    margin: 24px 0;
-    box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
-    border-radius: 4px;
+  // padding: 12px 12px;
+  border-radius: 4px;
+  line-height: 1.5;
+  background: #fff;
+  margin: 24px 0;
+  box-shadow: 0 5px 15px 0 hsla(0, 0%, 0%, 0.15);
+  border-radius: 4px;
 `;
 
 const PlaylistVideoTitle = styled.div`
@@ -172,21 +171,22 @@ const PlaylistVideoTitle = styled.div`
 `;
 
 const OtherVideosInner = styled.div`
-      max-height: 400px;
-      // overflow: scroll;
-      display: flex;
-      flex-direction: column;
+  display: flex;
+  flex-direction: column;
   border-top: 1px solid ${darkOffWhite};
-      padding: 10px 0;
-    `;
+  padding: 10px 0;
+`;
 
 const VideoContainer = styled.div`
-      z-index: 5;
-      display: flex;
-      padding: 24px 12px;
-      flex-wrap: wrap;
-      width: 100%;
-    `;
+  z-index: 5;
+  display: flex;
+  padding: 24px 12px;
+  flex-wrap: wrap;
+
+  > div {
+    flex: 1 0 250px;
+  }
+`;
 
 const VideoInfo = styled.div`
       flex: 1 0 250px;
