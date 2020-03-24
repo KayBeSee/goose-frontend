@@ -137,16 +137,16 @@ const ShowVideos = ({ videosIds, show }) => {
 }
 
 const MainYouTubeVideo = styled(YouTube)`
-      width: 100%;
-      margin-bottom: 24px;
-    `;
+  width: 100%;
+  margin-bottom: 24px;
+`;
 
 const PlaylistYouTubeVideo = styled(YouTube)`
-      flex: 1 0 100px;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-    `;
+  flex: 1 0 100px;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+`;
 
 const VideosContainer = styled.div`
 

@@ -48,6 +48,7 @@ export const SongLink = styled(Link)`
   text-decoration: none;
   padding: 12px;
   align-self: flex-end;
+  font-family: Raleway, sans-serif;
 `;
 
 export const MobileTableDown = styled(TableDown)`
