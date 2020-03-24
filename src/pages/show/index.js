@@ -6,8 +6,9 @@ import { Route, Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import lighten from 'polished/lib/color/lighten';
 
-import Setlist from './ShowSetlist';
+import Setlist from './Setlist';
 import Videos from './ShowVideos';
+import Audio from './ShowAudio'
 
 import { black, orange, offWhite, gray } from '../../utils/colors';
 import { mobile } from '../../utils/media';
@@ -57,6 +58,14 @@ const isVideosPage = (location) => {
   return location.pathname.indexOf('video') > -1;
 }
 
+const isSetlistPage = (location) => {
+  return location.pathname.indexOf('setlist') > -1;
+}
+
+const isAudioPage = (location) => {
+  return location.pathname.indexOf('audio') > -1;
+}
+
 // some fire use of reduce right here
 const getAllVideos = (setlist) => {
   const videoIds = setlist.reduce((videoIdArray, set) => {
@@ -98,7 +107,8 @@ const Show = (props) => {
         </BandDateWrapper>
 
         <ShowLinkWrapperDesktop>
-          <ShowLink to={`setlist`} active={!isVideosPage(location)}>Setlist</ShowLink>
+          <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
+          <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
           <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
         </ShowLinkWrapperDesktop>
       </ShowHeaderWrapper>
@@ -109,12 +119,14 @@ const Show = (props) => {
       </VenueInfoContainer>
 
       <ShowLinkWrapperMobile>
-        <ShowLink to={`setlist`} active={!isVideosPage(location)}>Setlist</ShowLink>
+        <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
+        <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
         <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
       </ShowLinkWrapperMobile>
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
-      <Route path="/shows/:id/setlist" exact component={() => <Setlist show={showData.show} />} />
+      <Route path="/shows/:id/setlist" exact component={() => <Setlist setlist={showData.show.setlist} />} />
+      <Route path="/shows/:id/audio" exact component={() => <Audio archiveUrl={archiveUrl} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}
