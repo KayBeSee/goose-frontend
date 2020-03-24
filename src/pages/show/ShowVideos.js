@@ -104,14 +104,14 @@ const ShowVideos = ({ videosIds, show }) => {
       <SetlistWrapper>
         <MainYouTubeVideo
           className="yt-playlist-video"
-          playsinline={1}
           videoId={selectedVideo}
           opts={{
             playerVars: {
               controls: 0,
               modestbranding: 1,
               rel: 0,
-              showinfo: 0
+              showinfo: 0,
+              playsinline: 1
             }
           }}
           onReady={_onYTReady}
