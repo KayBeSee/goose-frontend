@@ -2,11 +2,9 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled, { css } from 'styled-components';
-import { Link } from "react-router-dom";
+import { Route, Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import lighten from 'polished/lib/color/lighten';
-import YouTube from 'react-youtube';
-import { Route, useHistory } from "react-router-dom";
 
 import Setlist from './ShowSetlist';
 import Videos from './ShowVideos';
@@ -55,6 +53,10 @@ const SHOW = gql`
   }
 `;
 
+const isVideosPage = (location) => {
+  return location.pathname.indexOf('video') > -1;
+}
+
 // some fire use of reduce right here
 const getAllVideos = (setlist) => {
   const videoIds = setlist.reduce((videoIdArray, set) => {
@@ -72,7 +74,10 @@ const getAllVideos = (setlist) => {
 
 const Show = (props) => {
   const { loading: showLoading, error: showError, data: showData } = useQuery(SHOW, { variables: { id: props.match.params.id } })
-  let history = useHistory();
+
+  const location = useLocation();
+  console.log('location: ', location);
+  location.pathname.indexOf('video');
 
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
@@ -83,8 +88,7 @@ const Show = (props) => {
   // get all videos from tracks
   let setlistVideoIds = getAllVideos(setlist);
 
-  const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
-
+  console.log('props.match: ', props.match);
   return (
     <Wrapper key={id}>
       <ShowHeaderWrapper>
@@ -94,9 +98,8 @@ const Show = (props) => {
         </BandDateWrapper>
 
         <ShowLinkWrapperDesktop>
-          <ShowLink onClick={() => history.push(`${props.match.params.id}`)} active>Setlist</ShowLink>
-          <ShowLink onClick={() => history.push(`${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
-          <ShowLink>Stats</ShowLink>
+          <ShowLink to={`setlist`} active={!isVideosPage(location)}>Setlist</ShowLink>
+          <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
         </ShowLinkWrapperDesktop>
       </ShowHeaderWrapper>
 
@@ -106,57 +109,15 @@ const Show = (props) => {
       </VenueInfoContainer>
 
       <ShowLinkWrapperMobile>
-        <ShowLink onClick={() => history.push(`${props.match.params.id}`)} active>Setlist</ShowLink>
-        <ShowLink onClick={() => history.push(`${props.match.params.id}/videos`)} enabled={setlistVideoIds.length}>Videos</ShowLink>
-        <ShowLink>Stats</ShowLink>
+        <ShowLink to={`setlist`} active={!isVideosPage(location)}>Setlist</ShowLink>
+        <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
       </ShowLinkWrapperMobile>
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
-      <Route path="/shows/:id" exact component={() => <Setlist show={showData.show} />} />
+      <Route path="/shows/:id/setlist" exact component={() => <Setlist show={showData.show} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}
-
-      <Container>
-        {hasStream && <Header>Stream / Download</Header>}
-        {hasStream && (
-          <StreamContainer>
-            {archiveUrl && (<StreamLink
-              active={archiveUrl}
-              target="_blank"
-              href={`https://archive.org/details/${archiveUrl}`}>
-              <img
-                src={require("../../assets/internet_archive_large.png")}
-                style={{ width: "100%", maxHeight: 100 }}
-              />
-            </StreamLink>)}
-            {nugsNetId && (<StreamLink
-              active={nugsNetId}
-              target="_blank"
-              href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
-              <img
-                src={"https://api.nugs.net/assets/nugsnet/images/shared/logo.png"}
-                style={{ width: "100%", maxHeight: 100 }}
-              />
-            </StreamLink>)}
-            {bandcampAlbumId && (<StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>
-              <img
-                src={require("../../assets/bandcamp_logo_large.png")}
-                style={{ width: "100%", maxHeight: 100 }}
-              />
-            </StreamLink>)}
-          </StreamContainer>
-        )}
-      </Container>
-      {/* <Container>
-        <Header>Videos</Header>
-					{setlistVideos.map((video, index) => {
-						return <YouTube key={index} videoId={video.videoId} />
-					})}
-      </Container>
-      <Container>
-        <Header>Comments</Header>
-      </Container> */}
     </Wrapper>
   );
 }
@@ -209,7 +170,7 @@ const ShowLinkWrapperMobile = styled.div`
 
   ${mobile(css`
     margin-top: 24px;
-    display: block;
+    display: flex;
   `)};
 `;
 
@@ -232,39 +193,12 @@ const VenueSubheader = styled.div`
 `;
 
 export const ShowLink = styled(Link)`
-  color: ${props => props.active ? orange : props.enabled ? lighten(0.2, orange) : lighten(0.10, gray)};
+  color: ${props => props.active ? orange : lighten(0.10, gray)};
   font-weight: 700;
   text-decoration: none;
   padding: 12px;
   align-self: flex-end;
-`;
-
-const StreamContainer = styled.div`
-	display: flex;
-  flex-direction: row;
-  
-  ${mobile(css`
-    flex-direction: column;
-  `)};
-`;
-
-const StreamLink = styled.a`
-	display: flex;
-	flex: 1;
-	opacity: ${props => props.active ? 1 : 0.25};
-	pointer-events: ${props => props.active ? 'auto' : 'none'};
-	// background: ${gray};
-	margin: 0 0.1em;
-	padding: 0.5em 0;
-	text-decoration: none;
-	justify-content: center;
-	color: #b24d3b;
-	font-size: 24px;
-	font-weight: 700;
-`;
-
-const Container = styled.div`
-  padding: 0 12px;
+  cursor: pointer;
 `;
 
 const Header = styled.h1`

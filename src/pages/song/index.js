@@ -98,7 +98,7 @@ const Song = (props) => {
               return (
                 <TableRow odd={trackIndex % 2}>
                   <TableDown hideMobile>
-                    <TrackLink to={`/shows/${track.set.show.id}`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
+                    <TrackLink to={`/shows/${track.set.show.id}/setlist`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
                   </TableDown>
                   <TableDown hideMobile>{track.set.show.venue.name}
                     {track.set.show.venue.city && (

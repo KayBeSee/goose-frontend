@@ -19,7 +19,7 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
       <Wrapper>
         <BandDateContainer>
           <BandDateWrapper>
-            Goose, <ShowLink to={`/shows/${id}`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
+            Goose, <ShowLink to={`/shows/${id}/setlist`}>{moment(date).format('dddd M/D/YYYY')}</ShowLink>
           </BandDateWrapper>
         </BandDateContainer>
         <ShowDataBody>

@@ -5,9 +5,9 @@ import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 
 import { mobile } from '../../utils/media';
-import { darkOffWhite, orange, offWhite } from '../../utils/colors';
+import { darkOffWhite } from '../../utils/colors';
 
-import ShowSetlist from './ShowSetlist';
+import Setlist from './Setlist';
 
 momentDurationFormatSetup(moment);
 
@@ -45,7 +45,7 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle })
       <VideoInfo>
         <PlaylistVideoTitle>{videoTitle}</PlaylistVideoTitle>
 
-        <div>{videoDuration && moment.duration(videoDuration, 'seconds').format("hh:mm:ss")}</div>
+        <div>Duration: {videoDuration && moment.duration(videoDuration, 'seconds').format("hh:mm:ss")}</div>
       </VideoInfo>
     </VideoContainer>
   )
@@ -117,7 +117,7 @@ const ShowVideos = ({ videosIds, show }) => {
           onReady={_onYTReady}
         />
         <h2 style={{ margin: '0 12px' }}>{selectedVideoTitle}</h2>
-        <ShowSetlist show={show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
+        <Setlist setlist={show.setlist} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
       </SetlistWrapper>
 
 
@@ -149,8 +149,8 @@ const PlaylistYouTubeVideo = styled(YouTube)`
     `;
 
 const VideosContainer = styled.div`
-      padding: 24px 0;
-    `;
+
+`;
 
 const OtherVideosOuter = styled.div`
   padding: 12px 0;
@@ -168,6 +168,7 @@ const SetlistWrapper = styled.div`
 
 const PlaylistVideoTitle = styled.div`
   font-size: 18px;
+  margin-bottom: 12px;
 `;
 
 const OtherVideosInner = styled.div`
@@ -183,19 +184,26 @@ const VideoContainer = styled.div`
   padding: 24px 12px;
   flex-wrap: wrap;
 
+  ${mobile(css`
+    > div {
+      width: 100%;
+      flex: 1 0 450px;
+    }
+  `)};
+
   > div {
     flex: 1 0 250px;
   }
 `;
 
 const VideoInfo = styled.div`
-      flex: 1 0 250px;
-      padding: 24px;
+  flex: 1 0 250px;
+  padding: 24px;
 
-      ${mobile(css`
-        margin-bottom: 24px;
-        padding: 24px 0;
-      `)};
-    `;
+  ${mobile(css`
+    margin-bottom: 24px;
+    // padding: 24px 0;
+  `)};
+`;
 
 export default ShowVideos;
