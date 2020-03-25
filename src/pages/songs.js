@@ -131,7 +131,6 @@ const Wrapper = styled.div`
   width: 100%;
   margin-bottom: 24px;
   text-align: left;
-  font-family: 'Montserrat', sans-serif;
   color: ${black};
 `;
 
