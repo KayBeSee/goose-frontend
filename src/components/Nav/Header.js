@@ -10,17 +10,17 @@ import NavLinks from './NavLinks'
 
 import MobileNavbar from './MobileNavbar';
 
-// const ME = gql`
-//   query {
-//     me {
-//       id
-//       email
-//       shows {
-//         id
-//       }
-//     }
-//   }
-// `;
+const ME = gql`
+  query {
+    me {
+      id
+      email
+      shows {
+        id
+      }
+    }
+  }
+`;
 
 const logout = () => {
   removeToken();
@@ -28,9 +28,11 @@ const logout = () => {
 }
 
 const Header = (props) => {
-  // const { loading, error, data } = useQuery(ME);
-  const data = {}
+  const { loading, error, data } = useQuery(ME);
+  // const data = {}
   const token = getToken();
+  console.log('data: ', data);
+  console.log('token: ', token);
 
   return (
     <Wrapper>
