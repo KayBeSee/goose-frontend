@@ -117,14 +117,14 @@ const ShowVideos = ({ videosIds, show }) => {
             }}
             onReady={_onYTReady}
           />
-          <h2 style={{ margin: '0 12px' }}>{selectedVideoTitle}</h2>
+          <h2 style={{ margin: '0 24px' }}>{selectedVideoTitle}</h2>
           <Setlist setlist={show.setlist} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
         </SetlistWrapper>
 
 
 
         <OtherVideosOuter>
-          <h2 style={{ margin: '24px 12px 12px' }}>More videos from this show</h2>
+          <h2 style={{ margin: '24px 12px' }}>More videos from this show</h2>
           <OtherVideosInner>
             {videosIds.map((videoId) => {
               if (videoId !== selectedVideo) {
@@ -251,6 +251,7 @@ const MoonCabinImageContainer = styled.div`
 
 const MoonCabinImage = styled.img`
   width: 100%;
+  height: auto;
 `;
 
 const FollowButton = styled.button`

@@ -92,6 +92,7 @@ const MoonCabinImageContainer = styled.div`
 
 const MoonCabinImage = styled.img`
   width: 100%;
+  height: auto;
 `;
 
 const StreamImage = styled.img`
