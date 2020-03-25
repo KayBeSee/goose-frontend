@@ -99,6 +99,7 @@ const AttendanceButton = styled.button`
   font-family: Montserrat, sans-serif;
   font-weight: 700;
   outline: 0;
+  margin: 0;
 
   &:hover {
     cursor: pointer;
