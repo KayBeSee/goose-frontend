@@ -141,7 +141,7 @@ const ShowVideos = ({ videosIds, show }) => {
         <UnavailableTextContainer>
           <h2>Video Unavailable</h2>
 
-          <h5>No video has been released for this show. Click follow or I was there to get notified if any content gets added later.</h5>
+          <h5>No video has been released for this show...yet. Click follow or I was there to get notified if any content gets added later.</h5>
           <FollowButton>Follow Show</FollowButton>
         </UnavailableTextContainer>
         <MoonCabinImageContainer>
@@ -155,6 +155,7 @@ const ShowVideos = ({ videosIds, show }) => {
 const MainYouTubeVideo = styled(YouTube)`
   width: 100%;
   margin-bottom: 24px;
+  background: #000;
 `;
 
 const PlaylistYouTubeVideo = styled(YouTube)`
@@ -162,6 +163,7 @@ const PlaylistYouTubeVideo = styled(YouTube)`
   width: 100%;
   height: 100%;
   pointer-events: none;
+  background: #000;
 `;
 
 const VideosContainer = styled.div`
@@ -209,7 +211,6 @@ const VideoContainer = styled.div`
 
   > div {
     flex: 1 0 250px;
-    background: #000;
   }
 
 `;

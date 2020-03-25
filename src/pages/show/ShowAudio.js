@@ -33,7 +33,7 @@ const ShowAudio = ({ archiveUrl, nugsNetId, bandcampAlbumId }) => {
         <UnavailableTextContainer>
           <h2>Audio Unavailable</h2>
 
-          <h5>No audio has been released for this show. Click follow or I was there to get notified if any content gets added later.</h5>
+          <h5>No audio has been released for this show...yet. Click follow or I was there to get notified if any content gets added later.</h5>
           <FollowButton>Follow Show</FollowButton>
         </UnavailableTextContainer>
         <MoonCabinImageContainer>
