@@ -108,7 +108,7 @@ const Song = (props) => {
                     )}
                   </TableDown>
                   <MobileTableDown hideDesktop>
-                    <TrackLink to={`/shows/${track.set.show.id}`}>
+                    <TrackLink to={`/shows/${track.set.show.id}/setlist`}>
                       <span style={{ fontSize: 12 }}>{moment(track.set.show.date).format('M/D/YYYY')}</span>
                       <div>{track.set.show.venue.name}</div>
                       {track.set.show.venue.city && (
