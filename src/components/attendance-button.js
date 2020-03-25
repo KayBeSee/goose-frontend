@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { gql } from 'apollo-boost';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { orange, darkOrange, gray, darkGray } from '../utils/colors';
-import { AUTHORIZATION } from '../constants';
 import { withRouter } from 'react-router-dom'
+import { useQuery, useMutation } from '@apollo/react-hooks';
+
+import { AUTHORIZATION } from '../constants';
+import { orange, darkOrange, gray, darkGray } from '../utils/colors';
 
 const GET_USER_SHOWS = gql`
   query {

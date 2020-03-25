@@ -15,3 +15,5 @@ TODOS:
 - validation on forms
 - Success screen for adding videos
 - Setlist form on mobile
+
+- better URL scheme

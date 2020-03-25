@@ -45,7 +45,7 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
 }
 
 const SetlistWrapper = styled.div`
-  padding: 12px 12px;
+  padding: 24px;
   border-radius: 4px;
   line-height: 1.5;
   background: #fff;

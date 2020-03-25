@@ -5,7 +5,7 @@ import moment from 'moment';
 import momentDurationFormatSetup from 'moment-duration-format';
 
 import { mobile } from '../../utils/media';
-import { darkOffWhite } from '../../utils/colors';
+import { orange, darkOrange, gray, darkGray, darkOffWhite } from '../../utils/colors';
 
 import Setlist from './Setlist';
 
@@ -99,41 +99,57 @@ const ShowVideos = ({ videosIds, show }) => {
   const videos = getVideosFromSetlist(show.setlist);
   const selectedTrackIds = getTrackIdsFromVideo(getVideoByVideoId(selectedVideo, videos));
 
-  return (
-    <VideosContainer>
-      <SetlistWrapper>
-        <MainYouTubeVideo
-          className="yt-playlist-video"
-          videoId={selectedVideo}
-          opts={{
-            playerVars: {
-              controls: 1,
-              modestbranding: 1,
-              rel: 0,
-              showinfo: 0,
-              playsinline: 1
-            }
-          }}
-          onReady={_onYTReady}
-        />
-        <h2 style={{ margin: '0 12px' }}>{selectedVideoTitle}</h2>
-        <Setlist setlist={show.setlist} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
-      </SetlistWrapper>
+  if (selectedVideo) {
+    return (
+      <VideosContainer>
+        <SetlistWrapper>
+          <MainYouTubeVideo
+            className="yt-playlist-video"
+            videoId={selectedVideo}
+            opts={{
+              playerVars: {
+                controls: 1,
+                modestbranding: 1,
+                rel: 0,
+                showinfo: 0,
+                playsinline: 1
+              }
+            }}
+            onReady={_onYTReady}
+          />
+          <h2 style={{ margin: '0 12px' }}>{selectedVideoTitle}</h2>
+          <Setlist setlist={show.setlist} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
+        </SetlistWrapper>
 
 
 
-      <OtherVideosOuter>
-        <h2 style={{ margin: '24px 12px 12px' }}>More videos from this show</h2>
-        <OtherVideosInner>
-          {videosIds.map((videoId) => {
-            if (videoId !== selectedVideo) {
-              return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} setSelectedVideoTitle={setSelectedVideoTitle} />
-            }
-          })}
-        </OtherVideosInner>
-      </OtherVideosOuter>
-    </VideosContainer>
-  )
+        <OtherVideosOuter>
+          <h2 style={{ margin: '24px 12px 12px' }}>More videos from this show</h2>
+          <OtherVideosInner>
+            {videosIds.map((videoId) => {
+              if (videoId !== selectedVideo) {
+                return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} setSelectedVideoTitle={setSelectedVideoTitle} />
+              }
+            })}
+          </OtherVideosInner>
+        </OtherVideosOuter>
+      </VideosContainer>
+    )
+  } else {
+    return (
+      <UnavailableContainer>
+        <UnavailableTextContainer>
+          <h2>Video Unavailable</h2>
+
+          <h5>No video has been released for this show. Click follow or I was there to get notified if any content gets added later.</h5>
+          <FollowButton>Follow Show</FollowButton>
+        </UnavailableTextContainer>
+        <MoonCabinImageContainer>
+          <MoonCabinImage src={require("../../assets/moon_cabin.png")} />
+        </MoonCabinImageContainer>
+      </UnavailableContainer>
+    )
+  }
 }
 
 const MainYouTubeVideo = styled(YouTube)`
@@ -193,7 +209,9 @@ const VideoContainer = styled.div`
 
   > div {
     flex: 1 0 250px;
+    background: #000;
   }
+
 `;
 
 const VideoInfo = styled.div`
@@ -204,6 +222,60 @@ const VideoInfo = styled.div`
     margin-bottom: 24px;
     // padding: 24px 0;
   `)};
+`;
+
+const Container = styled.div`
+  padding: 24px;
+  border-radius: 4px;
+  line-height: 1.5;
+  background: #fff;
+  margin: 24px 0;
+  box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
+  border-radius: 4px;
+`;
+
+const UnavailableContainer = styled(Container)`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+const UnavailableTextContainer = styled.div`
+  flex: 2 1 300px;
+`;
+
+const MoonCabinImageContainer = styled.div`
+  display: flex;
+  flex: 1 0 200px;
+`;
+
+const MoonCabinImage = styled.img`
+  width: 100%;
+`;
+
+const FollowButton = styled.button`
+  padding: 16px;
+  background: ${props => props.active ? orange : gray};
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-top: 12px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 700;
+  outline: 0;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    outline: 0;
+    background: ${props => props.active ? darkOrange : darkGray};
+  }
+
+  &:focus {
+    outline: 0;
+  }
 `;
 
 export default ShowVideos;
