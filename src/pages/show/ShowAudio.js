@@ -90,6 +90,7 @@ const UnavailableTextContainer = styled.div`
 const MoonCabinImageContainer = styled.div`
   display: flex;
   flex: 1 0 200px;
+  justify-content: center;
 `;
 
 const MoonCabinImage = styled.img`

@@ -139,13 +139,15 @@ const ShowVideos = ({ videosIds, show }) => {
     return (
       <UnavailableContainer>
         <UnavailableTextContainer>
-          <h2>Video Unavailable</h2>
+          <h2>Audio Unavailable</h2>
 
-          <h5>No video has been released for this show...yet. Click follow or I was there to get notified if any content gets added later.</h5>
+          <h5>No audio has been released for this show...yet. Click follow or I was there to get notified if any content gets added later.</h5>
           <FollowButton>Follow Show</FollowButton>
         </UnavailableTextContainer>
         <MoonCabinImageContainer>
-          <MoonCabinImage src={require("../../assets/moon_cabin.png")} />
+          <div style={{ maxWidth: 250, maxHeight: 250, padding: 12 }}>
+            <MoonCabinImage src={require("../../assets/moon_cabin.png")} />
+          </div>
         </MoonCabinImageContainer>
       </UnavailableContainer>
     )
@@ -247,6 +249,7 @@ const UnavailableTextContainer = styled.div`
 const MoonCabinImageContainer = styled.div`
   display: flex;
   flex: 1 0 200px;
+  justify-content: center;
 `;
 
 const MoonCabinImage = styled.img`
