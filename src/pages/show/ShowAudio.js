@@ -37,7 +37,9 @@ const ShowAudio = ({ archiveUrl, nugsNetId, bandcampAlbumId }) => {
           <FollowButton>Follow Show</FollowButton>
         </UnavailableTextContainer>
         <MoonCabinImageContainer>
-          <MoonCabinImage src={require("../../assets/moon_cabin.png")} />
+          <div style={{ maxWidth: 250, maxHeight: 250, padding: 12 }}>
+            <MoonCabinImage src={require("../../assets/moon_cabin.png")} />
+          </div>
         </MoonCabinImageContainer>
       </UnavailableContainer>
     )
