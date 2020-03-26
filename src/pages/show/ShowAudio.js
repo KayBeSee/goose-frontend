@@ -1,22 +1,21 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { orange, darkOrange, gray, darkGray } from '../../utils/colors';
 
-const ShowAudio = ({ archiveUrl, nugsNetId, bandcampAlbumId }) => {
-  const hasStream = archiveUrl || nugsNetId || bandcampAlbumId;
-
+const ShowAudio = ({ relisten, nugsNetId, bandcampAlbumId }) => {
+  const hasStream = relisten || nugsNetId || bandcampAlbumId;
 
   if (hasStream) {
     return (
       <Container>
         <Header>Available on</Header>
         <StreamContainer>
-          {archiveUrl && <StreamLink
-            active={archiveUrl}
+          {relisten && <StreamLink
+            active={relisten}
             target="_blank"
-            href={`https://archive.org/details/${archiveUrl}`}>
-            <StreamImage src={require("../../assets/relisten_app_icon.png")} />
+            href={`https://relisten.net/goose/${relisten && relisten.replace(/-/g, '/')}`}>
+            < StreamImage src={require("../../assets/relisten_app_icon.png")} />
           </StreamLink>}
           {nugsNetId && <StreamLink active={nugsNetId} target="_blank" href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
             <StreamImage src={require("../../assets/nugs_with_words.png")} />
@@ -25,7 +24,7 @@ const ShowAudio = ({ archiveUrl, nugsNetId, bandcampAlbumId }) => {
             <StreamImage src={require("../../assets/bandcamp_logo_large.png")} />
           </StreamLink>}
         </StreamContainer>
-      </Container>
+      </Container >
     )
   } else {
     return (

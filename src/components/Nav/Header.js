@@ -3,7 +3,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
-import { orange, black } from '../../utils/colors';
+import { black } from '../../utils/colors';
 import { getToken, removeToken } from '../../utils/token';
 import { mobile } from '../../utils/media';
 import NavLinks from './NavLinks'
@@ -29,10 +29,9 @@ const logout = () => {
 
 const Header = (props) => {
   const { loading, error, data } = useQuery(ME);
-  // const data = {}
   const token = getToken();
-  console.log('data: ', data);
-  console.log('token: ', token);
+
+  // KBC-TODO: need to add loading and error state to navigation
 
   return (
     <Wrapper>
@@ -74,37 +73,5 @@ const Logo = styled.img`
     height: 75px;
     max-width: 225px;
 `;
-
-const Nav = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
-
-const NavItem = styled(Link)`
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: ${black};
-`;
-
-const LogoutButton = styled.div`
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: ${black};
-  cursor: pointer;
-`;
-
-const SignupNavItem = styled(NavItem)`
-  border: 1px solid ${orange};
-  pointer-events: none;
-  
-  &:hover {
-    text-decoration: none;
-  }
-`;
-
 
 export default Header;

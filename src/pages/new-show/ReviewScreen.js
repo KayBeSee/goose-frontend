@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { offWhite } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
+import { FormSection, FormExplainer, FormSectionHeader, ActualForm } from '../../components/FormComponents';
 
 const ReviewScreen = ({
   date,

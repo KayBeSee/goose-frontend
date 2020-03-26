@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from "react-router-dom";
 import moment from 'moment';
 import { gql } from 'apollo-boost';
@@ -43,43 +43,43 @@ const CREATE_NEW_SHOW = gql`
   }
 `;
 
-const SHOW = gql`
-  query getShow($id: ID!) {
-    show(where: {
-      id: $id
-    }) {
-      id
-      date
-      venue {
-        id
-        name
-        city
-        state
-      }
-      setlist {
-        id
-        name
-        tracks {
-          id
-          notes
-          segue
-          song {
-            id
-            name
-            notes
-          }
-					videos {
-            id
-						videoId
-					}
-        }
-      }
-			archiveUrl
-			nugsNetId
-			bandcampAlbumId
-    }
-  }
-`;
+// const SHOW = gql`
+//   query getShow($id: ID!) {
+//     show(where: {
+//       id: $id
+//     }) {
+//       id
+//       date
+//       venue {
+//         id
+//         name
+//         city
+//         state
+//       }
+//       setlist {
+//         id
+//         name
+//         tracks {
+//           id
+//           notes
+//           segue
+//           song {
+//             id
+//             name
+//             notes
+//           }
+// 					videos {
+//             id
+// 						videoId
+// 					}
+//         }
+//       }
+// 			archiveUrl
+// 			nugsNetId
+// 			bandcampAlbumId
+//     }
+//   }
+// `;
 
 const undefinedShow = {
   date: undefined,
@@ -92,94 +92,94 @@ const undefinedShow = {
   notes: undefined
 }
 
-const exampleShow = {
-  date: '12/20/2020',
-  venue: { id: "ck7w1jguv001w0852yfd9re61", name: "Cervantes' Other Side", city: "Denver", state: "CO", __typename: "Venue" },
-  setlist: [
-    {
-      "name": "SET_1",
-      "tracks": [
-        {
-          "song": {
-            "id": "ck7w1jh1q002t0852mnsidin3",
-            "name": "Elizabeth",
-            "originalArtist": "Goose",
-            "__typename": "Song"
-          },
-          "segue": false
-        },
-        {
-          "song": {
-            "id": "ck7w1jh21002x0852j9ccwocp",
-            "name": "Danger Zone",
-            "originalArtist": "Kenny Loggins",
-            "__typename": "Song"
-          },
-          "segue": false
-        },
-        {
-          "song": {
-            "id": "ck7w1jh2900310852yfe1w3xb",
-            "name": "One More Day",
-            "originalArtist": "Goose",
-            "__typename": "Song"
-          },
-          "segue": false
-        }
-      ]
-    },
-    {
-      "name": "SET_2",
-      "tracks": [
-        {
-          "song": {
-            "id": "ck7w1jh2g00350852s4gqqrwx",
-            "name": "Feliz Navidad",
-            "originalArtist": "Traditional",
-            "__typename": "Song"
-          },
-          "segue": false
-        }
-      ]
-    },
-    {
-      "name": "ENCORE_3",
-      "tracks": [
-        {
-          "song": {
-            "id": "ck7w1jh2m00390852rkapi602",
-            "name": "Jive I",
-            "originalArtist": "Goose",
-            "__typename": "Song"
-          },
-          "segue": false
-        },
-        {
-          "song": {
-            "id": "ck7w1jh2u003d0852w54an5wo",
-            "name": "Jive Lee",
-            "originalArtist": "Goose",
-            "__typename": "Song"
-          },
-          "segue": false
-        },
-        {
-          "song": {
-            "id": "ck7w1jh8x004d0852qn1zz8hy",
-            "name": "Jive II",
-            "originalArtist": "Goose",
-            "__typename": "Song"
-          },
-          "segue": false
-        }
-      ]
-    }
-  ],
-  notes: 'This is blah blah blah',
-  nugsNetId: '123abc',
-  bandcampAlbumId: '2019-buffalo-blah-blah',
-  archiveUrl: 'adfadf'
-}
+// const exampleShow = {
+//   date: '12/20/2020',
+//   venue: { id: "ck7w1jguv001w0852yfd9re61", name: "Cervantes' Other Side", city: "Denver", state: "CO", __typename: "Venue" },
+//   setlist: [
+//     {
+//       "name": "SET_1",
+//       "tracks": [
+//         {
+//           "song": {
+//             "id": "ck7w1jh1q002t0852mnsidin3",
+//             "name": "Elizabeth",
+//             "originalArtist": "Goose",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         },
+//         {
+//           "song": {
+//             "id": "ck7w1jh21002x0852j9ccwocp",
+//             "name": "Danger Zone",
+//             "originalArtist": "Kenny Loggins",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         },
+//         {
+//           "song": {
+//             "id": "ck7w1jh2900310852yfe1w3xb",
+//             "name": "One More Day",
+//             "originalArtist": "Goose",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         }
+//       ]
+//     },
+//     {
+//       "name": "SET_2",
+//       "tracks": [
+//         {
+//           "song": {
+//             "id": "ck7w1jh2g00350852s4gqqrwx",
+//             "name": "Feliz Navidad",
+//             "originalArtist": "Traditional",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         }
+//       ]
+//     },
+//     {
+//       "name": "ENCORE_3",
+//       "tracks": [
+//         {
+//           "song": {
+//             "id": "ck7w1jh2m00390852rkapi602",
+//             "name": "Jive I",
+//             "originalArtist": "Goose",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         },
+//         {
+//           "song": {
+//             "id": "ck7w1jh2u003d0852w54an5wo",
+//             "name": "Jive Lee",
+//             "originalArtist": "Goose",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         },
+//         {
+//           "song": {
+//             "id": "ck7w1jh8x004d0852qn1zz8hy",
+//             "name": "Jive II",
+//             "originalArtist": "Goose",
+//             "__typename": "Song"
+//           },
+//           "segue": false
+//         }
+//       ]
+//     }
+//   ],
+//   notes: 'This is blah blah blah',
+//   nugsNetId: '123abc',
+//   bandcampAlbumId: '2019-buffalo-blah-blah',
+//   archiveUrl: 'adfadf'
+// }
 
 const buildSetlistQueryObject = (setlist) => {
   return `{ "create": [
@@ -233,10 +233,11 @@ const calculateProgress = (currentStep) => {
 const NewShow = (props) => {
   document.title = "New Show - El Göose";
   // const { loading: showLoading, error: showError, data: showData } = useQuery(SHOW, { variables: { id: props.match.params.id }})
-  const [createNewShow, { loading, error, data }] = useMutation(CREATE_NEW_SHOW);
+  const [createNewShow, { loading, error }] = useMutation(CREATE_NEW_SHOW);
   const [currentStep, setStep] = useState(0);
   let history = useHistory();
 
+  // KBC-TODO: allow this to accept pre-existing show data (aka edit shot)
   const [date, setDate] = useState(undefinedShow.date);
   const [venue, setVenue] = useState(undefinedShow.venue);
   const [setlist, setSetlist] = useState(undefinedShow.setlist);

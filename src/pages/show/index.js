@@ -20,6 +20,7 @@ const SHOW = gql`
     }) {
       id
       date
+      eventName
       venue {
         id
         name
@@ -47,7 +48,7 @@ const SHOW = gql`
 					}
         }
       }
-			archiveUrl
+			relisten
 			nugsNetId
 			bandcampAlbumId
     }
@@ -90,7 +91,7 @@ const Show = (props) => {
 
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
-  const { id, date, eventName, setlist, venue, archiveUrl, nugsNetId, bandcampAlbumId } = showData.show;
+  const { id, date, eventName, setlist, venue, relisten, nugsNetId, bandcampAlbumId } = showData.show;
 
   document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
 
@@ -126,7 +127,7 @@ const Show = (props) => {
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
       <Route path="/shows/:id/setlist" exact component={() => <Setlist setlist={showData.show.setlist} />} />
-      <Route path="/shows/:id/audio" exact component={() => <Audio archiveUrl={archiveUrl} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
+      <Route path="/shows/:id/audio" exact component={() => <Audio relisten={relisten} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
 import { mobile } from '../utils/media';
 import { GrayLoadingAnimation } from './Loading';
-import { Search, KeyboardArrowRight } from '@styled-icons/material';
+import { KeyboardArrowRight } from '@styled-icons/material';
 import { StyledIcon } from './logos';
 import { orange, white, offWhite } from '../utils/colors';
 

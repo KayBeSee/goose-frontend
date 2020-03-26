@@ -1,11 +1,9 @@
 
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
-import moment from 'moment';
-import { mobile } from '../../utils/media';
-import { darkOffWhite, orange, offWhite, white } from '../../utils/colors';
+import React from 'react';
+import styled from 'styled-components';
+import { darkOffWhite } from '../../utils/colors';
 
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
+import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm } from '../../components/FormComponents';
 
 import ShowRow from './ShowRow';
 

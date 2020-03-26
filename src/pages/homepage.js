@@ -9,10 +9,10 @@ const Homepage = () => {
       <Container>
         <h1>The Goose is Loose!</h1>
 
-        <p style={{ color: orange }}>//</p>
-    
+        <p style={{ color: orange }}>/ /</p>
+
         <p>Welcome to El Göose!</p>
-        
+
         <p>This site contains a database and historical record of all things related to the band Goose. It is best enjoyed in a foreign place with an ice-cold mojito.</p>
 
         <p>This is very much a work in progress, so if you have any suggestions for features to add to the site, have setlist/song data that isn't on here, or see any errors, please email me at <EmailLink href="mailto:kaybesee@gmail.com">KayBeSee@gmail.com</EmailLink></p>

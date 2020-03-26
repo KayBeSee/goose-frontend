@@ -16,8 +16,8 @@ import {
   SongDescription,
   StyledIcon
 } from './StyledComponents';
-import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../../components/logos';
-import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../../components/tables';
+import { RelistenLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../../components/logos';
+import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, TrackLink, SecondaryData } from '../../components/tables';
 
 // const PAGE_SIZE = 15;
 
@@ -43,13 +43,14 @@ const SONGS = gql`
         show {
           id
           date
+          eventName
           venue {
             id
             name
             city
             state
           }
-          archiveUrl
+          relisten
           nugsNetId
           bandcampAlbumId
         }
@@ -82,7 +83,6 @@ const Song = (props) => {
           <SongLink>Stats</SongLink>
         </SongLinkWrapper>
       </SongLinkContainer>
-      {/* <SongTitle></SongTitle> */}
       <SongDescription>{data.song.notes}</SongDescription>
       <TableContainer>
         <Table>
@@ -100,7 +100,8 @@ const Song = (props) => {
                   <TableDown hideMobile>
                     <TrackLink to={`/shows/${track.set.show.id}/setlist`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
                   </TableDown>
-                  <TableDown hideMobile>{track.set.show.venue.name}
+                  <TableDown hideMobile>
+                    {track.set.show.eventName ? track.set.show.eventName : track.set.show.venue.name}
                     {track.set.show.venue.city && (
                       <SecondaryData>
                         {track.set.show.venue.city}, {track.set.show.venue.state}
@@ -110,7 +111,7 @@ const Song = (props) => {
                   <MobileTableDown hideDesktop>
                     <TrackLink to={`/shows/${track.set.show.id}/setlist`}>
                       <span style={{ fontSize: 12 }}>{moment(track.set.show.date).format('M/D/YYYY')}</span>
-                      <div>{track.set.show.venue.name}</div>
+                      <div>{track.set.show.eventName ? track.set.show.eventName : track.set.show.venue.name}</div>
                       {track.set.show.venue.city && (
                         <SecondaryData>
                           {track.set.show.venue.city}, {track.set.show.venue.state}
@@ -119,10 +120,10 @@ const Song = (props) => {
                     </TrackLink>
                   </MobileTableDown>
                   <MediaTableDown hideMobile={true}>
-                    <ArchiveLogo archiveUrl={track.set.show.archiveUrl} />
+                    <RelistenLogo relisten={track.set.show.relisten} />
                     <NugsNetLogo nugsNetId={track.set.show.nugsNetId} />
                     <BandcampLogo bandcampAlbumId={track.set.show.bandcampAlbumId} />
-                    <YouTubeLogo show={track.set.show} videoId={track?.videos[0]?.videoId} />
+                    <YouTubeLogo showId={track.set.show.id} videoId={track?.videos[0]?.videoId} />
                   </MediaTableDown>
                   <TableDown hideDesktop>
                     <StyledIcon as={KeyboardArrowRight} size={36} />

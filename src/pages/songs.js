@@ -4,12 +4,13 @@ import { gql } from 'apollo-boost';
 import styled from 'styled-components';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
+
 import { black, orange, offWhite } from '../utils/colors';
 import { StyledIcon } from '../components/logos';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
 
-const PAGE_SIZE = 500;
+const PAGE_SIZE = 100;
 
 const SONGS = gql`
 query getSongs($first: Int!, $skip: Int!) {
@@ -55,6 +56,7 @@ const Songs = (props) => {
         <BandDateWrapper>
           Songs
         </BandDateWrapper>
+        <StyledIcon as={Search} size={36} />
       </BandDateContainer>
       <TableContainer>
         <Table>
@@ -138,6 +140,8 @@ const BandDateContainer = styled.div`
 	border-top: 4px solid ${orange};
   display: flex;
   margin-bottom: 24px;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const DisplayingSubtext = styled.span`

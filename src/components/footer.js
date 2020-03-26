@@ -8,13 +8,13 @@ import { gray } from '../utils/colors';
 
 const Footer = (props) => {
   return (
-      <Wrapper>
-          <FooterWrapper>
-            <div>
-              enjoyed with an ice cold mojito
+    <Wrapper>
+      <FooterWrapper>
+        <div>
+          enjoyed with an ice cold mojito
             </div>
-          </FooterWrapper>
-      </Wrapper>
+      </FooterWrapper>
+    </Wrapper>
   )
 }
 

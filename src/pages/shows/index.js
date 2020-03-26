@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
-import Setlist from '../components/setlist';
-import { black, orange, gray, white } from '../utils/colors';
+
+import { black, orange, gray, white } from '../../utils/colors';
+
+import Setlist from './setlist';
 
 const PAGE_SIZE = 25;
 
@@ -35,9 +37,13 @@ const SHOWS = gql`
             name
             notes
           }
+          videos {
+            id
+            videoId
+          }
         }
       }
-      archiveUrl
+      relisten
       nugsNetId
       bandcampAlbumId
     }

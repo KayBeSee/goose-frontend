@@ -45,8 +45,6 @@ const TrackDisplayer = (props) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :(</p>;
 
-  let setlistVideos = [];
-
   const { id, notes, videos, song, set: { show: { id: showId, date, venue } } } = data.track;
   return (
     <Wrapper key={id}>

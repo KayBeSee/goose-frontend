@@ -34,7 +34,7 @@ import NewVideo from './pages/new-video';
 
 // Other display components
 import Header from './components/Nav/Header';
-import Footer from './components/footer';
+// import Footer from './components/footer';
 
 const httpLink = new HttpLink({
   uri: 'https://dry-atoll-86403.herokuapp.com/',

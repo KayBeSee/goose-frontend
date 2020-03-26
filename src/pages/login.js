@@ -28,9 +28,10 @@ const Login = (props) => {
   document.title = "Login - El Göose";
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signup, { loading, error, data }] = useMutation(LOGIN_MUTATION)
+  const [signup, { loading, error }] = useMutation(LOGIN_MUTATION)
   const token = getToken();
 
+  // KBC-TODO: need to redirect after login
 
   const handleSubmit = async (e) => {
     e.preventDefault();

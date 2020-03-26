@@ -1,11 +1,10 @@
 
 import React, { Fragment } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import YouTube from 'react-youtube';
 
 import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
-import { mobile } from '../../utils/media';
-import { darkOffWhite, orange, offWhite } from '../../utils/colors';
+import { offWhite } from '../../utils/colors';
 
 const _onYTReady = (event) => {
   // access to player in all event handlers via event.target

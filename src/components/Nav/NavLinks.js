@@ -1,11 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from "react-router-dom";
 
 import rem from '../../utils/rem';
-import { Link } from "react-router-dom";
 import { orange, black } from '../../utils/colors';
-
-const NAVBAR_HEIGHT = 75;
 
 const Wrapper = styled.nav`
   display: flex;

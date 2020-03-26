@@ -1,9 +1,8 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
-import { useHistory } from "react-router-dom";
 import { gql } from 'apollo-boost';
-import styled, { keyframes } from 'styled-components';
-import { black, white, offWhite, orange, lightOrange } from '../../utils/colors';
+import styled from 'styled-components';
+import { black, white, offWhite, orange } from '../../utils/colors';
 
 import VideoIdForm from './VideoIdForm';
 import TracksForm from './TracksForm';
@@ -59,7 +58,6 @@ const SHOWS = gql`
           }
         }
       }
-      archiveUrl
       nugsNetId
       bandcampAlbumId
     }
@@ -85,9 +83,10 @@ const buildTracksQueryString = (tracks) => {
 const NewVideo = (props) => {
   document.title = "New Video - El Göose";
   const { loading: showLoading, error: showError, data: shows } = useQuery(SHOWS, { variables: { first: PAGE_SIZE, skip: 0 * PAGE_SIZE } })
-  const [createNewVideo, { loading: videoLoading, error: videoError, data: newVideo }] = useMutation(CREATE_NEW_VIDEO);
+  const [createNewVideo, { loading: videoLoading, error: videoError }] = useMutation(CREATE_NEW_VIDEO);
   const [currentStep, setStep] = useState(0);
-  // let history = useHistory();
+
+  // KBC-TODO: add error and loading set for creating new video
 
   const [videoId, setVideoId] = useState(undefinedVideo.videoId);
   const [tracks, setTracks] = useState(undefinedVideo.tracks);
@@ -109,7 +108,6 @@ const NewVideo = (props) => {
 
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
-
 
   return (
     <Wrapper>
@@ -190,35 +188,6 @@ const FormContainer = styled.div`
   justify-content: center;
   background: ${offWhite};
   transition: height .5s ease-in-out;
-`;
-
-const ProgressBarContainer = styled.div`
-  background: ${lightOrange};
-  height: 3px;
-  width: 100%;
-`;
-
-const Progress = keyframes`
-  5% {
-    width: 5%;
-  };
-
-  30% {
-    width: 30%;
-  };
-
-  75% {
-    width: 75%;
-  };
-`;
-
-const ProgressBar = styled.div`
-  height: 3px;
-  width: ${p => p.progress || 5}%;
-  background: ${orange};
-  transition-property: width;
-  transition-duration: .25s;
-  animation: ${Progress} 0s linear;
 `;
 
 const NewVideoContainer = styled.div`

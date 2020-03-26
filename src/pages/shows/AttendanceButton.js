@@ -4,8 +4,8 @@ import { gql } from 'apollo-boost';
 import { withRouter } from 'react-router-dom'
 import { useQuery, useMutation } from '@apollo/react-hooks';
 
-import { AUTHORIZATION } from '../constants';
-import { orange, darkOrange, gray, darkGray } from '../utils/colors';
+import { AUTHORIZATION } from '../../constants';
+import { orange, darkOrange, gray, darkGray } from '../../utils/colors';
 
 const GET_USER_SHOWS = gql`
   query {
@@ -56,6 +56,8 @@ const AttendanceButtonComponent = ({ showId, style, history }) => {
   const { loading: userLoading, error: userError, data: userData } = useQuery(GET_USER_SHOWS)
   const [addAttendance, { addShowLoading, addShowError, data: addData }] = useMutation(ADD_ATTENDANCE)
   const [removeAttendance, { removeShowLoading, removeShowError, data: removeData }] = useMutation(REMOVE_ATTENDANCE)
+
+  // KBC-TODO: need to add all loading an error states
 
   const attended = userData && !!userData.me.shows.filter((show) => show['id'] === showId).length;
 

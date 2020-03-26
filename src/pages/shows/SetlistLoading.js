@@ -1,12 +1,13 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
-import AttendanceButton from './attendance-button';
-import { mobile } from '../utils/media';
-import { orange } from '../utils/colors';
 
-import { GrayLoadingAnimation, OrangeLoadingAnimation } from './Loading';
+import { mobile } from '../../utils/media';
+import { orange } from '../../utils/colors';
 
-const Setlist = ({ loading, show, includeNotes = true }) => {
+import AttendanceButton from './AttendanceButton';
+import { GrayLoadingAnimation, OrangeLoadingAnimation } from '../../components/Loading';
+
+const SetlistLoading = ({ loading, show, includeNotes = true }) => {
   return (
     <Wrapper>
       <BandDateContainer>
@@ -92,4 +93,4 @@ const MobileAttendanceButton = styled.div`
   `)};
 `;
 
-export default Setlist;
+export default SetlistLoading;

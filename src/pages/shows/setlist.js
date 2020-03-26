@@ -1,20 +1,24 @@
 import React from 'react';
 import moment from 'moment';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
-import AttendanceButton from './attendance-button';
-import LoadingSetlist from './setlist-loading';
-import { black, orange } from '../utils/colors';
-import { mobile } from '../utils/media';
-import { ArchiveLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../components/logos';
+
+import { black, orange, darkOffWhite } from '../../utils/colors';
+import { mobile } from '../../utils/media';
+
+import SetlistLoading from './SetlistLoading';
+import AttendanceButton from './AttendanceButton';
 
 let setlistNotes = [];
+let setlistVideos = [];
 
 const Setlist = ({ loading, show, includeNotes = true }) => {
   if (loading) {
-    return <LoadingSetlist />
+    return <SetlistLoading />
   } else {
-    const { id, date, eventName, venue, setlist, notes } = show;
+    const { id, date, eventName, venue, setlist, notes, relisten, nugsNetId, bandcampAlbumId } = show;
+
+    const hasStream = relisten || nugsNetId || bandcampAlbumId;
     return (
       <Wrapper>
         <BandDateContainer>
@@ -36,10 +40,13 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
           {setlist.map(({ name, tracks }) => (
             <SetWrapper>
               <SetTitle>{name.replace('_', ' ')}: </SetTitle>
-              {tracks.map(({ id, notes, song, segue }, index) => {
+              {tracks.map(({ id, notes, song, segue, videos }, index) => {
                 // add note to the notes array for later rendering
                 if (notes) {
                   setlistNotes.push(notes);
+                }
+                if (videos) {
+                  setlistVideos.push(...videos);
                 }
                 return (
                   <TrackWrapper key={id}>
@@ -62,6 +69,15 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
                 <TrackNote>[{index + 1}] {note}</TrackNote>
               ))}
             </NotesWrapper>
+          )}
+          {hasStream && (
+            <MediaWrapper>
+              <span>Available on </span>
+              {nugsNetId && <span>Nugs.net, </span>}
+              {bandcampAlbumId && <span>Bandcamp, </span>}
+              {relisten && <span>Relisten, </span>}
+              {!!setlistVideos.length && <span>YouTube </span>}
+            </MediaWrapper>
           )}
         </SetlistWrapper>
         <MobileAttendanceButton>
@@ -123,7 +139,7 @@ const BandDateWrapper = styled.span`
 const VenueInfoContainer = styled.div``;
 
 const SetlistWrapper = styled.div`
-  padding: 12px 12px;
+  padding: 12px 12px 0;
   border-radius: 4px;
   line-height: 1.5;
 `;
@@ -159,15 +175,10 @@ const TrackNoteAnnotation = styled.sup``;
 
 const TrackNote = styled.span;
 
-
-// Loading State
-
-const placeHolderShimmer = keyframes`
-  0%{
-      background-position: -468px 0
-  }
-  100%{
-      background-position: 468px 0
+const MediaWrapper = styled.div`
+  font-size: 12px;
+  border-top: 1px solid ${darkOffWhite};
+  padding: 12px 8px;
 `;
 
 const DesktopAttendanceButton = styled.div`

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import moment from 'moment';
-import { mobile } from '../../utils/media';
 import { darkOffWhite, orange, offWhite, white, lightOrange } from '../../utils/colors';
 
 const ShowRow = ({ odd, show, tracks, toggleTrack, selectAllTracks, clearAllTracks }) => {

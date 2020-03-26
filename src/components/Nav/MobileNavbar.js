@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
-import { Search, KeyboardArrowDown } from '@styled-icons/material';
+import { KeyboardArrowDown } from '@styled-icons/material';
 import rem from '../../utils/rem';
-import { offWhite, secondaryMenu } from '../../utils/colors';
+import { secondaryMenu } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 import { Link } from "react-router-dom";
 
@@ -54,10 +54,6 @@ const ArrowWrapper = styled.div`
       transform-origin: center center;
       transform: rotate(180deg);
     `};
-`;
-
-const SecondaryMenuItem = styled.div`
-  padding-right: ${rem(20)};
 `;
 
 const StyledIcon = styled.div`

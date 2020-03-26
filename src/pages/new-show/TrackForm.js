@@ -1,5 +1,5 @@
-import React, { useState, Fragment } from 'react';
-import styled, { css } from 'styled-components';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import darken from 'polished/lib/color/darken';

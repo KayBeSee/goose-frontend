@@ -27,8 +27,10 @@ const Signup = (props) => {
   document.title = 'Signup - El Göose';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION);
+  const [signup, { loading, error }] = useMutation(SIGNUP_MUTATION);
   const token = getToken();
+
+  // KBC-TODO: need to add error and loading states to sign up form
 
   const handleSubmit = async (e) => {
     e.preventDefault();

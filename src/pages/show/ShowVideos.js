@@ -53,7 +53,7 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle })
 
 const getVideosFromSetlist = (setlist) => {
   const videos = [];
-  const videoIds = setlist.reduce((videoIdArray, set) => {
+  setlist.reduce((videoIdArray, set) => {
     return videoIdArray.concat(set.tracks.reduce((trackAccume, track) => {
       return trackAccume.concat(track.videos.reduce((videoAccume, video) => {
         if (!trackAccume.includes(video.videoId) && !videoIdArray.includes(video.videoId)) {
@@ -123,16 +123,18 @@ const ShowVideos = ({ videosIds, show }) => {
 
 
 
-        <OtherVideosOuter>
-          <h2 style={{ margin: '24px 12px' }}>More videos from this show</h2>
-          <OtherVideosInner>
-            {videosIds.map((videoId) => {
-              if (videoId !== selectedVideo) {
-                return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} setSelectedVideoTitle={setSelectedVideoTitle} />
-              }
-            })}
-          </OtherVideosInner>
-        </OtherVideosOuter>
+        {videos.length > 1 && (
+          <OtherVideosOuter>
+            <h2 style={{ margin: '24px 12px' }}>More videos from this show</h2>
+            <OtherVideosInner>
+              {videosIds.map((videoId) => {
+                if (videoId !== selectedVideo) {
+                  return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} setSelectedVideoTitle={setSelectedVideoTitle} />
+                }
+              })}
+            </OtherVideosInner>
+          </OtherVideosOuter>
+        )}
       </VideosContainer>
     )
   } else {
