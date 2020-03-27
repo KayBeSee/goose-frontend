@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DayPickerSingleDateController } from 'react-dates';
 import moment from 'moment';
 
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm } from '../../components/FormComponents';
+import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm } from '../FormComponents';
 
 export const DateFormExplainer = () => (
   <FormExplainer>

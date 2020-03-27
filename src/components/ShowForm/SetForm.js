@@ -2,10 +2,12 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import { FormSection, FormSectionHeader, ActualForm } from '../../components/FormComponents';
-import TrackForm from './TrackForm';
+import { FormSection, FormSectionHeader, ActualForm } from '../FormComponents';
+
 import { mobile } from '../../utils/media';
 import { darkOffWhite, orange, offWhite } from '../../utils/colors';
+
+import TrackForm from './TrackForm';
 
 const SetForm = ({ set, setSet }) => {
   const setTrack = (track, index) => {

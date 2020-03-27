@@ -24,13 +24,14 @@ import { offWhite } from './utils/colors';
 // Pages
 import Shows from './pages/shows';
 import Show from './pages/show';
+import EditShow from './pages/EditShow';
+import NewShow from './pages/NewShow';
 import Songs from './pages/songs';
 import Song from './pages/song';
 import Track from './pages/track'
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Homepage from './pages/homepage';
-import NewShow from './pages/NewShow';
 import NewVideo from './pages/NewVideo';
 
 // Other display components
@@ -109,6 +110,7 @@ function App() {
             <Route path="/signup" component={Signup} />
             <Route path="/new-show" component={NewShow} />
             <Route path="/new-video" component={NewVideo} />
+            <Route path="/edit-show/:id" component={EditShow} />
             <Route exact path="/" component={Homepage} />
             <Route exact path="/*">
               <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />

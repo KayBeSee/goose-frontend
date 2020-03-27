@@ -1,11 +1,13 @@
 import React, { Fragment } from 'react';
 import styled, { css } from 'styled-components';
-import { offWhite } from '../../utils/colors';
+
+import { offWhite, gray, white } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 
-import { FormSection, FormExplainer, FormSectionHeader, ActualForm } from '../../components/FormComponents';
+import { FormSection, FormExplainer, FormSectionHeader, ActualForm } from '../FormComponents';
 
 const ReviewScreen = ({
+  setStep,
   date,
   venue,
   setlist,
@@ -17,6 +19,7 @@ const ReviewScreen = ({
     <Fragment>
       <FormSection>
         <FormExplainer>
+          <EditButton type="button" onClick={() => setStep(0)}>edit</EditButton>
           <FormSectionHeader>
             Date
           </FormSectionHeader>
@@ -26,6 +29,7 @@ const ReviewScreen = ({
         </ActualForm>
       </FormSection>
       <FormSection>
+        <EditButton type="button" onClick={() => setStep(1)}>edit</EditButton>
         <FormExplainer>
           <FormSectionHeader>
             Venue
@@ -37,6 +41,7 @@ const ReviewScreen = ({
         </ActualForm>
       </FormSection>
       <FormSection style={{ flexDirection: 'column', background: offWhite }} >
+        <EditButton type="button" onClick={() => setStep(2)}>edit</EditButton>
         {/* <FormExplainer> */}
         <FormSectionHeader style={{ flex: '1 0' }}>
           Setlist
@@ -59,47 +64,50 @@ const ReviewScreen = ({
           ))}
         </ActualForm>
       </FormSection>
-      <FormSection>
-        <FormExplainer>
-          <FormSectionHeader>
-            Show Notes
+      <NotesContainer>
+        <EditButton type="button" onClick={() => setStep(3)}>edit</EditButton>
+        <FormSection>
+          <FormExplainer>
+            <FormSectionHeader>
+              Show Notes
             </FormSectionHeader>
-        </FormExplainer>
-        <ActualForm>
-          {notes}
-        </ActualForm>
-      </FormSection>
+          </FormExplainer>
+          <ActualForm>
+            {notes}
+          </ActualForm>
+        </FormSection>
 
-      <FormSection>
-        <FormExplainer>
-          <FormSectionHeader>
-            Archive.org URL
+        <FormSection>
+          <FormExplainer>
+            <FormSectionHeader>
+              Archive.org URL
             </FormSectionHeader>
-        </FormExplainer>
-        <ActualForm>
-          {archiveUrl}
-        </ActualForm>
-      </FormSection>
-      <FormSection>
-        <FormExplainer>
-          <FormSectionHeader>
-            Nugs.net ID
+          </FormExplainer>
+          <ActualForm>
+            {archiveUrl}
+          </ActualForm>
+        </FormSection>
+        <FormSection>
+          <FormExplainer>
+            <FormSectionHeader>
+              Nugs.net ID
             </FormSectionHeader>
-        </FormExplainer>
-        <ActualForm>
-          {nugsNetId}
-        </ActualForm>
-      </FormSection>
-      <FormSection>
-        <FormExplainer>
-          <FormSectionHeader>
-            Bandcamp Album ID
+          </FormExplainer>
+          <ActualForm>
+            {nugsNetId}
+          </ActualForm>
+        </FormSection>
+        <FormSection>
+          <FormExplainer>
+            <FormSectionHeader>
+              Bandcamp Album ID
             </FormSectionHeader>
-        </FormExplainer>
-        <ActualForm>
-          {bandcampAlbumId}
-        </ActualForm>
-      </FormSection>
+          </FormExplainer>
+          <ActualForm>
+            {bandcampAlbumId}
+          </ActualForm>
+        </FormSection>
+      </NotesContainer>
     </Fragment >
   );
 
@@ -128,6 +136,33 @@ const SongOption = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+const NotesContainer = styled.div`
+  position: relative;
+`;
+
+const EditButton = styled.button`
+  background: transparent;
+  color: ${gray};
+  border: none;
+  font-size: 12px;
+  font-family: Montserrat, sans-serif;
+  font-weight: 100;
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active, &:focus {
+    outline: 0;
+    color: ${white};
+    background: ${gray};
+  }
 `;
 
 const Segue = styled.span`

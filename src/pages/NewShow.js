@@ -4,13 +4,10 @@ import { useHistory } from "react-router-dom";
 import moment from 'moment';
 import { gql } from 'apollo-boost';
 import styled, { keyframes } from 'styled-components';
-import { black, white, offWhite, orange, lightOrange } from '../../utils/colors';
 
-import DateForm from './DateForm';
-import VenueForm from './VenueForm';
-import SetlistForm from './SetlistForm';
-import NotesForm from './NotesForm';
-import ReviewScreen from './ReviewScreen';
+import ShowForm from '../components/ShowForm';
+
+import { black, white, offWhite, orange, lightOrange } from '../utils/colors';
 
 const CREATE_NEW_SHOW = gql`
   mutation createShow($date: DateTime, $venue: VenueCreateOneWithoutShowsInput!, $setlist: SetCreateManyWithoutShowInput!, $notes: String) {
@@ -237,17 +234,7 @@ const NewShow = (props) => {
   const [currentStep, setStep] = useState(0);
   let history = useHistory();
 
-  // KBC-TODO: allow this to accept pre-existing show data (aka edit shot)
-  const [date, setDate] = useState(undefinedShow.date);
-  const [venue, setVenue] = useState(undefinedShow.venue);
-  const [setlist, setSetlist] = useState(undefinedShow.setlist);
-  const [notes, setNotes] = useState(undefinedShow.notes);
-  const [nugsNetId, setNugsNetId] = useState(undefinedShow.nugsNetId);
-  const [archiveUrl, setArchiveUrl] = useState(undefinedShow.archiveUrl);
-  const [bandcampAlbumId, setBandcampAlbumId] = useState(undefinedShow.bandcampAlbumId);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (setlist, venue, date, notes, bandcampAlbumId, nugsNetId, archiveUrl) => {
     // parse and build query for prisma
     const setlistQueryString = buildSetlistQueryObject(setlist);
     const setlistQueryObject = JSON.parse(setlistQueryString)
@@ -277,47 +264,7 @@ const NewShow = (props) => {
           <ProgressBarContainer>
             <ProgressBar progress={calculateProgress(currentStep) || 5} />
           </ProgressBarContainer>
-          <NewShowForm>
-            {currentStep === 0 && <DateForm date={date} setDate={setDate} />}
-
-            {currentStep === 1 && <VenueForm venue={venue} setVenue={setVenue} />}
-
-            {currentStep === 2 && <SetlistForm setlist={setlist} setSetlist={setSetlist} />}
-
-            {currentStep === 3 && (
-              <NotesForm
-                notes={notes}
-                setNotes={setNotes}
-                archiveUrl={archiveUrl}
-                setArchiveUrl={setArchiveUrl}
-                nugsNetId={nugsNetId}
-                setNugsNetId={setNugsNetId}
-                bandcampAlbumId={bandcampAlbumId}
-                setBandcampAlbumId={setBandcampAlbumId} />
-            )}
-
-            {currentStep === 4 && (
-              <ReviewScreen
-                date={date}
-                venue={venue}
-                setlist={setlist}
-                notes={notes}
-                archiveUrl={archiveUrl}
-                nugsNetId={nugsNetId}
-                bandcampAlbumId={bandcampAlbumId} />
-            )}
-
-            <SignupButton
-              type="button"
-              onClick={(e) => {
-                if (currentStep === 4) {
-                  handleSubmit(e)
-                }
-                setStep(currentStep + 1)
-              }}>
-              {currentStep !== 3 ? 'Next' : currentStep === 3 ? 'Preview' : 'Save Show'}
-            </SignupButton>
-          </NewShowForm>
+          <ShowForm show={undefinedShow} currentStep={currentStep} setStep={setStep} handleSubmit={handleSubmit} />
         </NewShowContainer>
       </FormContainer>
     </Wrapper >
@@ -325,40 +272,26 @@ const NewShow = (props) => {
 }
 
 const Wrapper = styled.div`
-max-width: 750px;
-width: 100%;
-margin-bottom: 24px;
-text-align: left;
-color: ${ black};
-min-height: 340px;
-
-// background: ${offWhite};
-//   width: 100%;
-//   text-align: left;
-//   font-family: 'Montserrat', sans-serif;
-//   color: ${black};
-//   display: flex;
-//   flex: 1;
-//   justify-content: center;
-//   flex-direction: column;
+  max-width: 750px;
+  width: 100%;
+  margin-bottom: 24px;
+  text-align: left;
+  color: ${black};
+  min-height: 340px;
 `;
 
 const BandDateContainer = styled.div`
-border-top: 4px solid ${orange};
-display: flex;
-margin-bottom: 24px;
-justify-content: space-between;
-// align-items: center;
-max-width: 750px;
-// margin-top: -6px;  
-// justify-self: center;
-// align-self: center;
+  border-top: 4px solid ${orange};
+  display: flex;
+  margin-bottom: 24px;
+  justify-content: space-between;
+  max-width: 750px;
 `;
 
 const BandDateWrapper = styled.span`
-  background: ${ orange};
+  background: ${orange};
   padding: 12px;
-  color: ${ white};
+  color: ${white};
   font-weight: 700;
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0, 0 %, 0 %, 0.15);
@@ -380,17 +313,17 @@ const ProgressBarContainer = styled.div`
 
 const Progress = keyframes`
   5% {
-    width: 5%;
-  };
-
+        width: 5%;
+    };
+  
   30% {
-    width: 30%;
-  };
-
+        width: 30%;
+    };
+  
   75% {
-    width: 75%;
-  };
-`;
+        width: 75%;
+    };
+  `;
 
 const ProgressBar = styled.div`
   height: 3px;
@@ -402,7 +335,7 @@ const ProgressBar = styled.div`
 `;
 
 const NewShowContainer = styled.div`
-  background: ${ white};
+  background: ${white};
   box-shadow: 0 1px 46px 4px rgba(0, 0, 0, .28);
   max-width: 750px;
   display: flex;
@@ -411,41 +344,6 @@ const NewShowContainer = styled.div`
   margin: 18px;
   border-radius: 4px;
   min-height: 340px;
-`;
-
-const NewShowForm = styled.form`
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  background: #fff;
-  border-radius: 0 0 4px 4px;
-  position: relative;
-
-  > div {
-    flex: 1;
-  }
-`;
-
-const SignupButton = styled.button`
-  padding: 16px;
-  background: ${ orange};
-  color: #fff;
-  border: none;
-  border-radius: 0 0 4px 4px;
-  font-size: 16px;
-  margin-top: 12px;
-  font-family: Montserrat, sans-serif;
-  font-weight: 700;
-  margin: 0;
-
-    &: hover {
-    cursor: pointer;
-  }
-
-    &: active, &: focus {
-    outline: 0;
-    background: #e5634c;
-  }
 `;
 
 export default NewShow;

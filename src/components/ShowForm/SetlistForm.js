@@ -1,11 +1,12 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-import SetForm from './SetForm';
-import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm } from '../../components/FormComponents';
+import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm } from '../FormComponents';
+
 import { orange, offWhite, white } from '../../utils/colors';
 import { mobile } from '../../utils/media';
 
+import SetForm from './SetForm';
 
 export const SetlistFormExplainer = () => (
   <FormExplainer style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>

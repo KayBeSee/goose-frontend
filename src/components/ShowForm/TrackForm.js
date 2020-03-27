@@ -3,11 +3,12 @@ import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import darken from 'polished/lib/color/darken';
-import { NoteAdd, Notes } from '@styled-icons/material';
+import { NoteAdd } from '@styled-icons/material';
 
-import { StyledIcon } from '../../components/logos';
+import { StyledIcon } from '../logos';
+import { Input } from '../FormComponents';
+
 import { offWhite } from '../../utils/colors'
-import { Input } from '../../components/FormComponents';
 
 const SONGS = gql`
   query {

@@ -112,6 +112,7 @@ const Show = (props) => {
           <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
           <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
           <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
+          <ShowLink to={`/edit-show/${id}`} active={false}>Edit</ShowLink>
         </ShowLinkWrapperDesktop>
       </ShowHeaderWrapper>
 
@@ -120,21 +121,18 @@ const Show = (props) => {
           <Header>{eventName ? eventName : venue.name}</Header>
           {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
         </div>
-        <div>
-          <Link to={'setlist/edit'}>Edit Show</Link>
-        </div>
       </VenueInfoContainer>
 
       <ShowLinkWrapperMobile>
         <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
         <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
         <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
+        <ShowLink to={`/edit-show/${id}`} active={false}>Edit</ShowLink>
       </ShowLinkWrapperMobile>
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
       <Route path="/shows/:id/audio" exact component={() => <Audio relisten={relisten} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
       <Route path="/shows/:id/setlist" exact component={() => <Setlist setlist={showData.show.setlist} />} />
-      <Route path="/shows/:id/setlist/edit" component={() => <NewShow show={showData.show} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}

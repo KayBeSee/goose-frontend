@@ -5,8 +5,8 @@ export const FormSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   background: #fff;
-  // margin: 24px 0;
   padding: 24px;
+  position: relative;
 `;
 export const FormExplainer = styled.div`
   flex: 1 0 200px;
