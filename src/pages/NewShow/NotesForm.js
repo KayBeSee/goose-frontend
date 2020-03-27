@@ -4,7 +4,7 @@ import { orange, offWhite } from '../../utils/colors';
 
 import { FormSection, FormExplainer, FormSectionHeader, FormSectionSubtext, ActualForm, Input } from '../../components/FormComponents';
 
-const VenueForm = ({
+const NotesForm = ({
   notes,
   setNotes,
   archiveUrl,
@@ -102,4 +102,4 @@ const FormSectionGray = styled(FormSection)`
   background: ${offWhite};
 `;
 
-export default VenueForm;
+export default NotesForm;

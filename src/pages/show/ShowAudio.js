@@ -61,7 +61,7 @@ const StreamLink = styled.a`
 	opacity: ${props => props.active ? 1 : 0.25};
 	pointer-events: ${props => props.active ? 'auto' : 'none'};
 	margin: 0 0.1em;
-	padding: 2em;
+	padding: 8px;
 	text-decoration: none;
 	justify-content: center;
   color: #b24d3b;

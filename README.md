@@ -5,11 +5,7 @@ https://quiet-savannah-95879.herokuapp.com
 TODOS:
 - clean up (typescript all the things, relook at functions for getting data, probably make util file)
 
-- Notes on tracks on add show form
-
 - Google Analytics
-
-- scroll to top of page on video selection
 
 - videos page
 - user page

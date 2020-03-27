@@ -22,11 +22,19 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle })
     setVideoDuration(duration);
   }
 
+  const setPageToTop = () => {
+    window.scrollTo({
+      top: 100,
+      behavior: 'smooth'
+    });
+  }
+
   return (
     <VideoContainer
       onClick={() => {
         setSelectedVideo(videoId);
         setSelectedVideoTitle(videoTitle);
+        setPageToTop();
       }}>
       <PlaylistYouTubeVideo
         // className="yt-playlist-video"

@@ -97,7 +97,7 @@ function App() {
       <Router>
         {/* <WindowWrapper> */}
         <Header />
-        <PageWrapper>
+        <PageWrapper id="page-wrapper">
           <ScrollToTop />
           <Switch>
             <Route path="/shows/:id" component={Show} />

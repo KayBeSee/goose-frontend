@@ -3,11 +3,11 @@ import styled from 'styled-components';
 
 export const NugsNetLogo = ({ nugsNetId }) => (
   <NugsNetLink
-    target="_blank" 
-    href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}
+    target="_blank"
+    href={`nugsnet://show?id=${nugsNetId}`}
     active={nugsNetId}>
-      <NugsNetImage active={nugsNetId} src={require('../../assets/nugs_logo.png')} />
-    </NugsNetLink>
+    <NugsNetImage active={nugsNetId} src={require('../../assets/nugs_logo.png')} />
+  </NugsNetLink>
 );
 
 const NugsNetLink = styled.a`

@@ -25,7 +25,7 @@ const TrackForm = ({ track, setTrack, index }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [segue, setSegue] = useState(false);
-  const [note, setNote] = useState(undefined);
+  const [notes, setNotes] = useState(undefined);
 
   if (error) return <p>Error :(</p>;
 
@@ -59,12 +59,12 @@ const TrackForm = ({ track, setTrack, index }) => {
     setSegue(!segue);
   }
 
-  const changeNote = (song, segue, note) => {
-    setTrack({ song, segue, note });
-    setNote(note);
+  const changeNotes = (song, segue, notes) => {
+    setTrack({ song, segue, notes });
+    setNotes(notes);
   }
 
-  console.log('note: ', note);
+  console.log('note: ', notes);
   return (
     <TrackWrapper>
       <TrackContainer>
@@ -99,19 +99,19 @@ const TrackForm = ({ track, setTrack, index }) => {
             onClick={() => toggleSegue(track.song, segue)}
           >></Segue>
           <NoteIconContainer
-            active={note !== undefined}
+            active={!!notes}
             onClick={() => {
-              if (note !== undefined) {
-                setNote(undefined);
+              if (!!notes) {
+                setNotes(undefined);
               } else {
-                setNote('');
+                setNotes('');
               }
             }}>
             <StyledIcon as={NoteAdd} size={24} />
           </NoteIconContainer>
         </SongContainer>
-        <NoteContainer show={note !== undefined}>
-          <span style={{ padding: '0 8px 0 0' }}>Notes:</span> <NotesInput onChange={(e) => changeNote(track.song, segue, e.target.value)} />
+        <NoteContainer show={!!notes}>
+          <span style={{ padding: '0 8px 0 0' }}>Notes:</span> <NotesInput onChange={(e) => changeNotes(track.song, segue, e.target.value)} />
         </NoteContainer>
       </TrackContainer>
     </TrackWrapper >

@@ -88,7 +88,7 @@ const Shows = (props) => {
         </div>
       ) : (
           data.shows.map((show) => (
-            <Setlist key={show.id} show={show} includeNotes={false} />
+            <Setlist key={show.id} show={show} includeNotes={true} />
           ))
         )
       }

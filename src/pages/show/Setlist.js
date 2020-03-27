@@ -14,13 +14,13 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
           <SetTitle>{name.replace('_', ' ')}: </SetTitle>
           {tracks.map(({ id, notes, song, segue, videos }, index) => {
             console.log('notes: ', typeof notes);
-            if (notes !== 'undefined') {
+            if (!!notes) {
               setlistNotes.push(notes);
             }
             return (
               <TrackWrapper key={id}>
                 <TrackLink to={`/songs/${song.id}`} active={(selectedVideos ? selectedVideos.includes(id) : true)}>{song.name}</TrackLink>
-                {notes !== 'undefined' && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                {!!notes && <TrackNoteAnnotation>{setlistNotes.length}</TrackNoteAnnotation>}
                 {segue ? <Segue active={(selectedVideos ? selectedVideos.includes(id) : true)}> > </Segue> : (tracks.length - 1 === index) ? ' ' : ', '}
 
               </TrackWrapper>
@@ -87,7 +87,7 @@ const Segue = styled.span`
 
 const TrackNoteAnnotation = styled.sup``;
 
-const TrackNote = styled.span``;
+const TrackNote = styled.div``;
 
 const NotesWrapper = styled.div``;
 

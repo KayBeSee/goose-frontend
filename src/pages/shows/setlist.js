@@ -43,7 +43,8 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
               <SetTitle>{name.replace('_', ' ')}: </SetTitle>
               {tracks.map(({ id, notes, song, segue, videos }, index) => {
                 // add note to the notes array for later renderin
-                if (notes !== 'undefined') {
+                if (!!notes) {
+                  console.log('notes: ', notes);
                   setlistNotes.push(notes);
                 }
                 if (videos) {
@@ -52,7 +53,7 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
                 return (
                   <TrackWrapper key={id}>
                     <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
-                    {notes !== 'undefined' && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                    {!!notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
                     {segue ? ' > ' : (tracks.length - 1 === index) ? ' ' : ', '}
 
                   </TrackWrapper>
@@ -125,9 +126,13 @@ const ShowDataBody = styled.div`
 
 const NotesContainer = styled.div``;
 
-const NotesWrapper = styled.div``;
+const NotesWrapper = styled.div`
+  padding: 0 0 12px 0;
+`;
 
-const NotesHeader = styled.h4``;
+const NotesHeader = styled.h5`
+  margin: 8px 0;
+`;
 
 const BandDateWrapper = styled.span`
 	background: ${orange};
@@ -140,7 +145,7 @@ const BandDateWrapper = styled.span`
 const VenueInfoContainer = styled.div``;
 
 const SetlistWrapper = styled.div`
-  padding: 12px 12px 0;
+  padding: 12px;
   border-radius: 4px;
   line-height: 1.5;
 `;
@@ -174,12 +179,12 @@ const TrackLink = styled(Link)`
 
 const TrackNoteAnnotation = styled.sup``;
 
-const TrackNote = styled.span;
+const TrackNote = styled.div``;
 
 const MediaWrapper = styled.div`
   font-size: 12px;
   border-top: 1px solid ${darkOffWhite};
-  padding: 12px 8px;
+  padding: 12px 8px 0;
 `;
 
 const DesktopAttendanceButton = styled.div`
