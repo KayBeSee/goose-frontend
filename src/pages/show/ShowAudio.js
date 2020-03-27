@@ -14,10 +14,10 @@ const ShowAudio = ({ relisten, nugsNetId, bandcampAlbumId }) => {
           {relisten && <StreamLink
             active={relisten}
             target="_blank"
-            href={`https://relisten.net/goose/${relisten && relisten.replace(/-/g, '/')}`}>
+            href={`https://relisten.net/goose/${relisten.replace(/-/g, '/')}`}>
             < StreamImage src={require("../../assets/relisten_app_icon.png")} />
           </StreamLink>}
-          {nugsNetId && <StreamLink active={nugsNetId} target="_blank" href={`https://play.nugs.net/#/catalog/recording/${nugsNetId}`}>
+          {nugsNetId && <StreamLink active={nugsNetId} target="_blank" href={`nugsnet://show?id=${nugsNetId}`}>
             <StreamImage src={require("../../assets/nugs_with_words.png")} />
           </StreamLink>}
           {bandcampAlbumId && <StreamLink active={bandcampAlbumId} target="_blank" href={`https://goosetheband.bandcamp.com/album/${bandcampAlbumId}`}>

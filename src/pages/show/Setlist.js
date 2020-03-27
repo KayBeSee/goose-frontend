@@ -13,13 +13,14 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
         <SetWrapper key={id}>
           <SetTitle>{name.replace('_', ' ')}: </SetTitle>
           {tracks.map(({ id, notes, song, segue, videos }, index) => {
-            if (notes) {
-              setlistNotes.push(...notes);
+            console.log('notes: ', typeof notes);
+            if (notes !== 'undefined') {
+              setlistNotes.push(notes);
             }
             return (
               <TrackWrapper key={id}>
                 <TrackLink to={`/songs/${song.id}`} active={(selectedVideos ? selectedVideos.includes(id) : true)}>{song.name}</TrackLink>
-                {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                {notes !== 'undefined' && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
                 {segue ? <Segue active={(selectedVideos ? selectedVideos.includes(id) : true)}> > </Segue> : (tracks.length - 1 === index) ? ' ' : ', '}
 
               </TrackWrapper>
@@ -34,9 +35,12 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
         !!setlistNotes.length && (
           <NotesWrapper>
             <NotesHeader>Coach's Notes</NotesHeader>
-            {setlistNotes.map((note, index) => (
-              <TrackNote>[{index + 1}] {note}</TrackNote>
-            ))}
+            {setlistNotes.map((note, index) => {
+              console.log('note: ', note);
+              return (
+                <TrackNote>[{index + 1}] {note}</TrackNote>
+              );
+            })}
           </NotesWrapper>
         )
       }
@@ -83,7 +87,7 @@ const Segue = styled.span`
 
 const TrackNoteAnnotation = styled.sup``;
 
-const TrackNote = styled.span;
+const TrackNote = styled.span``;
 
 const NotesWrapper = styled.div``;
 

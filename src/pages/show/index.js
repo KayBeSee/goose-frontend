@@ -8,7 +8,8 @@ import lighten from 'polished/lib/color/lighten';
 
 import Setlist from './Setlist';
 import Videos from './ShowVideos';
-import Audio from './ShowAudio'
+import Audio from './ShowAudio';
+import NewShow from '../NewShow';
 
 import { black, orange, offWhite, gray } from '../../utils/colors';
 import { mobile } from '../../utils/media';
@@ -115,8 +116,13 @@ const Show = (props) => {
       </ShowHeaderWrapper>
 
       <VenueInfoContainer>
-        <Header>{eventName ? eventName : venue.name}</Header>
-        {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
+        <div>
+          <Header>{eventName ? eventName : venue.name}</Header>
+          {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
+        </div>
+        <div>
+          <Link to={'setlist/edit'}>Edit Show</Link>
+        </div>
       </VenueInfoContainer>
 
       <ShowLinkWrapperMobile>
@@ -126,8 +132,9 @@ const Show = (props) => {
       </ShowLinkWrapperMobile>
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
-      <Route path="/shows/:id/setlist" exact component={() => <Setlist setlist={showData.show.setlist} />} />
       <Route path="/shows/:id/audio" exact component={() => <Audio relisten={relisten} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
+      <Route path="/shows/:id/setlist" exact component={() => <Setlist setlist={showData.show.setlist} />} />
+      <Route path="/shows/:id/setlist/edit" component={() => <NewShow show={showData.show} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}
@@ -197,6 +204,8 @@ const ShowLinkWrapperDesktop = styled.div`
 
 const VenueInfoContainer = styled.div`
   padding: 0 12px;
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 const VenueSubheader = styled.div`

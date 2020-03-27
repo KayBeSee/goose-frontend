@@ -8,7 +8,7 @@ import { mobile } from '../../utils/media';
 
 
 export const SetlistFormExplainer = () => (
-  <FormExplainer style={{ display: 'flex', flexDirection: 'row' }}>
+  <FormExplainer style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
     {/* <div> */}
     <FormSectionHeader>
       Setlist
@@ -24,6 +24,7 @@ const SetlistForm = ({ setlist, setSetlist }) => {
   const setSet = (set, index) => {
     const updatedSetlist = [...setlist];
     updatedSetlist[index] = set;
+    console.log('updatedSetlist: ', updatedSetlist);
     setSetlist(updatedSetlist);
   }
 

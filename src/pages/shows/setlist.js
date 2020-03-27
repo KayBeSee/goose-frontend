@@ -9,14 +9,15 @@ import { mobile } from '../../utils/media';
 import SetlistLoading from './SetlistLoading';
 import AttendanceButton from './AttendanceButton';
 
-let setlistNotes = [];
-let setlistVideos = [];
 
 const Setlist = ({ loading, show, includeNotes = true }) => {
   if (loading) {
     return <SetlistLoading />
   } else {
     const { id, date, eventName, venue, setlist, notes, relisten, nugsNetId, bandcampAlbumId } = show;
+
+    let setlistNotes = [];
+    let setlistVideos = [];
 
     const hasStream = relisten || nugsNetId || bandcampAlbumId;
     return (
@@ -41,8 +42,8 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
             <SetWrapper>
               <SetTitle>{name.replace('_', ' ')}: </SetTitle>
               {tracks.map(({ id, notes, song, segue, videos }, index) => {
-                // add note to the notes array for later rendering
-                if (notes) {
+                // add note to the notes array for later renderin
+                if (notes !== 'undefined') {
                   setlistNotes.push(notes);
                 }
                 if (videos) {
@@ -51,7 +52,7 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
                 return (
                   <TrackWrapper key={id}>
                     <TrackLink to={`/songs/${song.id}`}>{song.name}</TrackLink>
-                    {notes && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
+                    {notes !== 'undefined' && <TrackNoteAnnotation>[{setlistNotes.length}]</TrackNoteAnnotation>}
                     {segue ? ' > ' : (tracks.length - 1 === index) ? ' ' : ', '}
 
                   </TrackWrapper>

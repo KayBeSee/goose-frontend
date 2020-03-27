@@ -44,6 +44,10 @@ const FormSectionModified = styled(FormSection)`
   margin: 24px -24px;
   position: relative;
   flex: 1 0 200px;
+  
+  ${mobile(css`
+    padding:  24px 12px;
+  `)};
 `;
 
 const FormSectionHeaderModified = styled(FormSectionHeader)`

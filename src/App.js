@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
@@ -14,7 +14,8 @@ import styled from 'styled-components';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  useLocation
 } from "react-router-dom";
 
 import { AUTHORIZATION } from './constants';
@@ -29,8 +30,8 @@ import Track from './pages/track'
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Homepage from './pages/homepage';
-import NewShow from './pages/new-show';
-import NewVideo from './pages/new-video';
+import NewShow from './pages/NewShow';
+import NewVideo from './pages/NewVideo';
 
 // Other display components
 import Header from './components/Nav/Header';
@@ -81,12 +82,23 @@ const client = new ApolloClient({
 
 function App() {
 
+  const ScrollToTop = () => {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname]);
+
+    return null;
+  }
+
   return (
     <ApolloProvider client={client}>
       <Router>
         {/* <WindowWrapper> */}
         <Header />
         <PageWrapper>
+          <ScrollToTop />
           <Switch>
             <Route path="/shows/:id" component={Show} />
             <Route path="/setlists" component={Shows} />
