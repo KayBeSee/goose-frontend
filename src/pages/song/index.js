@@ -1,8 +1,7 @@
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import { KeyboardArrowRight } from '@styled-icons/material';
-import moment from 'moment';
+import { Route, useLocation } from "react-router-dom";
 
 import LoadingSong from './LoadingSong';
 import {
@@ -16,8 +15,9 @@ import {
   SongDescription,
   StyledIcon
 } from './StyledComponents';
-import { RelistenLogo, NugsNetLogo, YouTubeLogo, BandcampLogo } from '../../components/logos';
-import { TableContainer, Table, THEAD, TableHeader, TableRow, TableDown, TrackLink, SecondaryData } from '../../components/tables';
+
+import Videos from './SongVideos';
+import Performances from './SongPerformances';
 
 // const PAGE_SIZE = 15;
 
@@ -36,6 +36,9 @@ const SONGS = gql`
       videos {
         id
         videoId
+        tracks {
+          id
+        }
       }
       set {
         id
@@ -60,14 +63,38 @@ const SONGS = gql`
 }
 `;
 
+
+// some fire use of reduce right here
+const getAllVideos = (song) => {
+  const videoIds = song.tracks.reduce((videoIdArray, track) => {
+    return videoIdArray.concat(track.videos.reduce((videoAccume, video) => {
+      if (!videoIdArray.includes(video.videoId)) {
+        return videoAccume.concat(video.videoId);
+      }
+      return videoAccume;
+    }, []));
+  }, []);
+  return videoIds;
+}
+
+const isVideosPage = (location) => {
+  return location.pathname.indexOf('video') > -1;
+}
+
+const isPerformancePage = (location) => {
+  return !isVideosPage(location);
+}
+
 const Song = (props) => {
   // const [ page, setPage ] = useState(0);
-  const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id } })
-
+  const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id } });
+  const location = useLocation();
+  console.log('data: ', data);
   if (loading) return <LoadingSong />;
   if (error) return <p>Error :(</p>;
 
   document.title = `${data.song.name} - ${data.song.originalArtist} - El Göose`;
+  let setlistVideoIds = getAllVideos(data.song);
 
   return (
     <Wrapper key={data.song.id}>
@@ -77,74 +104,18 @@ const Song = (props) => {
           <div style={{ fontSize: 16 }}>{data.song.originalArtist}</div>
         </BandDateWrapper>
         <SongLinkWrapper>
-          <SongLink active>Performances</SongLink>
+          <SongLink active={isPerformancePage(location)} to={isPerformancePage(location) ? null : `../${data.song.id}`}>Performances</SongLink>
           <SongLink>History</SongLink>
-          <SongLink>Videos</SongLink>
+          <SongLink active={isVideosPage(location)} to={`${data.song.id}/videos`}>Videos</SongLink>
           <SongLink>Stats</SongLink>
         </SongLinkWrapper>
       </SongLinkContainer>
+
       <SongDescription>{data.song.notes}</SongDescription>
-      <TableContainer>
-        <Table>
-          <THEAD>
-            <TableHeader hideDesktop>Shows</TableHeader>
-            <TableHeader hideMobile>Date</TableHeader>
-            <TableHeader hideMobile>Venue</TableHeader>
-            <TableHeader hideMobile>Media</TableHeader>
-            <TableHeader hideDesktop></TableHeader>
-          </THEAD>
-          <tbody>
-            {data.song.tracks.map((track, trackIndex) => {
-              return (
-                <TableRow odd={trackIndex % 2}>
-                  <TableDown hideMobile>
-                    <TrackLink to={`/shows/${track.set.show.id}/setlist`}>{moment(track.set.show.date).format('M/D/YYYY')}</TrackLink>
-                  </TableDown>
-                  <TableDown hideMobile>
-                    {track.set.show.eventName ? track.set.show.eventName : track.set.show.venue.name}
-                    {track.set.show.venue.city && (
-                      <SecondaryData>
-                        {track.set.show.venue.city}, {track.set.show.venue.state}
-                      </SecondaryData>
-                    )}
-                  </TableDown>
-                  <MobileTableDown hideDesktop>
-                    <TrackLink to={`/shows/${track.set.show.id}/setlist`}>
-                      <span style={{ fontSize: 12 }}>{moment(track.set.show.date).format('M/D/YYYY')}</span>
-                      <div>{track.set.show.eventName ? track.set.show.eventName : track.set.show.venue.name}</div>
-                      {track.set.show.venue.city && (
-                        <SecondaryData>
-                          {track.set.show.venue.city}, {track.set.show.venue.state}
-                        </SecondaryData>
-                      )}
-                    </TrackLink>
-                  </MobileTableDown>
-                  <MediaTableDown hideMobile={true}>
-                    <RelistenLogo relisten={track.set.show.relisten} />
-                    <NugsNetLogo nugsNetId={track.set.show.nugsNetId} />
-                    <BandcampLogo bandcampAlbumId={track.set.show.bandcampAlbumId} />
-                    <YouTubeLogo showId={track.set.show.id} videoId={track?.videos[0]?.videoId} />
-                  </MediaTableDown>
-                  <TableDown hideDesktop>
-                    <StyledIcon as={KeyboardArrowRight} size={36} />
-                  </TableDown>
-                </TableRow>
-              )
-            }
-            )}
-          </tbody>
-        </Table>
-        {/* <PaginationContainer>
-          <PaginationControls 
-            onClick={() => setPage(page - 1)}>
-              {' < Previous Page '}
-          </PaginationControls>
-          <PaginationControls
-            onClick={() => setPage(page + 1)}>
-              {' Next Page > '}
-          </PaginationControls>
-        </PaginationContainer> */}
-      </TableContainer>
+
+      <Route path="/songs/:id/videos" component={() => <Videos videosIds={setlistVideoIds} song={data.song} />} />
+      <Route path="/songs/:id" exact component={() => <Performances song={data.song} />} />
+
     </Wrapper>
   )
 }
