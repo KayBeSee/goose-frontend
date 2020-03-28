@@ -6,6 +6,8 @@ import { Route, Link, useLocation } from "react-router-dom";
 import moment from 'moment';
 import lighten from 'polished/lib/color/lighten';
 
+
+import AttendanceButton from '../shows/AttendanceButton';
 import Setlist from './Setlist';
 import Videos from './ShowVideos';
 import Audio from './ShowAudio';
@@ -108,6 +110,10 @@ const Show = (props) => {
           <BandNameWrapper>Goose</BandNameWrapper>
         </BandDateWrapper>
 
+        <DesktopAttendanceButton>
+          <AttendanceButton showId={id} />
+        </DesktopAttendanceButton>
+
         <ShowLinkWrapperDesktop>
           <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
           <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
@@ -122,6 +128,10 @@ const Show = (props) => {
           {venue.city && venue.state && <VenueSubheader>{venue.city}, {venue.state}</VenueSubheader>}
         </div>
       </VenueInfoContainer>
+
+      <MobileAttendanceButton>
+        <AttendanceButton showId={id} style={{ width: '100%' }} />
+      </MobileAttendanceButton>
 
       <ShowLinkWrapperMobile>
         <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
@@ -169,6 +179,8 @@ const BandDateWrapper = styled.div`
   `)};  
 `;
 
+const AttendanceButtonContainer = styled.div``;
+
 const ShowDateWrapper = styled.div`
   font-weight: 700;
   font-size: 36px;
@@ -187,7 +199,6 @@ const ShowLinkWrapperMobile = styled.div`
   display: none;
 
   ${mobile(css`
-    margin-top: 24px;
     display: flex;
   `)};
 `;
@@ -224,6 +235,24 @@ export const ShowLink = styled(Link)`
 const Header = styled.h1`
   font-family: 'Montserrat', sans-serif;
   margin-bottom: 8px;
+`;
+
+const DesktopAttendanceButton = styled.div`
+  display: flex;
+  margin: 24px;
+
+  ${mobile(css`
+    display: none;
+  `)};
+`;
+
+const MobileAttendanceButton = styled.div`
+  display: none;
+  margin: 24px;
+
+  ${mobile(css`
+    display: flex;
+  `)};
 `;
 
 export default Show;

@@ -10,8 +10,6 @@ import NotesForm from './NotesForm';
 import ReviewScreen from './ReviewScreen';
 
 const ShowForm = ({ show, currentStep, setStep, handleSubmit }) => {
-  console.log('ShowForm: ', show, currentStep, setStep, handleSubmit);
-
   const [date, setDate] = useState(show.date);
   const [venue, setVenue] = useState(show.venue);
   const [setlist, setSetlist] = useState(show.setlist);
@@ -19,6 +17,8 @@ const ShowForm = ({ show, currentStep, setStep, handleSubmit }) => {
   const [nugsNetId, setNugsNetId] = useState(show.nugsNetId);
   const [archiveUrl, setArchiveUrl] = useState(show.archiveUrl);
   const [bandcampAlbumId, setBandcampAlbumId] = useState(show.bandcampAlbumId);
+
+  console.log('ShowForm setlist: ', setlist);
 
   return (
     <ShowFormWrapper>
@@ -57,7 +57,7 @@ const ShowForm = ({ show, currentStep, setStep, handleSubmit }) => {
         onClick={(e) => {
           e.preventDefault();
           if (currentStep === 4) {
-            handleSubmit()
+            handleSubmit(setlist, venue, date, notes, bandcampAlbumId, nugsNetId, archiveUrl)
           }
           setStep(currentStep + 1)
         }}>

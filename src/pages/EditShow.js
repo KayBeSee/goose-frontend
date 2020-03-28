@@ -104,9 +104,9 @@ const EditShow = (props) => {
     const venueQueryObject = JSON.parse(venueQueryString);
     const momentDate = moment(date).utc();
 
-    const { data, error } = await updateShow({ variables: { date: momentDate, venue: venueQueryObject, setlist: setlistQueryObject, notes, bandcampAlbumId, nugsNetId, archiveUrl } });
+    const { data, error } = await updateShow({ variables: { id: props.match.params.id, date: momentDate, venue: venueQueryObject, setlist: setlistQueryObject, notes, bandcampAlbumId, nugsNetId, archiveUrl } });
     if (!error && data) {
-      history.push(`shows/${data.createShow.id}`);
+      history.push(`shows/${data.updateShow.id}`);
     }
   }
 

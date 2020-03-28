@@ -10,12 +10,15 @@ import ShowForm from '../components/ShowForm';
 import { black, white, offWhite, orange, lightOrange } from '../utils/colors';
 
 const CREATE_NEW_SHOW = gql`
-  mutation createShow($date: DateTime, $venue: VenueCreateOneWithoutShowsInput!, $setlist: SetCreateManyWithoutShowInput!, $notes: String) {
+  mutation createShow($date: DateTime, $venue: VenueCreateOneWithoutShowsInput!, $setlist: SetCreateManyWithoutShowInput!, $notes: String, $bandcampAlbumId: String, $nugsNetId: String, $archiveUrl: String) {
     createShow(data: {
       date: $date,
       venue: $venue,
       setlist: $setlist,
-      notes: $notes
+      notes: $notes,
+      bandcampAlbumId: $bandcampAlbumId
+      nugsNetId: $nugsNetId
+      archiveUrl: $archiveUrl
     }) {
       id
       date
@@ -30,12 +33,16 @@ const CREATE_NEW_SHOW = gql`
         tracks {
           id
           notes
+          segue
           song {
             id
             name
           }
         }
       }
+      notes
+      bandcampAlbumId
+      nugsNetId
     }
   }
 `;
@@ -185,17 +192,32 @@ const buildSetlistQueryObject = (setlist) => {
             "name": "${set.name}",
             "tracks": {
               "create": [
-                ${ set.tracks.map((track) => (`
-                    {
-                      "notes": "${track.notes}",
-                      "segue": "${track.segue}",
-                      "song": {
-                        "connect": {
-                          "id": "${track.song.id}"
-                        }
-                      }
+                ${set.tracks.map((track) => {
+    if (!!track.notes) {
+      return (`
+                                {
+                                  "notes": "${track.notes}",
+                                  "segue": ${!!track.segue},
+                                  "song": {
+                                    "connect": {
+                                      "id": "${track.song.id}"
+                                    }
+                                  }
+                                }
+                              `)
+    } else {
+      return (`
+                {
+                  "segue": ${!!track.segue},
+                  "song": {
+                    "connect": {
+                      "id": "${track.song.id}"
                     }
-                  `))}
+                  }
+                }
+              `)
+    }
+  })}
               ]
             }
           }
@@ -235,16 +257,41 @@ const NewShow = (props) => {
   let history = useHistory();
 
   const handleSubmit = async (setlist, venue, date, notes, bandcampAlbumId, nugsNetId, archiveUrl) => {
+    console.log('NewShow handlesubmit: ', setlist, venue, date, notes, bandcampAlbumId, nugsNetId, archiveUrl);
     // parse and build query for prisma
     const setlistQueryString = buildSetlistQueryObject(setlist);
-    const setlistQueryObject = JSON.parse(setlistQueryString)
+    console.log('buildSetlistQueryObject: ', buildSetlistQueryObject);
+    const setlistQueryObject = JSON.parse(setlistQueryString);
+    console.log('setlistQueryObject: ', setlistQueryObject);
     const venueQueryString = buildVenueQueryObject(venue);
     const venueQueryObject = JSON.parse(venueQueryString);
     const momentDate = moment(date).utc();
 
-    const { data, error } = await createNewShow({ variables: { date: momentDate, venue: venueQueryObject, setlist: setlistQueryObject, notes, bandcampAlbumId, nugsNetId, archiveUrl } });
+    let variablesObject = {
+      date: momentDate,
+      venue: venueQueryObject,
+      setlist: setlistQueryObject
+    };
+
+    if (!!notes) {
+      variablesObject.notes = notes
+    }
+
+    if (!!bandcampAlbumId) {
+      variablesObject.bandcampAlbumId = bandcampAlbumId
+    }
+
+    if (!!nugsNetId) {
+      variablesObject.nugsNetId = nugsNetId
+    }
+
+    if (!!archiveUrl) {
+      variablesObject.archiveUrl = archiveUrl
+    }
+
+    const { data, error } = await createNewShow({ variables: variablesObject });
     if (!error && data) {
-      history.push(`shows/${data.createShow.id}`);
+      history.push(`shows/${data.createShow.id}/setlist`);
     }
   }
 

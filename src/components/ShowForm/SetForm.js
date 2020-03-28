@@ -11,7 +11,7 @@ import TrackForm from './TrackForm';
 
 const SetForm = ({ set, setSet }) => {
   const setTrack = (track, index) => {
-    const updatedSet = set;
+    const updatedSet = { ...set };
     updatedSet.tracks[index] = track;
     setSet(updatedSet)
   }

@@ -131,7 +131,7 @@ const NotesWrapper = styled.div`
 `;
 
 const NotesHeader = styled.h5`
-  margin: 8px 0;
+  margin: 1.33em 0 .3em;
 `;
 
 const BandDateWrapper = styled.span`
@@ -179,7 +179,9 @@ const TrackLink = styled(Link)`
 
 const TrackNoteAnnotation = styled.sup``;
 
-const TrackNote = styled.div``;
+const TrackNote = styled.div`
+  margin-left: 12px;
+`;
 
 const MediaWrapper = styled.div`
   font-size: 12px;

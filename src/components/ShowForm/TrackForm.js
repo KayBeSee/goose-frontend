@@ -26,16 +26,23 @@ const TrackForm = ({ track, setTrack, index }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [userInput, setUserInput] = useState('');
   const [segue, setSegue] = useState(false);
-  const [notes, setNotes] = useState(undefined);
+  const [displayNotes, setDisplayNotes] = useState(false);
+  const [notes, setNotes] = useState();
 
   if (error) return <p>Error :(</p>;
-
-  console.log('txxxrack: ', track);
 
   const onChange = (e) => {
     const userInput = e.currentTarget.value;
     setUserInput(userInput);
-    setTrack({ name: userInput, new: true });
+    let updatedTrack = {
+      new: true,
+      name: userInput,
+      segue
+    };
+    if (!!notes) {
+      updatedTrack.notes = notes;
+    }
+    setTrack(updatedTrack);
     const filteredOptions = possibleSongs.songs.filter((song, index) => song.name.toLowerCase().includes(userInput.toLowerCase()));
     setFilteredOptions(filteredOptions);
     if (filteredOptions.length > 0 && userInput !== '') {
@@ -49,23 +56,35 @@ const TrackForm = ({ track, setTrack, index }) => {
 
   const selectSong = (song, segue) => {
     setShowOptions(false);
-    setTrack({ song, segue })
+    let updatedTrack = { song, segue };
+    if (!!notes) {
+      updatedTrack.notes = notes;
+    };
+    setTrack(updatedTrack)
     if (!song) {
       setUserInput(track.song.name);
     }
   }
 
   const toggleSegue = (song, segue) => {
-    setTrack({ song, segue: !segue });
+    let updatedTrack = { song, segue: !segue };
+    if (!!notes) {
+      updatedTrack.notes = notes;
+    };
+
+    setTrack(updatedTrack);
     setSegue(!segue);
   }
 
   const changeNotes = (song, segue, notes) => {
-    setTrack({ song, segue, notes });
+    let updatedTrack = { song, segue };
+    if (!!notes) {
+      updatedTrack.notes = notes;
+    };
+    setTrack(updatedTrack)
     setNotes(notes);
   }
 
-  console.log('note: ', notes);
   return (
     <TrackWrapper>
       <TrackContainer>
@@ -100,19 +119,20 @@ const TrackForm = ({ track, setTrack, index }) => {
             onClick={() => toggleSegue(track.song, segue)}
           >></Segue>
           <NoteIconContainer
-            active={!!notes}
+            active={!!displayNotes}
+            value={notes}
             onClick={() => {
-              if (!!notes) {
-                setNotes(undefined);
+              if (!!displayNotes) {
+                setDisplayNotes(false);
               } else {
-                setNotes('');
+                setDisplayNotes(true);
               }
             }}>
             <StyledIcon as={NoteAdd} size={24} />
           </NoteIconContainer>
         </SongContainer>
-        <NoteContainer show={!!notes}>
-          <span style={{ padding: '0 8px 0 0' }}>Notes:</span> <NotesInput onChange={(e) => changeNotes(track.song, segue, e.target.value)} />
+        <NoteContainer show={!!displayNotes}>
+          <span style={{ padding: '0 8px 0 0' }}>Notes:</span> <NotesInput onChange={(e) => changeNotes(track.song, segue, e.target.value ? e.target.value : undefined)} />
         </NoteContainer>
       </TrackContainer>
     </TrackWrapper >

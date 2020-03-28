@@ -19,9 +19,10 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
             }
             return (
               <TrackWrapper key={id}>
-                <TrackLink to={`/songs/${song.id}`} active={(selectedVideos ? selectedVideos.includes(id) : true)}>{song.name}</TrackLink>
-                {!!notes && <TrackNoteAnnotation>{setlistNotes.length}</TrackNoteAnnotation>}
-                {segue ? <Segue active={(selectedVideos ? selectedVideos.includes(id) : true)}> > </Segue> : (tracks.length - 1 === index) ? ' ' : ', '}
+                <TrackLink to={`/songs/${song.id}`} active={(selectedVideos ? selectedVideos.includes(id) : true)}>{song.name}
+                  {!!notes && <TrackNoteAnnotation active={(selectedVideos ? selectedVideos.includes(id) : true)}>{setlistNotes.length}</TrackNoteAnnotation>}
+                  {segue ? <Segue active={(selectedVideos ? selectedVideos.includes(id) : true)}> > </Segue> : (tracks.length - 1 === index) ? ' ' : ', '}
+                </TrackLink>
 
               </TrackWrapper>
             )
@@ -36,7 +37,6 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
           <NotesWrapper>
             <NotesHeader>Coach's Notes</NotesHeader>
             {setlistNotes.map((note, index) => {
-              console.log('note: ', note);
               return (
                 <TrackNote>[{index + 1}] {note}</TrackNote>
               );
@@ -85,12 +85,16 @@ const Segue = styled.span`
   opacity: ${p => p.active ? '1' : '0.25'};
 `;
 
-const TrackNoteAnnotation = styled.sup``;
+const TrackNoteAnnotation = styled.sup`
+  opacity: ${p => p.active ? '1' : '0.25'};
+`;
 
 const TrackNote = styled.div``;
 
 const NotesWrapper = styled.div``;
 
-const NotesHeader = styled.h4``;
+const NotesHeader = styled.h4`
+  margin: 1.33em 0 .3em;
+`;
 
 export default Setlist;

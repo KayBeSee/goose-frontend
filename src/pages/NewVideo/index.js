@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
+
 import { black, white, offWhite, orange } from '../../utils/colors';
 
 import VideoIdForm from './VideoIdForm';
@@ -22,6 +24,12 @@ const CREATE_NEW_VIDEO = gql`
         song {
           id
           name
+        }
+        set {
+          id
+          show {
+            id
+          }
         }
       }
     }
@@ -85,7 +93,7 @@ const NewVideo = (props) => {
   const { loading: showLoading, error: showError, data: shows } = useQuery(SHOWS, { variables: { first: PAGE_SIZE, skip: 0 * PAGE_SIZE } })
   const [createNewVideo, { loading: videoLoading, error: videoError }] = useMutation(CREATE_NEW_VIDEO);
   const [currentStep, setStep] = useState(0);
-
+  const history = useHistory();
   // KBC-TODO: add error and loading set for creating new video
 
   const [videoId, setVideoId] = useState(undefinedVideo.videoId);
@@ -102,7 +110,7 @@ const NewVideo = (props) => {
     if (!error && data) {
       // KBC-TODO: this should redirect to the video page or refresh to add another video
       console.log('data: ', data);
-      // history.push(`shows/${data.createShow.id}`);
+      history.push(`shows/${data.createVideo.tracks[0].set.show.id}/videos`);
     }
   }
 
