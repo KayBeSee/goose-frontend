@@ -126,7 +126,7 @@ const ShowVideos = ({ videosIds, show }) => {
             onReady={_onYTReady}
           />
           <h2 style={{ margin: '0 24px' }}>{selectedVideoTitle}</h2>
-          <Setlist setlist={show.setlist} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
+          <Setlist show={show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
         </SetlistWrapper>
 
 

@@ -1,10 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { Fragment } from 'react';
+import styled, { css } from 'styled-components';
 import { Link } from "react-router-dom";
 
+import { mobile } from '../../utils/media';
 import { black, orange } from '../../utils/colors';
 
-const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
+import AttendanceButton from '../shows/AttendanceButton';
+
+const Setlist = ({ show, selectedVideos, boxShadow, margin }) => {
+  const { setlist } = show;
   let setlistNotes = [];
 
   return (
@@ -44,6 +48,9 @@ const Setlist = ({ setlist, selectedVideos, boxShadow, margin }) => {
           </NotesWrapper>
         )
       }
+      <MobileAttendanceButton>
+        <AttendanceButton showId={show.id} style={{ width: '100%' }} />
+      </MobileAttendanceButton>
     </SetlistWrapper >
   )
 }
@@ -56,6 +63,15 @@ const SetlistWrapper = styled.div`
   margin: ${p => p.margin ? p.margin : '24px 0'};
   box-shadow: ${ p => p.boxShadow ? p.boxShadow : '0 5px 15px 0 hsla(0, 0%, 0%, 0.15)'};
   border-radius: 4px;
+`;
+
+const MobileAttendanceButton = styled.div`
+  display: none;
+  margin: 24px;
+
+  ${mobile(css`
+    display: flex;
+  `)};
 `;
 
 const SetWrapper = styled.div`

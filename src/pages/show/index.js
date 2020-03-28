@@ -129,10 +129,6 @@ const Show = (props) => {
         </div>
       </VenueInfoContainer>
 
-      <MobileAttendanceButton>
-        <AttendanceButton showId={id} style={{ width: '100%' }} />
-      </MobileAttendanceButton>
-
       <ShowLinkWrapperMobile>
         <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
         <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
@@ -142,7 +138,7 @@ const Show = (props) => {
 
       <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
       <Route path="/shows/:id/audio" exact component={() => <Audio relisten={relisten} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
-      <Route path="/shows/:id/setlist" exact component={() => <Setlist setlist={showData.show.setlist} />} />
+      <Route path="/shows/:id/setlist" exact component={() => <Setlist show={showData.show} />} />
 
       {/* <Setlist show={showData.show} /> */}
       {/* <Videos videos={setlistVideos} show={showData.show} /> */}
@@ -243,15 +239,6 @@ const DesktopAttendanceButton = styled.div`
 
   ${mobile(css`
     display: none;
-  `)};
-`;
-
-const MobileAttendanceButton = styled.div`
-  display: none;
-  margin: 24px;
-
-  ${mobile(css`
-    display: flex;
   `)};
 `;
 
