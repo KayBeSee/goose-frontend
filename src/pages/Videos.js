@@ -321,11 +321,11 @@ const VideoContainer = styled.div`
 
 const VideoInfo = styled.div`
   flex: 1 0 250px;
-  padding: 24px;
+  padding: 0 24px;
 
   ${mobile(css`
     margin-bottom: 24px;
-    // padding: 24px 0;
+    padding: 24px 12px;
   `)};
 `;
 
