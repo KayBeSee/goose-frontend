@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { Search, KeyboardArrowRight } from '@styled-icons/material';
 import moment from 'moment';
 
 import { black, orange, offWhite } from '../utils/colors';
+import { mobile } from '../utils/media';
 import { StyledIcon } from '../components/logos';
 
 import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
@@ -159,6 +160,10 @@ const BandDateWrapper = styled.span`
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
   margin-top: -16px;
+
+  ${mobile(css`
+    margin-top: 0px;
+  `)};  
 `;
 
 export default Songs;

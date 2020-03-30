@@ -11,7 +11,7 @@ import Setlist from '../show/Setlist';
 
 momentDurationFormatSetup(moment);
 
-const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle }) => {
+const VideoPlaylistItem = ({ videoId, setSelectedVideo }) => {
   const [videoTitle, setVideoTitle] = useState(null);
   const [videoDuration, setVideoDuration] = useState(null);
 
@@ -33,7 +33,6 @@ const VideoPlaylistItem = ({ videoId, setSelectedVideo, setSelectedVideoTitle })
     <VideoContainer
       onClick={() => {
         setSelectedVideo(videoId);
-        setSelectedVideoTitle(videoTitle);
         setPageToTop();
       }}>
       <PlaylistYouTubeVideo
@@ -63,7 +62,6 @@ const getVideosFromSong = (song) => {
   const videos = {};
   song.tracks.reduce((videoIdArray, track) => {
     return videoIdArray.concat(track.videos.reduce((trackAccume, video) => {
-      console.log('getVideosFromSong video: ', video)
       if (!trackAccume.includes(video.videoId) && !videoIdArray.includes(video.videoId)) {
         videos[video.videoId] = video;
         return trackAccume.concat(video.videoId);
@@ -93,23 +91,17 @@ const getVideoByVideoId = (videoId, videos) => {
 }
 
 const SongVideos = ({ videosIds, song }) => {
-  console.log('song: ', song);
   const [selectedVideo, setSelectedVideo] = useState(videosIds[0]);
-  const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
 
   const _onYTReady = (event) => {
     // access to player in all event handlers via event.target
     // event.target.pauseVideo();
     const videoData = event.target.getVideoData();
-    setSelectedVideoTitle(videoData.title);
+    event.target.playVideo();
   }
 
-  // const videos = getVideosFromSetlist(song.setlist);
   const videos = getVideosFromSong(song);
-  console.log('SongVideos videos: ', videos);
   const selectedTrackIds = getTrackIdsFromVideo(getVideoByVideoId(selectedVideo, videos));
-
-  console.log('selectedTrackIds: ', selectedTrackIds);
 
   if (selectedVideo) {
     return (
@@ -129,7 +121,8 @@ const SongVideos = ({ videosIds, song }) => {
             }}
             onReady={_onYTReady}
           />
-          <h2 style={{ margin: '0 24px' }}>{selectedVideoTitle}</h2>
+          <h2 style={{ margin: '0 24px' }}>{moment(videos[selectedVideo].tracks[0].set.show.date).format('MM/DD/YYYY')}</h2>
+          <h3 style={{ margin: '0 24px' }}>{videos[selectedVideo].tracks[0].set.show.venue.name}</h3>
           <Setlist show={videos[selectedVideo].tracks[0].set.show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
         </SetlistWrapper>
 
@@ -141,7 +134,7 @@ const SongVideos = ({ videosIds, song }) => {
             <OtherVideosInner>
               {Object.keys(videos).map((videoId) => {
                 if (videoId !== selectedVideo) {
-                  return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} setSelectedVideoTitle={setSelectedVideoTitle} />
+                  return <VideoPlaylistItem videoId={videoId} setSelectedVideo={setSelectedVideo} />
                 }
               })}
             </OtherVideosInner>

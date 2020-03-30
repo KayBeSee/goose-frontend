@@ -7,8 +7,9 @@ TODOS:
 
 - Google Analytics
 
-- videos page
 - user page
+
+- mobile setlist button text and actions (go to show, etc)
 
 - setlist page - compressed view (row)
 

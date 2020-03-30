@@ -33,6 +33,10 @@ export const BandDateWrapper = styled.span`
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
   margin-top: -16px;
+
+  ${mobile(css`
+    margin-top: 0px;
+  `)};  
 `;
 
 export const SongLinkWrapper = styled.div`

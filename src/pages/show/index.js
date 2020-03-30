@@ -89,8 +89,6 @@ const Show = (props) => {
   const { loading: showLoading, error: showError, data: showData } = useQuery(SHOW, { variables: { id: props.match.params.id } })
 
   const location = useLocation();
-  console.log('location: ', location);
-  location.pathname.indexOf('video');
 
   if (showLoading) return <p>Loading...</p>;
   if (showError) return <p>Error :(</p>;
@@ -101,7 +99,6 @@ const Show = (props) => {
   // get all videos from tracks
   let setlistVideoIds = getAllVideos(setlist);
 
-  console.log('props.match: ', props.match);
   return (
     <Wrapper key={id}>
       <ShowHeaderWrapper>
@@ -174,6 +171,7 @@ const BandDateWrapper = styled.div`
 
   ${mobile(css`
     font-size: 24px;
+    margin-top: 0px;
   `)};  
 `;
 

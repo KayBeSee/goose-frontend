@@ -18,8 +18,6 @@ const ShowForm = ({ show, currentStep, setStep, handleSubmit }) => {
   const [archiveUrl, setArchiveUrl] = useState(show.archiveUrl);
   const [bandcampAlbumId, setBandcampAlbumId] = useState(show.bandcampAlbumId);
 
-  console.log('ShowForm setlist: ', setlist);
-
   return (
     <ShowFormWrapper>
       {currentStep === 0 && <DateForm date={date} setDate={setDate} />}

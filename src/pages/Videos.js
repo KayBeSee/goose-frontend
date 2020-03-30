@@ -42,6 +42,10 @@ const VIDEOS = gql`
               name
               tracks {
                 id
+                videos {
+                  id
+                  videoId
+                }
                 song {
                   id
                   name
@@ -126,18 +130,19 @@ const getTrackIdsFromVideo = (video) => {
   return trackIds;
 }
 
-const getVideoByVideoId = (videoId, videos) => {
-  let selectedVideo = null;
-  videos.forEach((video) => {
-    if (video.videoId === videoId) {
-      selectedVideo = video;
-    }
-  })
-  return selectedVideo;
+const getVideoByVideoId = (thisVideo, videos) => {
+  if (thisVideo) {
+    let selectedVideo = null;
+    videos.forEach((video) => {
+      if (video.videoId === thisVideo.videoId) {
+        selectedVideo = video;
+      }
+    });
+    return selectedVideo;
+  }
 }
 
 const Videos = ({ videosIds }) => {
-  console.log('videosIds: ', videosIds);
   const { loading, error, data } = useQuery(VIDEOS, { variables: { skip: 0 } });
 
 
@@ -147,7 +152,6 @@ const Videos = ({ videosIds }) => {
   if (loading) { return <p>Loading...</p> }
   if (error) { return <p>Error...</p> }
   const videos = data.videos;
-  console.log('oading, error, data: ', selectedVideo, loading, error, data)
 
   const _onYTReady = (event) => {
     // access to player in all event handlers via event.target
@@ -163,7 +167,6 @@ const Videos = ({ videosIds }) => {
   }
 
   const selectedTrackIds = getTrackIdsFromVideo(getVideoByVideoId(selectedVideo, videos));
-  console.log('selectedTrackIds: ', selectedTrackIds);
 
   if (selectedVideo) {
     return (
@@ -185,8 +188,15 @@ const Videos = ({ videosIds }) => {
               }
             }}
             onReady={_onYTReady}
+            onStateChange={(e) => {
+              if (e.target.playerInfo.playerState === 5) {
+                e.target.playVideo();
+                e.target.seekTo(0);
+              }
+            }}
           />
-          <h2 style={{ margin: '0 24px' }}>{selectedVideoTitle}</h2>
+          <h2 style={{ margin: '0 24px' }}>{moment(selectedVideo.tracks[0].set.show.date).format('MM/DD/YYYY')}</h2>
+          <h3 style={{ margin: '0 24px' }}>{selectedVideo.tracks[0].set.show.venue.name}</h3>
           <Setlist show={selectedVideo.tracks[0].set.show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
         </SetlistWrapper>
 
@@ -256,6 +266,10 @@ export const BandDateWrapper = styled.span`
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
   margin-top: -16px;
+
+  ${mobile(css`
+    margin-top: 0px;
+  `)};  
 `;
 
 const OtherVideosOuter = styled.div`

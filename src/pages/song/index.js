@@ -141,7 +141,6 @@ const Song = (props) => {
   if (loading) return <LoadingSong />;
   if (error) return <p>Error :(</p>;
 
-  console.log('data.song: ', data.song);
   document.title = `${data.song.name} - ${data.song.originalArtist} - El Göose`;
   let setlistVideoIds = getAllVideos(data.song);
 

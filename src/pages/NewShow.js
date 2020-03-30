@@ -257,12 +257,9 @@ const NewShow = (props) => {
   let history = useHistory();
 
   const handleSubmit = async (setlist, venue, date, notes, bandcampAlbumId, nugsNetId, archiveUrl) => {
-    console.log('NewShow handlesubmit: ', setlist, venue, date, notes, bandcampAlbumId, nugsNetId, archiveUrl);
     // parse and build query for prisma
     const setlistQueryString = buildSetlistQueryObject(setlist);
-    console.log('buildSetlistQueryObject: ', buildSetlistQueryObject);
     const setlistQueryObject = JSON.parse(setlistQueryString);
-    console.log('setlistQueryObject: ', setlistQueryObject);
     const venueQueryString = buildVenueQueryObject(venue);
     const venueQueryObject = JSON.parse(venueQueryString);
     const momentDate = moment(date).utc();

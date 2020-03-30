@@ -44,7 +44,6 @@ const Setlist = ({ loading, show, includeNotes = true }) => {
               {tracks.map(({ id, notes, song, segue, videos }, index) => {
                 // add note to the notes array for later renderin
                 if (!!notes) {
-                  console.log('notes: ', notes);
                   setlistNotes.push(notes);
                 }
                 if (videos) {

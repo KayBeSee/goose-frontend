@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { black, orange, gray, white } from '../../utils/colors';
+import { mobile } from '../../utils/media';
 
 import Setlist from './setlist';
 
@@ -134,6 +135,10 @@ const BandDateWrapper = styled.span`
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
   margin-top: -16px;
+
+  ${mobile(css`
+    margin-top: 0px;
+  `)};  
 `;
 
 const PaginationControls = styled.div`

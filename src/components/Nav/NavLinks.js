@@ -48,7 +48,6 @@ const SignupNavItem = styled(NavItem)`
 const NavLinks = ({ token, data, logout, setIsOpen }) => (
   <Wrapper>
     <Nav>
-      {console.log('data: ', data)}
       {/* <NavItem setIsOpen={setIsOpen} to="/new-video">New Video</NavItem> */}
       {/* <NavItem setIsOpen={setIsOpen} to="/new-show">New Show</NavItem> */}
       <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>

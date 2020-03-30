@@ -108,8 +108,6 @@ const NewVideo = (props) => {
 
     const { data, error } = await createNewVideo({ variables: { videoId, tracks: tracksQueryObject } });
     if (!error && data) {
-      // KBC-TODO: this should redirect to the video page or refresh to add another video
-      console.log('data: ', data);
       history.push(`shows/${data.createVideo.tracks[0].set.show.id}/videos`);
     }
   }

@@ -17,7 +17,6 @@ const Setlist = ({ show, selectedVideos, boxShadow, margin }) => {
         <SetWrapper key={id}>
           <SetTitle>{name.replace('_', ' ')}: </SetTitle>
           {tracks.map(({ id, notes, song, segue, videos }, index) => {
-            console.log('notes: ', typeof notes);
             if (!!notes) {
               setlistNotes.push(notes);
             }
