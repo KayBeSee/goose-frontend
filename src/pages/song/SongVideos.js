@@ -63,6 +63,7 @@ const getVideosFromSong = (song) => {
   const videos = {};
   song.tracks.reduce((videoIdArray, track) => {
     return videoIdArray.concat(track.videos.reduce((trackAccume, video) => {
+      console.log('getVideosFromSong video: ', video)
       if (!trackAccume.includes(video.videoId) && !videoIdArray.includes(video.videoId)) {
         videos[video.videoId] = video;
         return trackAccume.concat(video.videoId);
@@ -92,6 +93,7 @@ const getVideoByVideoId = (videoId, videos) => {
 }
 
 const SongVideos = ({ videosIds, song }) => {
+  console.log('song: ', song);
   const [selectedVideo, setSelectedVideo] = useState(videosIds[0]);
   const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
 
@@ -128,7 +130,7 @@ const SongVideos = ({ videosIds, song }) => {
             onReady={_onYTReady}
           />
           <h2 style={{ margin: '0 24px' }}>{selectedVideoTitle}</h2>
-          {/* <Setlist show={videos[selectedVideo].tracks[0].show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} /> */}
+          <Setlist show={videos[selectedVideo].tracks[0].set.show} boxShadow='none' margin='0' selectedVideos={selectedTrackIds} />
         </SetlistWrapper>
 
 

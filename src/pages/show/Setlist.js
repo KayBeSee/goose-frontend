@@ -75,7 +75,7 @@ const MobileAttendanceButton = styled.div`
 `;
 
 const SetWrapper = styled.div`
-  padding: 16px 0;
+  padding: 8px 0;
 `;
 
 const SetTitle = styled.span`
@@ -91,6 +91,7 @@ const TrackLink = styled(Link)`
   letter-spacing: -.01em;
   color: ${black};
   opacity: ${p => p.active ? '1' : '0.25'};
+  pointer-events: ${p => p.active ? 'all' : 'none'};
     
   &: hover {
     text-decoration: underline;

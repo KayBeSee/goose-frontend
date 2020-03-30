@@ -133,6 +133,7 @@ const BandDateWrapper = styled.span`
   font-weight: 700;
   font-size: 36px;
   box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
+  margin-top: -16px;
 `;
 
 const PaginationControls = styled.div`

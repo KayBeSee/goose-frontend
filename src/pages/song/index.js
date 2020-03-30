@@ -18,6 +18,7 @@ import {
 
 import Videos from './SongVideos';
 import Performances from './SongPerformances';
+import History from './SongHistory';
 
 // const PAGE_SIZE = 15;
 
@@ -38,6 +39,36 @@ const SONGS = gql`
         videoId
         tracks {
           id
+          segue
+          notes
+          song {
+            id
+            name
+          }
+          set {
+            id
+            show {
+              id
+              date
+              venue {
+                id
+                name
+                city
+                state
+              }
+              setlist {
+                id
+                name
+                tracks {
+                  id
+                  song {
+                    id
+                    name
+                  }
+                }
+              }
+            }
+          }
         }
       }
       set {
@@ -52,6 +83,20 @@ const SONGS = gql`
             name
             city
             state
+          }
+          setlist {
+            id
+            name
+            tracks {
+              id
+              segue
+              notes
+              song {
+                id
+                name
+                originalArtist
+              }
+            }
           }
           relisten
           nugsNetId
@@ -82,17 +127,21 @@ const isVideosPage = (location) => {
 }
 
 const isPerformancePage = (location) => {
-  return !isVideosPage(location);
+  return !isVideosPage(location) && !isHistoryPage(location);
+}
+
+const isHistoryPage = (location) => {
+  return location.pathname.indexOf('history') > -1;
 }
 
 const Song = (props) => {
   // const [ page, setPage ] = useState(0);
   const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id } });
   const location = useLocation();
-  console.log('data: ', data);
   if (loading) return <LoadingSong />;
   if (error) return <p>Error :(</p>;
 
+  console.log('data.song: ', data.song);
   document.title = `${data.song.name} - ${data.song.originalArtist} - El Göose`;
   let setlistVideoIds = getAllVideos(data.song);
 
@@ -105,7 +154,7 @@ const Song = (props) => {
         </BandDateWrapper>
         <SongLinkWrapper>
           <SongLink active={isPerformancePage(location)} to={isPerformancePage(location) ? null : `../${data.song.id}`}>Performances</SongLink>
-          <SongLink>History</SongLink>
+          <SongLink active={isHistoryPage(location)} to={`${data.song.id}/history`}>History</SongLink>
           <SongLink active={isVideosPage(location)} to={`${data.song.id}/videos`}>Videos</SongLink>
           <SongLink>Stats</SongLink>
         </SongLinkWrapper>
@@ -114,6 +163,7 @@ const Song = (props) => {
       <SongDescription>{data.song.notes}</SongDescription>
 
       <Route path="/songs/:id/videos" component={() => <Videos videosIds={setlistVideoIds} song={data.song} />} />
+      <Route path="/songs/:id/history" component={() => <History />} />
       <Route path="/songs/:id" exact component={() => <Performances song={data.song} />} />
 
     </Wrapper>

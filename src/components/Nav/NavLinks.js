@@ -52,6 +52,7 @@ const NavLinks = ({ token, data, logout, setIsOpen }) => (
       {/* <NavItem setIsOpen={setIsOpen} to="/new-video">New Video</NavItem> */}
       {/* <NavItem setIsOpen={setIsOpen} to="/new-show">New Show</NavItem> */}
       <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>
+      <NavItem setIsOpen={setIsOpen} to="/videos">Videos</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/songs">Songs</NavItem>
       {token && data && data.me.email && <NavItem setIsOpen={setIsOpen} style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
       {token && data && data.me.id && <LogoutButton setIsOpen={setIsOpen} onClick={logout}>Logout</LogoutButton>}

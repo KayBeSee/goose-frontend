@@ -169,6 +169,8 @@ const BandDateWrapper = styled.div`
 	color: #ffffff;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
+  box-shadow: 0 5px 15px 0 hsla(0,0%,0%,0.15);
+  margin-top: -16px;
 
   ${mobile(css`
     font-size: 24px;
@@ -235,7 +237,7 @@ const Header = styled.h1`
 
 const DesktopAttendanceButton = styled.div`
   display: flex;
-  margin: 24px;
+  margin: 12px;
 
   ${mobile(css`
     display: none;
