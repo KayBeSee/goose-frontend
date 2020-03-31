@@ -7,15 +7,12 @@ TODOS:
 
 - Google Analytics
 
-- user page
-
 - mobile setlist button text and actions (go to show, etc)
 
 - setlist page - compressed view (row)
 
 - Add New dropdown item in nav, move video and show there
 - validation on forms
-- Success screen for adding videos
 - Setlist form on mobile
 
 - better URL scheme

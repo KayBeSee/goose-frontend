@@ -1,23 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 import styled, { css } from 'styled-components';
-import { Search, KeyboardArrowRight } from '@styled-icons/material';
+import { KeyboardArrowRight } from '@styled-icons/material';
+import { useHistory } from "react-router-dom";
 import moment from 'moment';
 
-import { black, orange, offWhite, white } from '../utils/colors';
+import { black, orange, offWhite, white, darkOrange } from '../utils/colors';
 import { mobile } from '../utils/media';
 import { removeToken } from '../utils/token';
 
 import { StyledIcon } from '../components/logos';
 
-import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, PaginationWrapper, PaginationContainer, PaginationControls, TrackLink, SecondaryData } from '../components/tables';
-
-const logout = () => {
-  removeToken();
-  window.location.reload();
-}
-const foo = '';
+import { TableContainer, Table, THEAD, TableHeader, TableRow, LoadingTableRow, TableDown, TrackLink, SecondaryData } from '../components/tables';
 
 const ME = gql`
   query {
@@ -52,10 +47,17 @@ const ME = gql`
 `;
 
 const Me = (props) => {
-  const { loading, error, data } = useQuery(ME)
+  const { loading, error, data } = useQuery(ME);
+  const history = useHistory();
 
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>;
+
+  const logout = () => {
+    removeToken();
+    history.push('login');
+    window.location.reload();
+  }
 
   console.log('me data: ', data);
 
@@ -73,15 +75,15 @@ const Me = (props) => {
             </LogoutButton>
         </div>
       </BandDateContainer>
-      <ShowsHeader>Show Attended</ShowsHeader>
-      <TableContainer>
-        <Table>
-          <THEAD>
-            <TableHeader>Date</TableHeader>
-            <TableHeader>Venue</TableHeader>
-            <TableHeader></TableHeader>
-          </THEAD>
-          {loading ? (
+      {(data.me.shows.length > 0) && <ShowsHeader>Shows Attended</ShowsHeader>}
+      {loading ? (
+        <TableContainer>
+          <Table>
+            <THEAD>
+              <TableHeader>Date</TableHeader>
+              <TableHeader>Venue</TableHeader>
+              <TableHeader></TableHeader>
+            </THEAD>
             <tbody>
               <LoadingTableRow />
               <LoadingTableRow />
@@ -94,35 +96,50 @@ const Me = (props) => {
               <LoadingTableRow />
               <LoadingTableRow />
             </tbody>
-          ) : (
-              <tbody>
-                {data.me.shows.map(({ id, date, venue, setlist }, songIndex) => (
-                  <TableRow key={id} odd={songIndex % 2}>
-                    <TableDown style={{ padding: 0 }}>
-                      <TrackLink to={`/shows/${id}/setlist`} style={{ padding: 24, display: 'block' }}>
-                        <div>{moment(date).format('MM/DD/YYYY')}</div>
-                      </TrackLink>
-                    </TableDown>
-                    <TableDown>
-                      <div>{venue.name}</div>
-                      <SecondaryData>{venue.city}, {venue.state}</SecondaryData>
-                    </TableDown>
-                    {/* <TableDown alignRight hideMobile>
-                      {tracks.length}
-                    </TableDown>
-                    <TableDown alignRight hideMobile>
-                      {moment(tracks[0].set.show.date).format('M/D/YYYY')}
-                    </TableDown> */}
-                    <TableDown>
-                      <StyledIcon as={KeyboardArrowRight} size={36} />
-                    </TableDown>
-                  </TableRow>
-                ))}
-              </tbody>
-            )}
-        </Table>
-      </TableContainer>
-    </Wrapper>
+          </Table>
+        </TableContainer>
+      ) : (data.me.shows.length > 0) ? (
+        <TableContainer>
+          <Table>
+            <THEAD>
+              <TableHeader>Date</TableHeader>
+              <TableHeader>Venue</TableHeader>
+              <TableHeader></TableHeader>
+            </THEAD>
+            <tbody>
+              {data.me.shows.map(({ id, date, venue, setlist }, songIndex) => (
+                <TableRow key={id} odd={songIndex % 2}>
+                  <TableDown style={{ padding: 0 }}>
+                    <TrackLink to={`/shows/${id}/setlist`} style={{ padding: 24, display: 'block' }}>
+                      <div>{moment(date).format('MM/DD/YYYY')}</div>
+                    </TrackLink>
+                  </TableDown>
+                  <TableDown>
+                    <div>{venue.name}</div>
+                    <SecondaryData>{venue.city}, {venue.state}</SecondaryData>
+                  </TableDown>
+                  {/* <TableDown alignRight hideMobile>
+                        {tracks.length}
+                      </TableDown>
+                      <TableDown alignRight hideMobile>
+                        {moment(tracks[0].set.show.date).format('M/D/YYYY')}
+                      </TableDown> */}
+                  <TableDown>
+                    <StyledIcon as={KeyboardArrowRight} size={36} />
+                  </TableDown>
+                </TableRow>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainer>
+      ) : (
+            <NoShowsContainer>
+              <NoShowsHeader>Add shows that you've attended</NoShowsHeader>
+              <NoShowsSubtext>You can keep track of the Goose shows you've attended by clicking the "I was there" button on setlists throughout this website.</NoShowsSubtext>
+              <Button type="button" onClick={() => history.push("setlists")}>Add Shows You've Attended</Button>
+            </NoShowsContainer>
+          )}
+    </Wrapper >
   );
 }
 
@@ -173,4 +190,34 @@ const LogoutButton = styled.div`
   color: ${black};
   cursor: pointer;
 `;
+
+const NoShowsContainer = styled.div`
+  padding: 24px;
+`;
+
+
+const Button = styled.button`
+  padding: 12px;
+  color: ${white};
+  background: ${orange};
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active, &:focus {
+    outline: 0;
+    background: ${darkOrange};
+  }
+`;
+
+const NoShowsHeader = styled.h3``;
+
+const NoShowsSubtext = styled.h5`
+  font-weight: 500;
+`;
+
 export default Me;
