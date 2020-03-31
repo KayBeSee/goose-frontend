@@ -17,6 +17,7 @@ const logout = () => {
   removeToken();
   window.location.reload();
 }
+const foo = '';
 
 const ME = gql`
   query {

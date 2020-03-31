@@ -6,6 +6,7 @@ import { mobile } from '../utils/media';
 import { darkOffWhite, offWhite, orange, black, white } from '../utils/colors';
 
 const Homepage = () => {
+  const foo = '';
   document.title = "El Göose - Goose Setlists, Song Information, and History";
   return (
     <Wrapper>
