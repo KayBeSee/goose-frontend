@@ -47,6 +47,32 @@ const SHOW = gql`
             videoId
             tracks {
               id
+              song {
+                id
+                name
+              }
+              set {
+                id
+                show {
+                  id
+                  date
+                  venue {
+                    id
+                    name
+                  }
+                  setlist {
+                    id
+                    name
+                    tracks {
+                      id
+                      song {
+                        id
+                        name
+                      }
+                    }
+                  }
+                }
+              }
             }
 					}
         }
@@ -71,18 +97,20 @@ const isAudioPage = (location) => {
 }
 
 // some fire use of reduce right here
-const getAllVideos = (setlist) => {
-  const videoIds = setlist.reduce((videoIdArray, set) => {
+const getVideosFromSetlist = (setlist) => {
+  let videoIds = [];
+  const videos = setlist.reduce((videoIdArray, set) => {
     return videoIdArray.concat(set.tracks.reduce((trackAccume, track) => {
       return trackAccume.concat(track.videos.reduce((videoAccume, video) => {
-        if (!trackAccume.includes(video.videoId) && !videoIdArray.includes(video.videoId)) {
-          return videoAccume.concat(video.videoId);
+        if (!videoIds.includes(video.videoId)) {
+          videoIds.push(video.videoId);
+          return videoAccume.concat(video);
         }
         return videoAccume;
       }, []));
     }, []));
   }, []);
-  return videoIds;
+  return videos;
 }
 
 const Show = (props) => {
@@ -97,7 +125,7 @@ const Show = (props) => {
   document.title = `${moment(date).format('M/D/YYYY')} Goose Setlist - El Göose`;
 
   // get all videos from tracks
-  let setlistVideoIds = getAllVideos(setlist);
+  let setlistVideos = getVideosFromSetlist(setlist);
 
   return (
     <Wrapper key={id}>
@@ -133,7 +161,7 @@ const Show = (props) => {
         <ShowLink to={`/edit-show/${id}`} active={false}>Edit</ShowLink>
       </ShowLinkWrapperMobile>
 
-      <Route path="/shows/:id/videos" component={() => <Videos videosIds={setlistVideoIds} show={showData.show} />} />
+      <Route path="/shows/:id/videos" component={() => <Videos videos={setlistVideos} show={showData.show} />} />
       <Route path="/shows/:id/audio" exact component={() => <Audio relisten={relisten} nugsNetId={nugsNetId} bandcampAlbumId={bandcampAlbumId} />} />
       <Route path="/shows/:id/setlist" exact component={() => <Setlist show={showData.show} />} />
 

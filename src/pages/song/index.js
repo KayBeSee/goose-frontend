@@ -10,19 +10,14 @@ import {
   BandDateWrapper,
   SongLinkWrapper,
   SongLink,
-  MobileTableDown,
-  MediaTableDown,
   SongDescription,
-  StyledIcon
 } from './StyledComponents';
 
 import Videos from './SongVideos';
 import Performances from './SongPerformances';
 import History from './SongHistory';
 
-// const PAGE_SIZE = 15;
-
-const SONGS = gql`
+const SONG = gql`
  query getSong($id: ID!) {
   song(where: {
     id: $id
@@ -108,20 +103,6 @@ const SONGS = gql`
 }
 `;
 
-
-// some fire use of reduce right here
-const getAllVideos = (song) => {
-  const videoIds = song.tracks.reduce((videoIdArray, track) => {
-    return videoIdArray.concat(track.videos.reduce((videoAccume, video) => {
-      if (!videoIdArray.includes(video.videoId)) {
-        return videoAccume.concat(video.videoId);
-      }
-      return videoAccume;
-    }, []));
-  }, []);
-  return videoIds;
-}
-
 const isVideosPage = (location) => {
   return location.pathname.indexOf('video') > -1;
 }
@@ -134,15 +115,30 @@ const isHistoryPage = (location) => {
   return location.pathname.indexOf('history') > -1;
 }
 
+// some fire use of reduce right here
+const getAllVideos = (song) => {
+  let videoIds = [];
+  const videos = song.tracks.reduce((videoArray, track) => {
+    return videoArray.concat(track.videos.reduce((videoAccume, video) => {
+      if (!videoIds.includes(video.videoId)) {
+        videoIds.push(video.videoId);
+        return videoAccume.concat(video);
+      }
+      return videoAccume;
+    }, []));
+  }, []);
+  return videos;
+}
+
 const Song = (props) => {
   // const [ page, setPage ] = useState(0);
-  const { loading, error, data } = useQuery(SONGS, { variables: { id: props.match.params.id } });
+  const { loading, error, data } = useQuery(SONG, { variables: { id: props.match.params.id } });
   const location = useLocation();
   if (loading) return <LoadingSong />;
   if (error) return <p>Error :(</p>;
 
   document.title = `${data.song.name} - ${data.song.originalArtist} - El Göose`;
-  let setlistVideoIds = getAllVideos(data.song);
+  let setlistVideos = getAllVideos(data.song);
 
   return (
     <Wrapper key={data.song.id}>
@@ -161,7 +157,7 @@ const Song = (props) => {
 
       <SongDescription>{data.song.notes}</SongDescription>
 
-      <Route path="/songs/:id/videos" component={() => <Videos videosIds={setlistVideoIds} song={data.song} />} />
+      <Route path="/songs/:id/videos" component={() => <Videos videos={setlistVideos} song={data.song} />} />
       <Route path="/songs/:id/history" component={() => <History />} />
       <Route path="/songs/:id" exact component={() => <Performances song={data.song} />} />
 
