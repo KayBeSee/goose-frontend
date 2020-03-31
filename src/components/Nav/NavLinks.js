@@ -27,15 +27,6 @@ const NavItem = styled(Link).attrs(props => ({
   color: ${black};
 `;
 
-const LogoutButton = styled.div`
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: ${black};
-  cursor: pointer;
-`;
-
 const SignupNavItem = styled(NavItem)`
   border: 1px solid ${orange};
   pointer-events: none;
@@ -45,7 +36,7 @@ const SignupNavItem = styled(NavItem)`
   }
 `;
 
-const NavLinks = ({ token, data, logout, setIsOpen }) => (
+const NavLinks = ({ token, data, setIsOpen }) => (
   <Wrapper>
     <Nav>
       {/* <NavItem setIsOpen={setIsOpen} to="/new-video">New Video</NavItem> */}
@@ -53,8 +44,8 @@ const NavLinks = ({ token, data, logout, setIsOpen }) => (
       <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/videos">Videos</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/songs">Songs</NavItem>
-      {token && data && data.me.email && <NavItem setIsOpen={setIsOpen} style={{ fontWeight: 700 }}>{data.me.email}</NavItem>}
-      {token && data && data.me.id && <LogoutButton setIsOpen={setIsOpen} onClick={logout}>Logout</LogoutButton>}
+      <NavItem setIsOpen={setIsOpen} to="/about">About</NavItem>
+      {token && data && data.me.email && <NavItem to="/me" setIsOpen={setIsOpen}><SignupNavItem>{data.me.email}</SignupNavItem></NavItem>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/login">Login</NavItem>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
     </Nav>

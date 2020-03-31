@@ -139,6 +139,7 @@ const BandDateWrapper = styled.span`
 	color: #ffffff;
   font-weight: 700;
   font-family: 'Montserrat', sans-serif;
+  margin-top: -16px;
 `;
 
 const VenueInfoContainer = styled.div``;

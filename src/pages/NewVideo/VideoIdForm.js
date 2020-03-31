@@ -48,6 +48,10 @@ const YouTubePreview = styled(YouTube)`
 const FormSectionGray = styled(FormSection)`
   background: ${offWhite};
   justify-content: center;
+
+  > div {
+    width: 100%;
+  }
 `;
 
 export default VideoIdForm;

@@ -31,9 +31,11 @@ import Song from './pages/song';
 import Track from './pages/track'
 import Login from './pages/login';
 import Signup from './pages/signup';
-import Homepage from './pages/homepage';
+import Homepage from './pages/Homepage';
 import NewVideo from './pages/NewVideo';
 import Videos from './pages/Videos';
+import About from './pages/About';
+import Me from './pages/Me';
 
 // Other display components
 import Header from './components/Nav/Header';
@@ -113,6 +115,8 @@ function App() {
             <Route path="/new-video" component={NewVideo} />
             <Route path="/edit-show/:id" component={EditShow} />
             <Route path="/videos" component={Videos} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/me" component={Me} />
             <Route exact path="/" component={Homepage} />
             <Route exact path="/*">
               <img src={require("./assets/ski-goose.png")} style={{ maxWidth: 500 }} alt="logo" />

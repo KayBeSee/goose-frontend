@@ -92,13 +92,13 @@ const Songs = (props) => {
                       </TrackLink>
                     </TableDown>
                     <TableDown alignRight hideMobile>
-                      {moment(tracks[tracks.length - 1].set.show.date).format('M/D/YYYY')}
+                      {moment(tracks[tracks.length - 1].set.show.date).format('MM/DD/YYYY')}
                     </TableDown>
                     <TableDown alignRight hideMobile>
                       {tracks.length}
                     </TableDown>
                     <TableDown alignRight hideMobile>
-                      {moment(tracks[0].set.show.date).format('M/D/YYYY')}
+                      {moment(tracks[0].set.show.date).format('MM/DD/YYYY')}
                     </TableDown>
                     <TableDown hideDesktop>
                       <StyledIcon as={KeyboardArrowRight} size={36} />
