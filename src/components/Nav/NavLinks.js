@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
 import rem from '../../utils/rem';
 import { orange, black } from '../../utils/colors';
 
-const Wrapper = styled.nav`
-  display: flex;
-  align-items: center;
-  flex: 0 0 auto;
-  margin-right: ${rem(30)};
-`;
+// const Wrapper = styled.nav`
+//   display: flex;
+//   align-items: center;
+//   flex: 0 0 auto;
+//   margin-right: ${rem(30)};
+// `;
 
-const Nav = styled.div`
-    display: flex;
-    flex-direction: row;
-`;
+// const Nav = styled.div`
+//     display: flex;
+//     flex-direction: row;
+// `;
 
 const NavItem = styled(Link).attrs(props => ({
   onClick: (e) => { props.setIsOpen && props.setIsOpen(false); }
@@ -36,20 +36,35 @@ const SignupNavItem = styled(NavItem)`
   }
 `;
 
+const NavMiddle = styled.div`
+  display: flex;
+`;
+
+
+const NavRight = styled.div`
+  display: flex;
+`;
+
 const NavLinks = ({ token, data, setIsOpen }) => (
-  <Wrapper>
-    <Nav>
+  <Fragment>
+    {/* <Wrapper> */}
+    {/* <Nav> */}
+    <NavMiddle>
       {/* <NavItem setIsOpen={setIsOpen} to="/new-video">New Video</NavItem> */}
       {/* <NavItem setIsOpen={setIsOpen} to="/new-show">New Show</NavItem> */}
       <NavItem setIsOpen={setIsOpen} to="/setlists">Setlists</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/videos">Videos</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/songs">Songs</NavItem>
       <NavItem setIsOpen={setIsOpen} to="/about">About</NavItem>
+    </NavMiddle>
+    <NavRight>
       {token && data && data.me.email && <NavItem to="/me" setIsOpen={setIsOpen}><SignupNavItem>{data.me.email}</SignupNavItem></NavItem>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/login">Login</NavItem>}
       {!token && <NavItem setIsOpen={setIsOpen} to="/signup"><SignupNavItem>Sign Up</SignupNavItem></NavItem>}
-    </Nav>
-  </Wrapper>
+    </NavRight>
+    {/* </Nav> */}
+    {/* </Wrapper> */}
+  </Fragment>
 );
 
 export default NavLinks;
