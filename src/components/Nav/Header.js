@@ -47,6 +47,12 @@ const Wrapper = styled.div`
   text-align: left;
   font-family: 'Montserrat', sans-serif;
   color: ${black};
+  border: 1px solid #e7e7e7;
+  border-top: none;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  display: flex;
+  justify-content: center;
 `;
 
 const HeaderWrapper = styled.div`
@@ -54,10 +60,8 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   justify-content: space-around;
   padding: 12px;
-  border: 1px solid #e7e7e7;
-  border-top: none;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  max-width: 1020px;
+  flex: 1;
 
   ${mobile(css`
     display: none;
