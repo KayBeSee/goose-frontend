@@ -30,7 +30,7 @@ const Homepage = () => {
 
           </UpdateItemContent>
           <UpdateItemImageContainer>
-            <UpdateItemImage src={'https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-9/p843x403/91782824_2748760135345154_5912107394447441920_o.jpg?_nc_cat=107&_nc_sid=8bfeb9&_nc_ohc=ZaN4oDo-sUwAX89Xvyd&_nc_ht=scontent-ort2-2.xx&_nc_tp=6&oh=4fff1b2afaf03cf7cfa33de3a3154c1c&oe=5EA7CC47'} />
+            <UpdateItemImage src={require('../assets/alive-and-well.jpeg')} />
           </UpdateItemImageContainer>
           <UpdateMetaData>
             Posted {moment('3/30/2020').fromNow()}
@@ -47,7 +47,7 @@ const Homepage = () => {
             Tonight at 8:45PM ET we relive our most recent Chicago show and debut at the Riv! pre-order now: bit.ly/2WQf08M
           </UpdateItemContent>
           <UpdateItemImageContainer>
-            <UpdateItemImage src={'https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-9/91406787_2748534538701047_4179746637846937600_o.jpg?_nc_cat=108&_nc_sid=730e14&_nc_ohc=ir1K9VqXcdEAX8wtEZ7&_nc_ht=scontent-ort2-2.xx&oh=423098e4a4f4e9810aa191eb6d1ce79b&oe=5EA6BD33'} />
+            <UpdateItemImage src={require('../assets/grand-rapids.jpeg')} />
           </UpdateItemImageContainer>
           <UpdateMetaData>
             Posted {moment('3/29/2020').fromNow()}
@@ -64,7 +64,7 @@ const Homepage = () => {
             Let’s do this thang!! Live from T’s house in 30 minutes — tune in: bit.ly/3auDp80
           </UpdateItemContent>
           <UpdateItemImageContainer>
-            <UpdateItemImage src={'https://scontent-ort2-2.xx.fbcdn.net/v/t1.0-9/91013180_2746699618884539_8984740351059165184_o.jpg?_nc_cat=104&_nc_sid=730e14&_nc_ohc=lwo6wphAL3YAX-Hesw0&_nc_ht=scontent-ort2-2.xx&oh=46caf8b87d62ca08e87463bc0ac54386&oe=5EA99C56'} />
+            <UpdateItemImage src={require('../assets/chicago.jpeg')} />
           </UpdateItemImageContainer>
           <UpdateMetaData>
             Posted {moment('3/28/2020').fromNow()}
