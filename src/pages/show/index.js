@@ -143,7 +143,7 @@ const Show = (props) => {
           <ShowLink to={`setlist`} active={isSetlistPage(location)}>Setlist</ShowLink>
           <ShowLink to={`audio`} active={isAudioPage(location)}>Audio</ShowLink>
           <ShowLink to={`videos`} active={isVideosPage(location)}>Videos</ShowLink>
-          <ShowLink to={`/edit-show/${id}`} active={false}>Edit</ShowLink>
+          {/* <ShowLink to={`/edit-show/${id}`} active={false}>Edit</ShowLink> */}
         </ShowLinkWrapperDesktop>
       </ShowHeaderWrapper>
 
